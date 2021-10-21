@@ -23,6 +23,15 @@ public class User {
         this.lName = lName;
     }
 
+    public User(int userID, String username, String password, String email, String fName, String lName) {
+        this.userID = userID;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.fName = fName;
+        this.lName = lName;
+    }
+
     public int getUserID() {
         return userID;
     }
