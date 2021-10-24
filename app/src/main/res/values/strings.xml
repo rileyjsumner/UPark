@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">UPark</string>
+    <string-array name="sec_q_array">
+        <item>What city were you born in?</item>
+        <item>What was the name of your first pet?</item>
+        <item>What was the make and model of your first car?</item>
+        <item>What school did you attend during 6th grade?</item>
+    </string-array>
 </resources>
