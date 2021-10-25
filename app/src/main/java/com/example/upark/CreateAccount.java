@@ -18,6 +18,7 @@ public class CreateAccount extends AppCompatActivity {
         // get the values entered into the fields
         EditText fname = (EditText) findViewById(R.id.fname);
         EditText lname = (EditText) findViewById(R.id.lname);
+        EditText email = (EditText) findViewById(R.id.email);
         EditText username = (EditText) findViewById(R.id.username);
         EditText pass = (EditText) findViewById(R.id.password);
         EditText passCheck = (EditText) findViewById(R.id.confirmPass);
@@ -29,6 +30,8 @@ public class CreateAccount extends AppCompatActivity {
             makeToast("first name");
         } else if (TextUtils.isEmpty(lname.getText().toString())) {
             makeToast("last name");
+        } else if (TextUtils.isEmpty(email.getText().toString())) {
+            makeToast("email");
         } else if (TextUtils.isEmpty(username.getText().toString())) {
             makeToast("username");
         } else if (TextUtils.isEmpty(pass.getText().toString())) {
@@ -54,7 +57,7 @@ public class CreateAccount extends AppCompatActivity {
     }
 
     public void makeToast(String s) {
-        String toastText = "Please enter a " + s + ".";
+        String toastText = "Please enter a(n) " + s + ".";
         Toast.makeText(CreateAccount.this, toastText, Toast.LENGTH_LONG).show();
     }
 
