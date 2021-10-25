@@ -50,8 +50,11 @@ public class CreateAccount extends AppCompatActivity {
             // check if username is already in use
             //TODO: involves accessing database?
 
-            // compare passwords and see if they don't match
-            if (!pass.getText().toString().equals(passCheck.getText().toString())){
+            // check that password is >= 8 characters & that the passwords match
+            if (!(pass.getText().toString().length() >= 8)) {
+                String toastText = "Your password should be at least 8 characters long.";
+                Toast.makeText(CreateAccount.this, toastText, Toast.LENGTH_LONG).show();
+            } else if (!pass.getText().toString().equals(passCheck.getText().toString())){
                 String toastText = "The passwords do not match. Please try again.";
                 Toast.makeText(CreateAccount.this, toastText, Toast.LENGTH_LONG).show();
             }
