@@ -26,6 +26,7 @@ public class CreateAccount extends AppCompatActivity {
         // TODO: also get selected sec question!
 
         // TODO: could make error look different from just a toast
+        // TODO: check that input is valid (email is in email form)
         if (TextUtils.isEmpty(fname.getText().toString())) {
             makeToast("first name");
         } else if (TextUtils.isEmpty(lname.getText().toString())) {
@@ -44,6 +45,18 @@ public class CreateAccount extends AppCompatActivity {
             Toast.makeText(CreateAccount.this, toastText, Toast.LENGTH_LONG).show();
         } else {
             // not empty, do rest of stuff
+            // check if email is in valid form
+
+            // check if username is already in use
+            //TODO: involves accessing database?
+
+            // compare passwords and see if they don't match
+            if (!pass.getText().toString().equals(passCheck.getText().toString())){
+                String toastText = "The passwords do not match. Please try again.";
+                Toast.makeText(CreateAccount.this, toastText, Toast.LENGTH_LONG).show();
+            }
+
+            // create user and generate ID (TODO: how to generate ID?, how to check if username is already used?)
         }
 
         // check if all the fields have values
