@@ -57,19 +57,23 @@ public class CreateAccount extends AppCompatActivity {
             } else if (!pass.getText().toString().equals(passCheck.getText().toString())){
                 String toastText = "The passwords do not match. Please try again.";
                 Toast.makeText(CreateAccount.this, toastText, Toast.LENGTH_LONG).show();
+            } else {
+                // create new user and save data
+                //      TODO: where to save security question?
+                // TODO: do this at the top right away
+                String first = fname.getText().toString();
+                String last = lname.getText().toString();
+                String e = email.getText().toString();
+                String user = username.getText().toString();
+                String pw = pass.getText().toString();
+
+                User newUser = new User(user, pw, e, first, last);
+
+                // if everything is good to go...go to home page or profile page
             }
 
-            // create user and generate ID (TODO: how to generate ID?, how to check if username is already used?)
+
         }
-
-        // check if all the fields have values
-
-        // check if username already exists
-
-        // create new user and save data
-        //      where to save security question? do first name and last name fields need to be added?
-
-        // if everything is good to go...go to home page or profile page
     }
 
     public void makeToast(String s) {
