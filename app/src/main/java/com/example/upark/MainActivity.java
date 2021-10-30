@@ -11,6 +11,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void login(View view) {
 
+        //TODO: This is temp until we get an actual login database working. Currently there seems
+        //      to be errors when creating an account when I look in CreateAccount.java -Garrett
+        Intent intent = new Intent(MainActivity.this, home_screen.class);
+        startActivity(intent);
     }
 
     public void create_account(View view) {

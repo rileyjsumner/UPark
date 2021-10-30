@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".home_screen">
+
+    <TextView
+        android:id="@+id/temp_map"
+        android:layout_width="290dp"
+        android:layout_height="176dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="148dp"
+        android:text="MAP PREVIEW GOES HERE"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/find_parks_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:text="Find Parks"
+        app:layout_constraintBottom_toTopOf="@+id/favorites_button"
+        app:layout_constraintStart_toStartOf="@+id/favorites_button"
+        android:onClick="find_parks"
+        />
+
+    <Button
+        android:id="@+id/favorites_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="26dp"
+        android:text="Favorites"
+        app:layout_constraintBottom_toTopOf="@+id/check_in_button"
+        app:layout_constraintStart_toStartOf="@+id/check_in_button"
+        android:onClick="favorites"/>
+
+    <Button
+        android:id="@+id/check_in_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="131dp"
+        android:layout_marginBottom="53dp"
+        android:text="Check In"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:onClick="check_in"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
