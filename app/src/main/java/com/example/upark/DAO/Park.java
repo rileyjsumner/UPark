@@ -1,4 +1,6 @@
-package com.example.upark;
+package com.example.upark.DAO;
+
+import com.example.upark.DAO.Review;
 
 public class Park {
 

@@ -3,6 +3,10 @@ package com.example.upark;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.example.upark.DAO.Park;
+import com.example.upark.DAO.Review;
+import com.example.upark.DAO.User;
+
 import java.util.ArrayList;
 
 public class DBHelper {
@@ -85,7 +89,7 @@ public class DBHelper {
 
     public void addUser(User user) {
         createUserTable();
-        sqLiteDatabase.execSQL(String.format("INSERT INTO Users (username, password, email, fName, lName) VALUES ('%s', '%s', '%s', '%s', '%s'", user.username, user.password, user.email, user.fName, user.lName));
+        sqLiteDatabase.execSQL(String.format("INSERT INTO Users (username, password, email, fName, lName) VALUES ('%s', '%s', '%s', '%s', '%s'", user.getUsername(), user.getPassword(), user.getEmail(), user.getfName(), user.getlName()));
     }
 
     public ArrayList<Park> readParks() {

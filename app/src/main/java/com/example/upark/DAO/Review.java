@@ -1,6 +1,8 @@
-package com.example.upark;
+package com.example.upark.DAO;
 
 import android.media.Image;
+
+import com.example.upark.DAO.User;
 
 public class Review {
 
