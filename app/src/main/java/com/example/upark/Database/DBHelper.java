@@ -104,9 +104,23 @@ public class DBHelper {
      * Add a user to the database
      * @param user to be added to the database
      */
-    public void addUser(User user) {
+    public boolean addUser(User user) {
+        // TODO: check if user is inserted properly
         createUserTable();
         sqLiteDatabase.execSQL(String.format("INSERT INTO Users (username, password, email, fName, lName) VALUES ('%s', '%s', '%s', '%s', '%s'", user.getUsername(), user.getPassword(), user.getEmail(), user.getfName(), user.getlName()));
+        return true;
+    }
+
+    /**
+     * Update a users password in the database
+     * @param user to update password of
+     * @param newPassword new password to be inserted
+     * @return boolean if operation was successful
+     */
+    public boolean updatePassword(User user, String newPassword) {
+        createUserTable();
+        sqLiteDatabase.execSQL(String.format("UPDATE Users SET password = %s WHERE username = %s", newPassword, user.getUsername()));
+        return true;
     }
 
     public ArrayList<Park> readParks() {

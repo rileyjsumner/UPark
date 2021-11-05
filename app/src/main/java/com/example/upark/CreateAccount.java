@@ -77,6 +77,11 @@ public class CreateAccount extends AppCompatActivity {
                 String pw = pass.getText().toString();
 
                 User newUser = new User(user, pw, e, first, last);
+                if(db.addUser(newUser)) {
+                    // user added, move to main application
+                } else {
+                    // error adding user, do something
+                }
 
                 // if everything is good to go...go to home page or profile page
             }
