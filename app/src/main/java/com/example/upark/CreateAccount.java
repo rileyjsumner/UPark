@@ -2,6 +2,8 @@ package com.example.upark;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -11,9 +13,13 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.upark.DAO.User;
+import com.example.upark.Database.DBHelper;
 
 public class CreateAccount extends AppCompatActivity {
     // when submit button pressed:
+
+    Context context = getApplicationContext();
+    DBHelper db = new DBHelper(context.openOrCreateDatabase("upark", Context.MODE_PRIVATE,null));
     public void clickFunction(View view) {
 
         // get the values entered into the fields
@@ -49,7 +55,9 @@ public class CreateAccount extends AppCompatActivity {
             // check if email is in valid form
 
             // check if username is already in use
-            //TODO: involves accessing database?
+            if(db.userExists(username.getText().toString())) {
+                // TODO: trigger error
+            }
 
             // check that password is >= 8 characters & that the passwords match
             if (!(pass.getText().toString().length() >= 8)) {

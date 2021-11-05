@@ -1,4 +1,4 @@
-package com.example.upark;
+package com.example.upark.Database;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -11,12 +11,15 @@ import java.util.ArrayList;
 
 public class DBHelper {
 
-    SQLiteDatabase sqLiteDatabase;
+    SQLiteDatabase sqLiteDatabase; // SQLite database instance
 
     public DBHelper(SQLiteDatabase sqLiteDatabase) {
         this.sqLiteDatabase = sqLiteDatabase;
     }
 
+    /**
+     * Creates a table to store user information
+     */
     public void createUserTable() {
 
         sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS Users " +
@@ -28,6 +31,9 @@ public class DBHelper {
                 "lName TEXT)");
     }
 
+    /**
+     * Creates a table to store park information
+     */
     public void createParkTable() {
 
         sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS Parks " +
@@ -36,6 +42,9 @@ public class DBHelper {
                 "rating FLOAT)");
     }
 
+    /**
+     * Creates a table to store review information
+     */
     public void createReviewTable() {
 
         sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS Reviews " +
@@ -51,6 +60,10 @@ public class DBHelper {
                 "user_id INTEGER)");
     }
 
+    /**
+     * Reads all users in the database
+     * @return a list of all users
+     */
     public ArrayList<User> readAllUsers() {
 
         createUserTable();
@@ -87,6 +100,10 @@ public class DBHelper {
         return userList;
     }
 
+    /**
+     * Add a user to the database
+     * @param user to be added to the database
+     */
     public void addUser(User user) {
         createUserTable();
         sqLiteDatabase.execSQL(String.format("INSERT INTO Users (username, password, email, fName, lName) VALUES ('%s', '%s', '%s', '%s', '%s'", user.getUsername(), user.getPassword(), user.getEmail(), user.getfName(), user.getlName()));
@@ -98,5 +115,46 @@ public class DBHelper {
 
     public ArrayList<Review> readReviews() {
         return new ArrayList<>();
+    }
+
+    /**
+     * Fetches the given users password from the database
+     * @param username supplied into login form from UI
+     * @param password supplied into login form from UI
+     * @return boolean if the supplied password is equal to password from DB
+     */
+    public boolean login(String username, String password) {
+        createUserTable();
+        Cursor c = sqLiteDatabase.rawQuery("SELECT password FROM Users WHERE username = ?", new String[] {username});
+
+        int passwordIndex = c.getColumnIndex("password");
+        c.moveToFirst();
+
+        String db_pass = c.getString(passwordIndex);
+
+        return password.equals(db_pass);
+    }
+
+    /**
+     * Check whether a username is in the database
+     * @param username to check against the database
+     * @return boolean if user exists in database
+     */
+    public boolean userExists(String username) {
+        createUserTable();
+        Cursor c = sqLiteDatabase.rawQuery("SELECT username FROM USERS", null);
+
+        int usernameIndex = c.getColumnIndex("username");
+        c.moveToFirst();
+
+        boolean userExists = false;
+
+        while(!c.isAfterLast()) {
+            if(c.getString(usernameIndex).equals(username)) {
+                userExists = true;
+            }
+        }
+
+        return userExists;
     }
 }
