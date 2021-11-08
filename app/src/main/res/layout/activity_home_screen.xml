@@ -6,15 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".home_screen">
 
-    <TextView
-        android:id="@+id/temp_map"
-        android:layout_width="290dp"
-        android:layout_height="176dp"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="148dp"
-        android:text="MAP PREVIEW GOES HERE"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <fragment
+        android:id="@+id/fragment_map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        app:layout_constraintBottom_toTopOf="@+id/find_parks_button"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.454"
+        tools:layout_editor_absoluteX="0dp" />
 
     <Button
         android:id="@+id/find_parks_button"
