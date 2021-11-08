@@ -6,6 +6,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -18,8 +19,9 @@ import com.example.upark.Database.DBHelper;
 public class CreateAccount extends AppCompatActivity {
     // when submit button pressed:
 
-    Context context = getApplicationContext();
-    DBHelper db = new DBHelper(context.openOrCreateDatabase("upark", Context.MODE_PRIVATE,null));
+    Context context;
+    DBHelper db;
+
     public void clickFunction(View view) {
 
         // get the values entered into the fields
@@ -99,6 +101,9 @@ public class CreateAccount extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
+
+        context = getApplicationContext();
+        db = new DBHelper(context.openOrCreateDatabase("upark", Context.MODE_PRIVATE,null));
 
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
         // Create an ArrayAdapter using the string array and a default spinner layout
