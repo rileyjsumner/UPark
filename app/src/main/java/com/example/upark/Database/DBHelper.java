@@ -2,6 +2,7 @@ package com.example.upark.Database;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.example.upark.DAO.Park;
 import com.example.upark.DAO.Review;
@@ -107,7 +108,7 @@ public class DBHelper {
     public boolean addUser(User user) {
         // TODO: check if user is inserted properly
         createUserTable();
-        sqLiteDatabase.execSQL(String.format("INSERT INTO Users (username, password, email, fName, lName) VALUES ('%s', '%s', '%s', '%s', '%s'", user.getUsername(), user.getPassword(), user.getEmail(), user.getfName(), user.getlName()));
+        sqLiteDatabase.execSQL(String.format("INSERT INTO Users (username, password, email, fName, lName) VALUES ('%s', '%s', '%s', '%s', '%s')", user.getUsername(), user.getPassword(), user.getEmail(), user.getfName(), user.getlName()));
         return true;
     }
 
@@ -250,9 +251,14 @@ public class DBHelper {
         Cursor c = sqLiteDatabase.rawQuery("SELECT password FROM Users WHERE username = ?", new String[] {username});
 
         int passwordIndex = c.getColumnIndex("password");
-        c.moveToFirst();
-
-        String db_pass = c.getString(passwordIndex);
+        String db_pass = null;
+        if( c != null && c.moveToFirst() ){
+            db_pass = c.getString(passwordIndex);
+            c.close();
+        }
+        else {
+            return false;
+        }
 
         return password.equals(db_pass);
     }
