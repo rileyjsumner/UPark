@@ -251,7 +251,7 @@ public class DBHelper {
         Cursor c = sqLiteDatabase.rawQuery("SELECT password FROM Users WHERE username = ?", new String[] {username});
 
         int passwordIndex = c.getColumnIndex("password");
-        String db_pass = null;
+        String db_pass;
         if( c != null && c.moveToFirst() ){
             db_pass = c.getString(passwordIndex);
             c.close();

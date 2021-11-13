@@ -43,6 +43,11 @@ public class FindPark extends AppCompatActivity {
             startActivity(intent);
             return true;
         }
+        if(item.getItemId() == R.id.log_out) {
+            Intent intent = new Intent(FindPark.this, MainActivity.class);
+            startActivity(intent);
+            return true;
+        }
 
         return false;
     }
