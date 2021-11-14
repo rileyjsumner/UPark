@@ -3,6 +3,7 @@ package com.example.upark;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -25,6 +26,9 @@ public class CreateAccount extends AppCompatActivity {
 
     // TODO: Add ability to upload pfp
 
+    /*
+        Performed when submit button is pressed
+     */
     public void clickFunction(View view) {
 
         // get the values entered into the fields
@@ -59,12 +63,15 @@ public class CreateAccount extends AppCompatActivity {
             // not empty, do rest of stuff
             // check if email is in valid form
 
+            // TODO: uncomment following code (causes program to freeze)
             // check if username is already in use
-            //if(db.userExists(username.getText().toString())) {
-                // TODO: trigger error UNDO COMMENT OUT
-                // String toastText = "This username is already in use.";
-                // Toast.makeText(CreateAccount.this, toastText, Toast.LENGTH_LONG).show();
-            //}
+            /*
+            if(db.userExists(username.getText().toString())) {
+                // trigger error
+                String toastText = "This username is already in use.";
+                Toast.makeText(CreateAccount.this, toastText, Toast.LENGTH_LONG).show();
+            }
+            */
 
             // check that password is >= 8 characters & that the passwords match
             if (!(pass.getText().toString().length() >= 8)) {
@@ -86,6 +93,8 @@ public class CreateAccount extends AppCompatActivity {
                 String secA = securityA.getText().toString();
 
                 User newUser = new User(user, pw, e, first, last);
+                // TODO: unccoment (db operations cause freezing)
+                /*
                 if(db.addUser(newUser)) {
                     // user added, move to main application
                     // TODO
@@ -93,12 +102,29 @@ public class CreateAccount extends AppCompatActivity {
                     String toastText = "Error adding user, please try again later.";
                     Toast.makeText(CreateAccount.this, toastText, Toast.LENGTH_LONG).show();
                 }
+                */
+
+                // TODO move this inside the above if-statement once db issues solved
+                // go to the home_screen activity
+                goToHome();
+
             }
 
 
         }
     }
 
+    /*
+        Used to switch activity to home_screen
+     */
+    public void goToHome() {
+        Intent intent = new Intent(this, home_screen.class);
+        startActivity(intent);
+    }
+
+    /*
+        Used to create toasts indicating empty field errors
+     */
     public void makeToast(String s) {
         String toastText = "Please enter a(n) " + s + ".";
         Toast.makeText(CreateAccount.this, toastText, Toast.LENGTH_LONG).show();
