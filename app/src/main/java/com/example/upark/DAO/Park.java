@@ -7,6 +7,7 @@ public class Park {
     int parkID;
     String parkName;
     double rating;
+    double distance;
 
     Review[] reviews;
 
@@ -46,4 +47,8 @@ public class Park {
     public void setReviews(Review[] reviews) {
         this.reviews = reviews;
     }
+
+    public void setDistance(double distance) { this.distance = distance; }
+
+    public double getDistance() { return distance; }
 }
