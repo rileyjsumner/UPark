@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -22,6 +23,8 @@ public class CreateAccount extends AppCompatActivity {
     Context context;
     DBHelper db;
 
+    // TODO: Add ability to upload pfp
+
     public void clickFunction(View view) {
 
         // get the values entered into the fields
@@ -31,8 +34,8 @@ public class CreateAccount extends AppCompatActivity {
         EditText username = (EditText) findViewById(R.id.username);
         EditText pass = (EditText) findViewById(R.id.password);
         EditText passCheck = (EditText) findViewById(R.id.confirmPass);
-        EditText security = (EditText) findViewById(R.id.securityA);
-        // TODO: also get selected sec question!
+        EditText securityA = (EditText) findViewById(R.id.securityA);
+        Spinner securityQ = (Spinner)findViewById(R.id.spinner);
 
         // TODO: could make error look different from just a toast
         // TODO: check that input is valid (email is in email form)
@@ -49,7 +52,7 @@ public class CreateAccount extends AppCompatActivity {
         } else if (TextUtils.isEmpty(passCheck.getText().toString())) {
             String toastText = "Please confirm your password.";
             Toast.makeText(CreateAccount.this, toastText, Toast.LENGTH_LONG).show();
-        } else if (TextUtils.isEmpty(security.getText().toString())) {
+        } else if (TextUtils.isEmpty(securityA.getText().toString())) {
             String toastText = "Please answer a security question.";
             Toast.makeText(CreateAccount.this, toastText, Toast.LENGTH_LONG).show();
         } else {
@@ -57,9 +60,11 @@ public class CreateAccount extends AppCompatActivity {
             // check if email is in valid form
 
             // check if username is already in use
-            if(db.userExists(username.getText().toString())) {
-                // TODO: trigger error
-            }
+            //if(db.userExists(username.getText().toString())) {
+                // TODO: trigger error UNDO COMMENT OUT
+                // String toastText = "This username is already in use.";
+                // Toast.makeText(CreateAccount.this, toastText, Toast.LENGTH_LONG).show();
+            //}
 
             // check that password is >= 8 characters & that the passwords match
             if (!(pass.getText().toString().length() >= 8)) {
@@ -70,24 +75,24 @@ public class CreateAccount extends AppCompatActivity {
                 Toast.makeText(CreateAccount.this, toastText, Toast.LENGTH_LONG).show();
             } else {
                 // create new user and save data
-                //      TODO: where to save security question?
-                // TODO: do this at the top right away
+                // TODO: put this at the top and get rid of toString() calls in other areas
                 String first = fname.getText().toString();
                 String last = lname.getText().toString();
                 String e = email.getText().toString();
                 String user = username.getText().toString();
                 String pw = pass.getText().toString();
+                // TODO: store the following
+                String secQ = securityQ.getSelectedItem().toString();
+                String secA = securityA.getText().toString();
 
                 User newUser = new User(user, pw, e, first, last);
                 if(db.addUser(newUser)) {
                     // user added, move to main application
                     // TODO
                 } else { // error in adding user
-                    String toastText = "Error: Couldn't add user, please try again later.";
+                    String toastText = "Error adding user, please try again later.";
                     Toast.makeText(CreateAccount.this, toastText, Toast.LENGTH_LONG).show();
                 }
-
-                // if everything is good to go...go to home page or profile page
             }
 
 
