@@ -9,6 +9,7 @@ public class Review {
     int ratingID;
     int parkID;
     double rating;
+    String reviewText;
     boolean isBikeFriendly;
     boolean isChildFriendly;
     boolean isDisabilityFriendly;
@@ -19,10 +20,11 @@ public class Review {
 
     Image[] images;
 
-    public Review(int ratingID, int parkID, double rating, boolean isBikeFriendly, boolean isChildFriendly, boolean isDisabilityFriendly, boolean isWooded, boolean isCarAccessible, boolean isPetFriendly, User reviewer, Image[] images) {
+    public Review(int ratingID, int parkID, double rating, String reviewText, boolean isBikeFriendly, boolean isChildFriendly, boolean isDisabilityFriendly, boolean isWooded, boolean isCarAccessible, boolean isPetFriendly, User reviewer, Image[] images) {
         this.ratingID = ratingID;
         this.parkID = parkID;
         this.rating = rating;
+        this.reviewText = reviewText;
         this.isBikeFriendly = isBikeFriendly;
         this.isChildFriendly = isChildFriendly;
         this.isDisabilityFriendly = isDisabilityFriendly;

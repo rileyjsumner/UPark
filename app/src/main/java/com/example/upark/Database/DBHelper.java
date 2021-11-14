@@ -52,6 +52,7 @@ public class DBHelper {
                 "(review_id INTEGER PRIMARY KEY," +
                 "park_id INTEGER," +
                 "rating FLOAT," +
+                "review_text TEXT," +
                 "isBikeFriendly INTEGER," +
                 "isChildFriendly INTEGER," +
                 "isDisabilityFriendly INTEGER," +
@@ -159,12 +160,13 @@ public class DBHelper {
 
         int reviewIDIndex = c.getColumnIndex("review_id");
         int ratingIndex = c.getColumnIndex("rating");
-        int isBikeFriendlyIndex = c.getColumnIndex("isBikeFriendy");
+        int reviewTextIndex = c.getColumnIndex("review_text");
+        int isBikeFriendlyIndex = c.getColumnIndex("isBikeFriendly");
         int isChildFriendlyIndex = c.getColumnIndex("isChildFriendly");
         int isDisabilityFriendlyIndex = c.getColumnIndex("isDisabilityFriendly");
         int isWoodedIndex = c.getColumnIndex("isWooded");
         int isCarAccessibleIndex = c.getColumnIndex("isCarAccessible");
-        int isPetFriendlyIndex = c.getColumnIndex("isPetFriendy");
+        int isPetFriendlyIndex = c.getColumnIndex("isPetFriendly");
         int userIDIndex = c.getColumnIndex("user_id");
 
         c.moveToFirst();
@@ -175,6 +177,7 @@ public class DBHelper {
 
             int reviewID = c.getInt(reviewIDIndex);
             double rating = c.getDouble(ratingIndex);
+            String reviewText = c.getString(reviewTextIndex);
             boolean isBikeFriendly = c.getInt(isBikeFriendlyIndex) == 1;
             boolean isChildFriendly = c.getInt(isChildFriendlyIndex) == 1;
             boolean isDisabilityFriendly = c.getInt(isDisabilityFriendlyIndex) == 1;
@@ -186,7 +189,7 @@ public class DBHelper {
 
             // TODO fetch images from firebase
 
-            Review review = new Review(reviewID, parkID, rating, isBikeFriendly, isChildFriendly, isDisabilityFriendly, isWooded, isCarAccessible, isPetFriendly, user, null);
+            Review review = new Review(reviewID, parkID, rating, reviewText, isBikeFriendly, isChildFriendly, isDisabilityFriendly, isWooded, isCarAccessible, isPetFriendly, user, null);
             reviewList.add(review);
             c.moveToNext();
         }
@@ -257,6 +260,7 @@ public class DBHelper {
             c.close();
         }
         else {
+            c.close();
             return false;
         }
 
