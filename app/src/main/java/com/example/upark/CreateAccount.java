@@ -41,76 +41,65 @@ public class CreateAccount extends AppCompatActivity {
         EditText securityA = (EditText) findViewById(R.id.securityA);
         Spinner securityQ = (Spinner)findViewById(R.id.spinner);
 
-        // TODO: check that input is valid (email is in email form)
-        if (TextUtils.isEmpty(fname.getText().toString())) { // check if field empty
+        // turn values into strings
+        String first = fname.getText().toString();
+        String last = lname.getText().toString();
+        String e = email.getText().toString();
+        String user = username.getText().toString();
+        String pw = pass.getText().toString();
+        String pwCheck = passCheck.getText().toString();
+        // TODO: store the following
+        String secQ = securityQ.getSelectedItem().toString();
+        String secA = securityA.getText().toString();
+
+        if (TextUtils.isEmpty(first)) { // check if field empty
             makeToast("first name");
-        } else if (TextUtils.isEmpty(lname.getText().toString())) {
+        } else if (TextUtils.isEmpty(last)) {
             makeToast("last name");
-        } else if (TextUtils.isEmpty(email.getText().toString())) {
+        } else if (TextUtils.isEmpty(e)) {
             makeToast("email");
-        } else if (TextUtils.isEmpty(username.getText().toString())) {
+        } else if (TextUtils.isEmpty(user)) {
             makeToast("username");
-        } else if (TextUtils.isEmpty(pass.getText().toString())) {
+        } else if (TextUtils.isEmpty(pw)) {
             makeToast("password");
-        } else if (TextUtils.isEmpty(passCheck.getText().toString())) {
+        } else if (TextUtils.isEmpty(pwCheck)) {
             String toastText = "Please confirm your password.";
             Toast.makeText(CreateAccount.this, toastText, Toast.LENGTH_LONG).show();
-        } else if (TextUtils.isEmpty(securityA.getText().toString())) {
+        } else if (TextUtils.isEmpty(secA)) {
             String toastText = "Please answer a security question.";
             Toast.makeText(CreateAccount.this, toastText, Toast.LENGTH_LONG).show();
-        } else if (!checkEmail(email.getText().toString())) { // check if email is in valid form
+        } else if (!checkEmail(e)) { // check if email is in valid form
             String toastText = "Please enter valid email.";
             Toast.makeText(CreateAccount.this, toastText, Toast.LENGTH_LONG).show();
-        } else {
-            // not empty, continue validation
-            
-            // TODO: uncomment following code (causes program to freeze)
-            // check if username is already in use
+        } else if (!(pw.length() >= 8)) { // check that password is >= 8 characters
+            String toastText = "Your password should be at least 8 characters long.";
+            Toast.makeText(CreateAccount.this, toastText, Toast.LENGTH_LONG).show();
+        } else if (!pw.equals(pwCheck)) { // check that passwords match
+            String toastText = "The passwords do not match. Please try again.";
+            Toast.makeText(CreateAccount.this, toastText, Toast.LENGTH_LONG).show();
+        /*
+        // TODO: uncomment following code (causes program to freeze)
+        } else if (db.userExists(user)) { // check if username is already in use
+            // trigger error
+            String toastText = "This username is already in use.";
+            Toast.makeText(CreateAccount.this, toastText, Toast.LENGTH_LONG).show();
+         */
+        } else { // valid input
+            User newUser = new User(user, pw, e, first, last);
+            // TODO: unccoment (db operations cause freezing)
             /*
-            if(db.userExists(username.getText().toString())) {
-                // trigger error
-                String toastText = "This username is already in use.";
+            if(db.addUser(newUser)) {
+                // user added, move to main application
+                // TODO
+            } else { // error in adding user
+                String toastText = "Error adding user, please try again later.";
                 Toast.makeText(CreateAccount.this, toastText, Toast.LENGTH_LONG).show();
             }
             */
 
-            // check that password is >= 8 characters & that the passwords match
-            if (!(pass.getText().toString().length() >= 8)) {
-                String toastText = "Your password should be at least 8 characters long.";
-                Toast.makeText(CreateAccount.this, toastText, Toast.LENGTH_LONG).show();
-            } else if (!pass.getText().toString().equals(passCheck.getText().toString())){
-                String toastText = "The passwords do not match. Please try again.";
-                Toast.makeText(CreateAccount.this, toastText, Toast.LENGTH_LONG).show();
-            } else {
-                // create new user and save data
-                // TODO: put this at the top and get rid of toString() calls in other areas
-                String first = fname.getText().toString();
-                String last = lname.getText().toString();
-                String e = email.getText().toString();
-                String user = username.getText().toString();
-                String pw = pass.getText().toString();
-                // TODO: store the following
-                String secQ = securityQ.getSelectedItem().toString();
-                String secA = securityA.getText().toString();
-
-                User newUser = new User(user, pw, e, first, last);
-                // TODO: unccoment (db operations cause freezing)
-                /*
-                if(db.addUser(newUser)) {
-                    // user added, move to main application
-                    // TODO
-                } else { // error in adding user
-                    String toastText = "Error adding user, please try again later.";
-                    Toast.makeText(CreateAccount.this, toastText, Toast.LENGTH_LONG).show();
-                }
-                */
-
-                // TODO move this inside the above if-statement once db issues solved
-                // go to the home_screen activity
-                goToHome();
-
-            }
-
+            // TODO move this inside the above if-statement once db issues solved
+            // go to the home_screen activity
+            goToHome();
 
         }
     }
