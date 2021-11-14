@@ -41,9 +41,8 @@ public class CreateAccount extends AppCompatActivity {
         EditText securityA = (EditText) findViewById(R.id.securityA);
         Spinner securityQ = (Spinner)findViewById(R.id.spinner);
 
-        // TODO: could make error look different from just a toast
         // TODO: check that input is valid (email is in email form)
-        if (TextUtils.isEmpty(fname.getText().toString())) {
+        if (TextUtils.isEmpty(fname.getText().toString())) { // check if field empty
             makeToast("first name");
         } else if (TextUtils.isEmpty(lname.getText().toString())) {
             makeToast("last name");
@@ -59,10 +58,12 @@ public class CreateAccount extends AppCompatActivity {
         } else if (TextUtils.isEmpty(securityA.getText().toString())) {
             String toastText = "Please answer a security question.";
             Toast.makeText(CreateAccount.this, toastText, Toast.LENGTH_LONG).show();
+        } else if (!checkEmail(email.getText().toString())) { // check if email is in valid form
+            String toastText = "Please enter valid email.";
+            Toast.makeText(CreateAccount.this, toastText, Toast.LENGTH_LONG).show();
         } else {
-            // not empty, do rest of stuff
-            // check if email is in valid form
-
+            // not empty, continue validation
+            
             // TODO: uncomment following code (causes program to freeze)
             // check if username is already in use
             /*
@@ -128,6 +129,13 @@ public class CreateAccount extends AppCompatActivity {
     public void makeToast(String s) {
         String toastText = "Please enter a(n) " + s + ".";
         Toast.makeText(CreateAccount.this, toastText, Toast.LENGTH_LONG).show();
+    }
+
+    /*
+        Checks that email is in email form, returns true if it is
+     */
+    boolean checkEmail(CharSequence email) {
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
     @Override
