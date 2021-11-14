@@ -81,8 +81,10 @@ public class CreateAccount extends AppCompatActivity {
                 User newUser = new User(user, pw, e, first, last);
                 if(db.addUser(newUser)) {
                     // user added, move to main application
-                } else {
-                    // error adding user, do something
+                    // TODO
+                } else { // error in adding user
+                    String toastText = "Error: Couldn't add user, please try again later.";
+                    Toast.makeText(CreateAccount.this, toastText, Toast.LENGTH_LONG).show();
                 }
 
                 // if everything is good to go...go to home page or profile page
