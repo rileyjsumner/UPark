@@ -2,6 +2,7 @@ package com.example.upark.Database;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.example.upark.DAO.Park;
 import com.example.upark.DAO.Review;
@@ -107,7 +108,7 @@ public class DBHelper {
     public boolean addUser(User user) {
         // TODO: check if user is inserted properly
         createUserTable();
-        sqLiteDatabase.execSQL(String.format("INSERT INTO Users (username, password, email, fName, lName) VALUES ('%s', '%s', '%s', '%s', '%s'", user.getUsername(), user.getPassword(), user.getEmail(), user.getfName(), user.getlName()));
+        sqLiteDatabase.execSQL(String.format("INSERT INTO Users (username, password, email, fName, lName) VALUES ('%s', '%s', '%s', '%s', '%s')", user.getUsername(), user.getPassword(), user.getEmail(), user.getfName(), user.getlName()));
         return true;
     }
 
@@ -124,11 +125,119 @@ public class DBHelper {
     }
 
     public ArrayList<Park> readParks() {
-        return new ArrayList<>();
+        createParkTable();
+        Cursor c = sqLiteDatabase.rawQuery("SELECT * FROM Parks", null);
+
+        int parkIDIndex = c.getColumnIndex("park_id");
+        int nameIndex = c.getColumnIndex("name");
+
+        c.moveToFirst();
+
+        ArrayList<Park> parkList = new ArrayList<>();
+
+        while(!c.isAfterLast()) {
+
+            int parkID = c.getInt(parkIDIndex);
+            String name = c.getString(nameIndex);
+            double rating = getParkRating(parkID);
+
+            Park park = new Park(name, rating);
+            parkList.add(park);
+            c.moveToNext();
+        }
+
+        c.close();
+        sqLiteDatabase.close();
+
+        return parkList;
     }
 
-    public ArrayList<Review> readReviews() {
-        return new ArrayList<>();
+    public ArrayList<Review> readReviews(int parkID) {
+
+        createReviewTable();
+        Cursor c = sqLiteDatabase.rawQuery("SELECT * FROM Reviews WHERE park_id = ?", new String[]{ parkID + "" });
+
+        int reviewIDIndex = c.getColumnIndex("review_id");
+        int ratingIndex = c.getColumnIndex("rating");
+        int isBikeFriendlyIndex = c.getColumnIndex("isBikeFriendy");
+        int isChildFriendlyIndex = c.getColumnIndex("isChildFriendly");
+        int isDisabilityFriendlyIndex = c.getColumnIndex("isDisabilityFriendly");
+        int isWoodedIndex = c.getColumnIndex("isWooded");
+        int isCarAccessibleIndex = c.getColumnIndex("isCarAccessible");
+        int isPetFriendlyIndex = c.getColumnIndex("isPetFriendy");
+        int userIDIndex = c.getColumnIndex("user_id");
+
+        c.moveToFirst();
+
+        ArrayList<Review> reviewList = new ArrayList<>();
+
+        while(!c.isAfterLast()) {
+
+            int reviewID = c.getInt(reviewIDIndex);
+            double rating = c.getDouble(ratingIndex);
+            boolean isBikeFriendly = c.getInt(isBikeFriendlyIndex) == 1;
+            boolean isChildFriendly = c.getInt(isChildFriendlyIndex) == 1;
+            boolean isDisabilityFriendly = c.getInt(isDisabilityFriendlyIndex) == 1;
+            boolean isWooded = c.getInt(isWoodedIndex) == 1;
+            boolean isCarAccessible = c.getInt(isCarAccessibleIndex) == 1;
+            boolean isPetFriendly = c.getInt(isPetFriendlyIndex) == 1;
+            int userID = c.getInt(userIDIndex);
+            User user = getUserByID(userID);
+
+            // TODO fetch images from firebase
+
+            Review review = new Review(reviewID, parkID, rating, isBikeFriendly, isChildFriendly, isDisabilityFriendly, isWooded, isCarAccessible, isPetFriendly, user, null);
+            reviewList.add(review);
+            c.moveToNext();
+        }
+
+        c.close();
+        sqLiteDatabase.close();
+        return reviewList;
+    }
+
+    /**
+     * Fetch the average park rating from the database
+     * @param parkID id of the park to get the rating of
+     * @return rating of park with given id
+     */
+    public double getParkRating(int parkID) {
+        createReviewTable();
+        Cursor c = sqLiteDatabase.rawQuery("SELECT AVG(rating) AS avg_rating FROM Reviews WHERE park_id = ?", new String[]{ parkID + "" });
+
+        int ratingIndex = c.getColumnIndex("avg_rating");
+
+        c.moveToFirst();
+        double rating = c.getDouble(ratingIndex);
+
+        c.close();
+        sqLiteDatabase.close();
+
+        return rating;
+    }
+
+    public User getUserByID(int userID) {
+        createUserTable();
+        Cursor c = sqLiteDatabase.rawQuery("SELECT * FROM Users WHERE user_id = ?", new String[]{ userID + ""});
+
+        int usernameIndex = c.getColumnIndex("username");
+        int passwordIndex = c.getColumnIndex("password");
+        int emailIndex = c.getColumnIndex("email");
+        int fNameIndex = c.getColumnIndex("fName");
+        int lNameIndex = c.getColumnIndex("lName");
+
+        c.moveToFirst();
+
+        String username = c.getString(usernameIndex);
+        String password = c.getString(passwordIndex);
+        String email = c.getString(emailIndex);
+        String fName = c.getString(fNameIndex);
+        String lName = c.getString(lNameIndex);
+
+        c.close();
+        sqLiteDatabase.close();
+
+        return new User(userID, username, password, email, fName, lName);
     }
 
     /**
@@ -142,9 +251,14 @@ public class DBHelper {
         Cursor c = sqLiteDatabase.rawQuery("SELECT password FROM Users WHERE username = ?", new String[] {username});
 
         int passwordIndex = c.getColumnIndex("password");
-        c.moveToFirst();
-
-        String db_pass = c.getString(passwordIndex);
+        String db_pass;
+        if( c != null && c.moveToFirst() ){
+            db_pass = c.getString(passwordIndex);
+            c.close();
+        }
+        else {
+            return false;
+        }
 
         return password.equals(db_pass);
     }

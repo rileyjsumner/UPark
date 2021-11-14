@@ -43,6 +43,11 @@ public class Favorites extends AppCompatActivity {
             startActivity(intent);
             return true;
         }
+        if(item.getItemId() == R.id.log_out) {
+            Intent intent = new Intent(Favorites.this, MainActivity.class);
+            startActivity(intent);
+            return true;
+        }
 
         return false;
     }
