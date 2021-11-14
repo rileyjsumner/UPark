@@ -8,6 +8,7 @@ public class User {
     Image profilePic;
     Review[] reviewsGiven;
     Park[] parksVisited;
+    SecurityQuestion[] securityQuestions;
 
     String username;
     String password;
