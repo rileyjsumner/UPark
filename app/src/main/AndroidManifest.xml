@@ -43,16 +43,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-<<<<<<< HEAD
-            <meta-data
-                android:name="com.google.android.geo.API_KEY"
-                android:value="${MAPS_API_KEY}"/>
-=======
-
+        
         <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCsTjJlkKZhnJJwogACUs7DZgwY8Dm27og" />
->>>>>>> d264ddd96ff97123f50c9cb9f7291832957b8bb6
+                android:name="com.google.android.geo.API_KEY"
+                android:value="${MAPS_API_KEY}" />
     </application>
 
 </manifest>
