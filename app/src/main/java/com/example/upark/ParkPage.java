@@ -9,6 +9,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -25,6 +28,7 @@ public class ParkPage extends AppCompatActivity {
     DBHelper db;
     Context context;
     ListView reviewList;
+    public static ArrayList<Review> curr_reviews = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,11 +65,22 @@ public class ParkPage extends AppCompatActivity {
         String dist = currentPark.getDistance() + " miles";
         distance_view.setText(dist);
 
-        ArrayList<Review> curr_reviews = db.readReviews(currentPark.getParkID());
+        curr_reviews = db.readReviews(currentPark.getParkID());
+
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, curr_reviews);
 
         reviewList = (ListView)findViewById(R.id.review_list);
 
-        //TODO: Add reviews to list view
+        reviewList.setAdapter(adapter);
+
+        reviewList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getApplicationContext(), ViewReview.class);
+                intent.putExtra("reviewid", position);
+                startActivity(intent);
+            }
+        });
 
     }
 

@@ -14,6 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.UPark">
         <activity
+            android:name=".ViewReview"
+            android:exported="true" />
+        <activity
             android:name=".ParkPage"
             android:exported="true" />
         <activity
@@ -43,10 +46,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
+
         <meta-data
-                android:name="com.google.android.geo.API_KEY"
-                android:value="${MAPS_API_KEY}" />
+            android:name="com.google.android.geo.API_KEY"
+            android:value="${MAPS_API_KEY}" />
     </application>
 
 </manifest>
