@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         login_success = db.login(user,pword);
 
         if(login_success) {
-            Intent intent = new Intent(MainActivity.this, home_screen.class);
+            Intent intent = new Intent(MainActivity.this, HomeScreen.class);
             startActivity(intent);
         }
         else {

@@ -109,7 +109,7 @@ public class DBHelper {
     public boolean addUser(User user) {
         // TODO: check if user is inserted properly
         createUserTable();
-        sqLiteDatabase.execSQL(String.format("INSERT INTO Users (username, password, email, fName, lName) VALUES ('%s', '%s', '%s', '%s', '%s')", user.getUsername(), user.getPassword(), user.getEmail(), user.getfName(), user.getlName()));
+        sqLiteDatabase.execSQL(String.format("INSERT INTO Users (username, password, email, fName, lName) VALUES ('%s', '%s', '%s', '%s', '%s');", user.getUsername(), user.getPassword(), user.getEmail(), user.getfName(), user.getlName()));
         return true;
     }
 

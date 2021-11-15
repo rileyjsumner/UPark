@@ -18,7 +18,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class home_screen extends AppCompatActivity {
+public class HomeScreen extends AppCompatActivity {
     // TODO: remove these hard-coded values once loop implemented
     private final LatLng mParkLatLng1 = new LatLng(43.06008520706912, -89.41330708131657);
     private final LatLng mParkLatLng2 = new LatLng(43.04369413370016, -89.42463949218964);
@@ -28,19 +28,19 @@ public class home_screen extends AppCompatActivity {
     private FusedLocationProviderClient mFusedLocationProviderClient; // Save the instance
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 12; // can be any num
 
-    public void find_parks(View view) {
-        Intent intent = new Intent(home_screen.this, FindPark.class);
+    public void findParks(View view) {
+        Intent intent = new Intent(HomeScreen.this, FindPark.class);
         startActivity(intent);
     }
 
     public void favorites(View view) {
-        Intent intent = new Intent(home_screen.this, Favorites.class);
+        Intent intent = new Intent(HomeScreen.this, Favorites.class);
         startActivity(intent);
 
     }
 
-    public void check_in(View view) {
-        Intent intent = new Intent(home_screen.this, CheckIn.class);
+    public void checkIn(View view) {
+        Intent intent = new Intent(HomeScreen.this, CheckIn.class);
         startActivity(intent);
 
     }
@@ -84,22 +84,22 @@ public class home_screen extends AppCompatActivity {
         super.onOptionsItemSelected(item);
 
         if(item.getItemId() == R.id.find_parks) {
-            Intent intent = new Intent(home_screen.this, FindPark.class);
+            Intent intent = new Intent(HomeScreen.this, FindPark.class);
             startActivity(intent);
             return true;
         }
         if(item.getItemId() == R.id.favorites) {
-            Intent intent = new Intent(home_screen.this, Favorites.class);
+            Intent intent = new Intent(HomeScreen.this, Favorites.class);
             startActivity(intent);
             return true;
         }
         if(item.getItemId() == R.id.check_in) {
-            Intent intent = new Intent(home_screen.this, CheckIn.class);
+            Intent intent = new Intent(HomeScreen.this, CheckIn.class);
             startActivity(intent);
             return true;
         }
         if(item.getItemId() == R.id.log_out) {
-            Intent intent = new Intent(home_screen.this, MainActivity.class);
+            Intent intent = new Intent(HomeScreen.this, MainActivity.class);
             startActivity(intent);
             return true;
         }

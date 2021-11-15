@@ -4,12 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -77,30 +75,24 @@ public class CreateAccount extends AppCompatActivity {
         } else if (!pw.equals(pwCheck)) { // check that passwords match
             String toastText = "The passwords do not match. Please try again.";
             Toast.makeText(CreateAccount.this, toastText, Toast.LENGTH_LONG).show();
-        /*
         // TODO: uncomment following code (causes program to freeze)
         } else if (db.userExists(user)) { // check if username is already in use
             // trigger error
             String toastText = "This username is already in use.";
+            Log.i("UPark", "user already exists");
             Toast.makeText(CreateAccount.this, toastText, Toast.LENGTH_LONG).show();
-         */
         } else { // valid input
             User newUser = new User(user, pw, e, first, last);
-            // TODO: unccoment (db operations cause freezing)
-            /*
+            Log.i("UPark", "valid user");
+            // TODO: uncomment (db operations cause freezing)
             if(db.addUser(newUser)) {
+                Log.i("UPark", "added user");
                 // user added, move to main application
-                // TODO
+                goToHome();
             } else { // error in adding user
                 String toastText = "Error adding user, please try again later.";
                 Toast.makeText(CreateAccount.this, toastText, Toast.LENGTH_LONG).show();
             }
-            */
-
-            // TODO move this inside the above if-statement once db issues solved
-            // go to the home_screen activity
-            goToHome();
-
         }
     }
 
@@ -108,7 +100,7 @@ public class CreateAccount extends AppCompatActivity {
         Used to switch activity to home_screen
      */
     public void goToHome() {
-        Intent intent = new Intent(this, home_screen.class);
+        Intent intent = new Intent(this, HomeScreen.class);
         startActivity(intent);
     }
 

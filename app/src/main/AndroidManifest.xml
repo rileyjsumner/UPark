@@ -29,7 +29,7 @@
             android:name=".FindPark"
             android:exported="true" />
         <activity
-            android:name=".home_screen"
+            android:name=".HomeScreen"
             android:exported="true" />
         <activity
             android:name=".ForgotPassword"
