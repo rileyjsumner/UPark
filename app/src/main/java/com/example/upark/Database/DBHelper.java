@@ -40,7 +40,8 @@ public class DBHelper {
         sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS Parks " +
                 "(park_id INTEGER PRIMARY KEY," +
                 "park_name TEXT," +
-                "rating FLOAT)");
+                "rating FLOAT," +
+                "distance FLOAT)");
     }
 
     /**
@@ -110,6 +111,28 @@ public class DBHelper {
         // TODO: check if user is inserted properly
         createUserTable();
         sqLiteDatabase.execSQL(String.format("INSERT INTO Users (username, password, email, fName, lName) VALUES ('%s', '%s', '%s', '%s', '%s');", user.getUsername(), user.getPassword(), user.getEmail(), user.getfName(), user.getlName()));
+        return true;
+    }
+
+    public boolean addPark(Park park) {
+        createParkTable();
+        sqLiteDatabase.execSQL(String.format("INSERT INTO Parks (park_name, rating, distance) VALUES ('%s', '%s', '%s');", park.getParkName(), park.getRating(), park.getDistance()));
+        return true;
+    }
+
+    public boolean addReview(Review review) {
+        createReviewTable();
+        sqLiteDatabase.execSQL(String.format("INSERT INTO Reviews (park_id, rating, review_text, isBikeFriendly, isChildFriendly, isDisabilityFriendly, isWooded, isCarAccessible, isPetFriendly, user_id) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');",
+                review.getParkID(),
+                review.getRating(),
+                review.getReviewText(),
+                review.isBikeFriendly(),
+                review.isChildFriendly(),
+                review.isDisabilityFriendly(),
+                review.isWooded(),
+                review.isCarAccessible(),
+                review.isPetFriendly(),
+                review.getReviewer().getUserID()));
         return true;
     }
 

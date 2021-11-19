@@ -115,6 +115,14 @@ public class Review {
         this.reviewer = reviewer;
     }
 
+    public String getReviewText() {
+        return reviewText;
+    }
+
+    public void setReviewText(String reviewText) {
+        this.reviewText = reviewText;
+    }
+
     public Image[] getImages() {
         return images;
     }
