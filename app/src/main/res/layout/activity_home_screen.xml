@@ -24,7 +24,7 @@
         android:text="Find Parks"
         app:layout_constraintBottom_toTopOf="@+id/favorites_button"
         app:layout_constraintStart_toStartOf="@+id/favorites_button"
-        android:onClick="find_parks"
+        android:onClick="findParks"
         />
 
     <Button
@@ -46,5 +46,5 @@
         android:text="Check In"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:onClick="check_in"/>
+        android:onClick="checkIn"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
