@@ -72,10 +72,12 @@ public class CreateAccount extends AppCompatActivity {
         } else if (!(pw.length() >= 8)) { // check that password is >= 8 characters
             String toastText = "Your password should be at least 8 characters long.";
             Toast.makeText(CreateAccount.this, toastText, Toast.LENGTH_LONG).show();
+        } else if (!hasNum(pw)) { // check that password has at least 1 num
+            String toastText = "Your password should have at least one number.";
+            Toast.makeText(CreateAccount.this, toastText, Toast.LENGTH_LONG).show();
         } else if (!pw.equals(pwCheck)) { // check that passwords match
             String toastText = "The passwords do not match. Please try again.";
             Toast.makeText(CreateAccount.this, toastText, Toast.LENGTH_LONG).show();
-        // TODO: uncomment following code (causes program to freeze)
         } else if (db.userExists(user)) { // check if username is already in use
             // trigger error
             String toastText = "This username is already in use.";
@@ -84,7 +86,6 @@ public class CreateAccount extends AppCompatActivity {
         } else { // valid input
             User newUser = new User(user, pw, e, first, last);
             Log.i("UPark", "valid user");
-            // TODO: uncomment (db operations cause freezing)
             if(db.addUser(newUser)) {
                 Log.i("UPark", "added user");
                 // user added, move to main application
@@ -117,6 +118,19 @@ public class CreateAccount extends AppCompatActivity {
      */
     boolean checkEmail(CharSequence email) {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+
+    boolean hasNum(String pass) {
+        char[] passChars = pass.toCharArray();
+        boolean hasNum = false;
+        for (int i = 0; i < passChars.length; i++) {
+            if (Character.isDigit(passChars[i])){
+                hasNum = true;
+            }
+        }
+
+        return hasNum;
+
     }
 
     @Override
