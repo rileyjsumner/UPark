@@ -187,8 +187,6 @@ public class DBHelper {
             int userID = c.getInt(userIDIndex);
             User user = getUserByID(userID);
 
-            // TODO fetch images from firebase
-
             Review review = new Review(reviewID, parkID, rating, reviewText, isBikeFriendly, isChildFriendly, isDisabilityFriendly, isWooded, isCarAccessible, isPetFriendly, user, null);
             reviewList.add(review);
             c.moveToNext();
