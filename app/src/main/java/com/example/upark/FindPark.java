@@ -1,13 +1,13 @@
 package com.example.upark;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.IOException;
 
@@ -25,10 +25,14 @@ public class FindPark extends AppCompatActivity {
     }
 
     public String getPlaces() {
+        String s1 = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522%2C151.1957362&radius=1500&type=restaurant&keyword=cruise&key=";
+        String s2 = ""; // TODO: figure out inclusion of API key
+        String url = String.format("%s%s",s1,s2);
+
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         Request request = new Request.Builder()
-                .url("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522%2C151.1957362&radius=1500&type=restaurant&keyword=cruise&key=YOUR_API_KEY")
+                .url(url)
                 .method("GET", null)
                 .build();
 
