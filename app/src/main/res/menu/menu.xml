@@ -3,6 +3,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/my_account"
+        android:title="My Account"
+        app:showAsAction="never"
+        />
+
+    <item
         android:id="@+id/find_parks"
         android:title="Find Parks"
         app:showAsAction="never"

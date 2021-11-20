@@ -9,12 +9,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-public class CheckIn extends AppCompatActivity {
+public class EditAccount extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_check_in);
+        setContentView(R.layout.activity_edit_account);
     }
 
     @Override
@@ -29,27 +29,27 @@ public class CheckIn extends AppCompatActivity {
         super.onOptionsItemSelected(item);
 
         if(item.getItemId() == R.id.find_parks) {
-            Intent intent = new Intent(CheckIn.this, Account.class);
+            Intent intent = new Intent(EditAccount.this, Account.class);
             startActivity(intent);
             return true;
         }
         if(item.getItemId() == R.id.find_parks) {
-            Intent intent = new Intent(CheckIn.this, FindPark.class);
+            Intent intent = new Intent(EditAccount.this, FindPark.class);
             startActivity(intent);
             return true;
         }
         if(item.getItemId() == R.id.favorites) {
-            Intent intent = new Intent(CheckIn.this, Favorites.class);
+            Intent intent = new Intent(EditAccount.this, Favorites.class);
             startActivity(intent);
             return true;
         }
         if(item.getItemId() == R.id.check_in) {
-            Intent intent = new Intent(CheckIn.this, CheckIn.class);
+            Intent intent = new Intent(EditAccount.this, CheckIn.class);
             startActivity(intent);
             return true;
         }
         if(item.getItemId() == R.id.log_out) {
-            Intent intent = new Intent(CheckIn.this, MainActivity.class);
+            Intent intent = new Intent(EditAccount.this, MainActivity.class);
             startActivity(intent);
             return true;
         }

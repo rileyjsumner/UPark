@@ -97,6 +97,11 @@ public class ParkPage extends AppCompatActivity {
         super.onOptionsItemSelected(item);
 
         if(item.getItemId() == R.id.find_parks) {
+            Intent intent = new Intent(ParkPage.this, Account.class);
+            startActivity(intent);
+            return true;
+        }
+        if(item.getItemId() == R.id.find_parks) {
             Intent intent = new Intent(ParkPage.this, FindPark.class);
             startActivity(intent);
             return true;

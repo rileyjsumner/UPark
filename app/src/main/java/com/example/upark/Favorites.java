@@ -29,6 +29,11 @@ public class Favorites extends AppCompatActivity {
         super.onOptionsItemSelected(item);
 
         if(item.getItemId() == R.id.find_parks) {
+            Intent intent = new Intent(Favorites.this, Account.class);
+            startActivity(intent);
+            return true;
+        }
+        if(item.getItemId() == R.id.find_parks) {
             Intent intent = new Intent(Favorites.this, FindPark.class);
             startActivity(intent);
             return true;

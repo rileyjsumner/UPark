@@ -28,6 +28,12 @@ public class FindPark extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         super.onOptionsItemSelected(item);
 
+
+        if(item.getItemId() == R.id.find_parks) {
+            Intent intent = new Intent(FindPark.this, Account.class);
+            startActivity(intent);
+            return true;
+        }
         if(item.getItemId() == R.id.find_parks) {
             Intent intent = new Intent(FindPark.this, FindPark.class);
             startActivity(intent);
