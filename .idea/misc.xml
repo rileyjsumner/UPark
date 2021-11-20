@@ -3,10 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/garre/AndroidStudioProjects/UPark/app/src/main/res/layout/activity_account.xml" value="0.45729166666666665" />
         <entry key="..\:/Users/garre/AndroidStudioProjects/UPark/app/src/main/res/layout/activity_check_in.xml" value="0.34322916666666664" />
         <entry key="..\:/Users/garre/AndroidStudioProjects/UPark/app/src/main/res/layout/activity_create_account.xml" value="0.296195652173913" />
-        <entry key="..\:/Users/garre/AndroidStudioProjects/UPark/app/src/main/res/layout/activity_edit_account.xml" value="0.45729166666666665" />
         <entry key="..\:/Users/garre/AndroidStudioProjects/UPark/app/src/main/res/layout/activity_favorites.xml" value="0.34322916666666664" />
         <entry key="..\:/Users/garre/AndroidStudioProjects/UPark/app/src/main/res/layout/activity_find_park.xml" value="0.34322916666666664" />
         <entry key="..\:/Users/garre/AndroidStudioProjects/UPark/app/src/main/res/layout/activity_forgot_password.xml" value="0.34322916666666664" />
@@ -16,6 +14,12 @@
         <entry key="..\:/Users/garre/AndroidStudioProjects/UPark/app/src/main/res/layout/activity_park_page.xml" value="0.5" />
         <entry key="..\:/Users/garre/AndroidStudioProjects/UPark/app/src/main/res/layout/activity_view_review.xml" value="0.45729166666666665" />
         <entry key="..\:/Users/garre/AndroidStudioProjects/UPark/app/src/main/res/menu/menu.xml" value="0.34322916666666664" />
+        <entry key="..\:/Users/imsak/Desktop/UPark/app/src/main/res/layout/activity_account.xml" value="0.259375" />
+        <entry key="..\:/Users/imsak/Desktop/UPark/app/src/main/res/layout/activity_check_in.xml" value="0.259375" />
+        <entry key="..\:/Users/imsak/Desktop/UPark/app/src/main/res/layout/activity_favorites.xml" value="0.259375" />
+        <entry key="..\:/Users/imsak/Desktop/UPark/app/src/main/res/layout/activity_find_park.xml" value="0.259375" />
+        <entry key="..\:/Users/imsak/Desktop/UPark/app/src/main/res/layout/main_fragment.xml" value="0.259375" />
+        <entry key="..\:/Users/imsak/Desktop/UPark/app/src/main/res/menu/menu.xml" value="0.259375" />
         <entry key="app/src/main/res/layout/activity_create_account.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_home_screen.xml" value="0.21197916666666666" />
       </map>

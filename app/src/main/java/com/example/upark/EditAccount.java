@@ -28,7 +28,7 @@ public class EditAccount extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         super.onOptionsItemSelected(item);
 
-        if(item.getItemId() == R.id.find_parks) {
+        if(item.getItemId() == R.id.my_account) {
             Intent intent = new Intent(EditAccount.this, Account.class);
             startActivity(intent);
             return true;
