@@ -9,12 +9,42 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import java.io.IOException;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
 public class FindPark extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find_park);
+
+    }
+
+    public String getPlaces() {
+        OkHttpClient client = new OkHttpClient().newBuilder()
+                .build();
+        Request request = new Request.Builder()
+                .url("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522%2C151.1957362&radius=1500&type=restaurant&keyword=cruise&key=YOUR_API_KEY")
+                .method("GET", null)
+                .build();
+
+        Response response = null;
+        try {
+            response = client.newCall(request).execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            return response.body().string();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null; // TODO fix
     }
 
     @Override
