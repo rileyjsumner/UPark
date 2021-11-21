@@ -18,15 +18,27 @@ import okhttp3.Response;
 import java.util.ResourceBundle;
 
 public class FindPark extends AppCompatActivity {
+    public String placesJSON = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_find_park);
+
+        PlacesRunnable runnable = new PlacesRunnable();
+        new Thread(runnable).start();
 
     }
 
+    public class PlacesRunnable implements Runnable {
+        @Override
+        public void run() {
+            placesJSON = getPlaces();
+        }
+    }
+
     public String getPlaces() {
-        String s1 = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522%2C151.1957362&radius=1500&type=restaurant&keyword=cruise&key=";
+        // TODO: edit URL further to customize lat and long
+        String s1 = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522%2C151.1957362&radius=1500&type=park&keyword=park&key=";
         String s2 = getPropVal();
         String url = String.format("%s%s",s1,s2);
 
