@@ -6,13 +6,25 @@
     android:layout_height="match_parent"
     tools:context=".FindPark">
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="161dp"
-        android:layout_marginTop="294dp"
-        android:text="FindParks"
+    <SearchView
+        android:id="@+id/parkSearch"
+        android:layout_width="350dp"
+        android:layout_height="51dp"
+        android:layout_marginStart="55dp"
+        android:layout_marginTop="87dp"
+        android:layout_marginEnd="55dp"
+        android:iconifiedByDefault="false"
+        android:queryHint="Search for parks"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ListView
+        android:layout_width="350dp"
+        android:layout_height="400dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/parkSearch"
+        app:layout_constraintVertical_bias="0.139" />
 </androidx.constraintlayout.widget.ConstraintLayout>
