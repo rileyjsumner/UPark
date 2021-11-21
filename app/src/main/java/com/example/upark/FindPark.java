@@ -15,8 +15,9 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class FindPark extends AppCompatActivity {
+import java.util.ResourceBundle;
 
+public class FindPark extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,7 +27,7 @@ public class FindPark extends AppCompatActivity {
 
     public String getPlaces() {
         String s1 = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522%2C151.1957362&radius=1500&type=restaurant&keyword=cruise&key=";
-        String s2 = ""; // TODO: figure out inclusion of API key
+        String s2 = getPropVal();
         String url = String.format("%s%s",s1,s2);
 
         OkHttpClient client = new OkHttpClient().newBuilder()
@@ -49,6 +50,12 @@ public class FindPark extends AppCompatActivity {
         }
 
         return null; // TODO fix
+    }
+
+    /* gets API value */
+    public String getPropVal() {
+        return BuildConfig.API_KEY; // TODO: maybe able to replace w/ BuildConfig.MAPS_API_KEY, see: https://stackoverflow.com/questions/32117413/how-to-read-local-properties-android-in-java-files
+
     }
 
     @Override
