@@ -27,6 +27,7 @@ public class HomeScreen extends AppCompatActivity {
     private GoogleMap mMap;
     private FusedLocationProviderClient mFusedLocationProviderClient; // Save the instance
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 12; // can be any num
+    String current_user;
 
     public void findParks(View view) {
         Intent intent = new Intent(HomeScreen.this, FindPark.class);
@@ -50,6 +51,8 @@ public class HomeScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
+        Intent intent = getIntent();
+        current_user = intent.getStringExtra("current_user");
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_map);
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         // TODO: get nearby parks and add them in a loop to the map (probably own function)
@@ -85,21 +88,25 @@ public class HomeScreen extends AppCompatActivity {
 
         if(item.getItemId() == R.id.my_account) {
             Intent intent = new Intent(HomeScreen.this, Account.class);
+            intent.putExtra("current_user", current_user);
             startActivity(intent);
             return true;
         }
         if(item.getItemId() == R.id.find_parks) {
             Intent intent = new Intent(HomeScreen.this, FindPark.class);
+            intent.putExtra("current_user", current_user);
             startActivity(intent);
             return true;
         }
         if(item.getItemId() == R.id.favorites) {
             Intent intent = new Intent(HomeScreen.this, Favorites.class);
+            intent.putExtra("current_user", current_user);
             startActivity(intent);
             return true;
         }
         if(item.getItemId() == R.id.check_in) {
             Intent intent = new Intent(HomeScreen.this, CheckIn.class);
+            intent.putExtra("current_user", current_user);
             startActivity(intent);
             return true;
         }

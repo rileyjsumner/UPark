@@ -11,10 +11,14 @@ import android.view.MenuItem;
 
 public class CheckIn extends AppCompatActivity {
 
+    String current_user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check_in);
+        Intent intent = getIntent();
+        String current_user = intent.getStringExtra("current_user");
     }
 
     @Override
@@ -30,21 +34,25 @@ public class CheckIn extends AppCompatActivity {
 
         if(item.getItemId() == R.id.my_account) {
             Intent intent = new Intent(CheckIn.this, Account.class);
+            intent.putExtra("current_user", current_user);
             startActivity(intent);
             return true;
         }
         if(item.getItemId() == R.id.find_parks) {
             Intent intent = new Intent(CheckIn.this, FindPark.class);
+            intent.putExtra("current_user", current_user);
             startActivity(intent);
             return true;
         }
         if(item.getItemId() == R.id.favorites) {
             Intent intent = new Intent(CheckIn.this, Favorites.class);
+            intent.putExtra("current_user", current_user);
             startActivity(intent);
             return true;
         }
         if(item.getItemId() == R.id.check_in) {
             Intent intent = new Intent(CheckIn.this, CheckIn.class);
+            intent.putExtra("current_user", current_user);
             startActivity(intent);
             return true;
         }

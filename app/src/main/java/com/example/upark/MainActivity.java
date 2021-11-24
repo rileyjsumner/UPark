@@ -5,11 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.upark.DAO.User;
 import com.example.upark.Database.DBHelper;
 
 public class MainActivity extends AppCompatActivity {
@@ -35,6 +37,11 @@ public class MainActivity extends AppCompatActivity {
 
         if(login_success) {
             Intent intent = new Intent(MainActivity.this, HomeScreen.class);
+            /**
+            User curr_user = db.getUserByUsername(user);
+            Log.wtf("TEST", ""+curr_user.getEmail());
+             */
+            intent.putExtra("current_user", user);
             startActivity(intent);
         }
         else {

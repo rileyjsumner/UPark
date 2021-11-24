@@ -13,6 +13,7 @@ import android.widget.TextView;
 public class Account extends AppCompatActivity {
 
     TextView accountUsername;
+    String current_user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,8 +22,8 @@ public class Account extends AppCompatActivity {
 
         Intent intent = getIntent();
         accountUsername = (TextView)findViewById(R.id.username_account_textview);
-        String user = intent.getStringExtra("username");
-        accountUsername.setText(user);
+        String current_user = intent.getStringExtra("current_user");
+        accountUsername.setText(current_user);
 
     }
 
@@ -39,21 +40,25 @@ public class Account extends AppCompatActivity {
 
         if(item.getItemId() == R.id.my_account) {
             Intent intent = new Intent(Account.this, Account.class);
+            intent.putExtra("current_user", current_user);
             startActivity(intent);
             return true;
         }
         if(item.getItemId() == R.id.find_parks) {
             Intent intent = new Intent(Account.this, FindPark.class);
+            intent.putExtra("current_user", current_user);
             startActivity(intent);
             return true;
         }
         if(item.getItemId() == R.id.favorites) {
             Intent intent = new Intent(Account.this, Favorites.class);
+            intent.putExtra("current_user", current_user);
             startActivity(intent);
             return true;
         }
         if(item.getItemId() == R.id.check_in) {
             Intent intent = new Intent(Account.this, CheckIn.class);
+            intent.putExtra("current_user", current_user);
             startActivity(intent);
             return true;
         }
