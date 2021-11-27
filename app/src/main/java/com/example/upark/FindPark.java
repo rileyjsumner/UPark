@@ -66,7 +66,7 @@ public class FindPark extends AppCompatActivity {
 
     /* gets API value */
     public String getPropVal() {
-        return BuildConfig.API_KEY; // TODO: maybe able to replace w/ BuildConfig.MAPS_API_KEY, see: https://stackoverflow.com/questions/32117413/how-to-read-local-properties-android-in-java-files
+        return BuildConfig.MAPS_API_KEY; // TODO: maybe able to replace w/ BuildConfig.MAPS_API_KEY, see: https://stackoverflow.com/questions/32117413/how-to-read-local-properties-android-in-java-files
 
     }
 
