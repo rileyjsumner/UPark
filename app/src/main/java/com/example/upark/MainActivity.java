@@ -38,9 +38,6 @@ public class MainActivity extends AppCompatActivity {
         if(login_success) {
             Intent intent = new Intent(MainActivity.this, HomeScreen.class);
 
-            User curr_user = db.getUserByUsername(user);
-            Log.wtf("TEST", ""+curr_user.getEmail());
-
             intent.putExtra("current_user", user);
             startActivity(intent);
         }
