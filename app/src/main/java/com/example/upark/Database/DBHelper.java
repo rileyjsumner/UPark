@@ -267,26 +267,18 @@ public class DBHelper {
 
     public User getUserByUsername(String user_lookup) {
         createUserTable();
-        Cursor c = sqLiteDatabase.rawQuery("SELECT * FROM Users WHERE username = ?", new String[]{ user_lookup + ""});
+        Cursor c = sqLiteDatabase.rawQuery("SELECT user_id FROM Users WHERE username = ?", new String[]{ user_lookup + ""});
 
-        int usernameIndex = c.getColumnIndex("username");
-        int passwordIndex = c.getColumnIndex("password");
-        int emailIndex = c.getColumnIndex("email");
-        int fNameIndex = c.getColumnIndex("fName");
-        int lNameIndex = c.getColumnIndex("lName");
+        int userIDIndex = c.getColumnIndex("user_id");
 
         c.moveToFirst();
 
-        String username = c.getString(usernameIndex);
-        String password = c.getString(passwordIndex);
-        String email = c.getString(emailIndex);
-        String fName = c.getString(fNameIndex);
-        String lName = c.getString(lNameIndex);
+        int user_id = c.getInt(userIDIndex);
 
         c.close();
         sqLiteDatabase.close();
 
-        return new User(username, password, email, fName, lName);
+        return getUserByID(user_id);
     }
 
 
