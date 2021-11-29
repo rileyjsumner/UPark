@@ -3,6 +3,7 @@ package com.example.upark;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -10,19 +11,40 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.example.upark.DAO.Park;
+import com.example.upark.DAO.User;
+import com.example.upark.Database.DBHelper;
+
 public class Account extends AppCompatActivity {
 
     TextView accountUsername;
+    TextView parkVisits;
+    String current_user;
+    DBHelper db;
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
+        context = getApplicationContext();
+        db = new DBHelper(context.openOrCreateDatabase("upark", Context.MODE_PRIVATE,null));
 
         Intent intent = getIntent();
         accountUsername = (TextView)findViewById(R.id.username_account_textview);
-        String user = intent.getStringExtra("username");
-        accountUsername.setText(user);
+        String current_user = intent.getStringExtra("current_user");
+        User user_obj = db.getUserByUsername(current_user);
+        String full_name = user_obj.getfName() + " " + user_obj.getlName();
+        accountUsername.setText(full_name);
+        //TODO: Parks visited still needs set somewhere. This works but will crash currently as no
+        //      parks have been set to visited
+        /**
+        Park[] parks_visited = user_obj.getParksVisited();
+        int num_parks_visited = parks_visited.length;
+        String visits = "Total Parks Visited: " + num_parks_visited;
+        parkVisits = (TextView)findViewById(R.id.totalparksvisted_textview);
+        parkVisits.setText(visits);
+        */
 
     }
 
@@ -39,21 +61,25 @@ public class Account extends AppCompatActivity {
 
         if(item.getItemId() == R.id.my_account) {
             Intent intent = new Intent(Account.this, Account.class);
+            intent.putExtra("current_user", current_user);
             startActivity(intent);
             return true;
         }
         if(item.getItemId() == R.id.find_parks) {
             Intent intent = new Intent(Account.this, FindPark.class);
+            intent.putExtra("current_user", current_user);
             startActivity(intent);
             return true;
         }
         if(item.getItemId() == R.id.favorites) {
             Intent intent = new Intent(Account.this, Favorites.class);
+            intent.putExtra("current_user", current_user);
             startActivity(intent);
             return true;
         }
         if(item.getItemId() == R.id.check_in) {
             Intent intent = new Intent(Account.this, CheckIn.class);
+            intent.putExtra("current_user", current_user);
             startActivity(intent);
             return true;
         }

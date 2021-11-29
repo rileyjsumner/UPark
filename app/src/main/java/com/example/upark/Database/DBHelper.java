@@ -264,6 +264,24 @@ public class DBHelper {
         return new User(userID, username, password, email, fName, lName);
     }
 
+
+    public User getUserByUsername(String user_lookup) {
+        createUserTable();
+        Cursor c = sqLiteDatabase.rawQuery("SELECT user_id FROM Users WHERE username = ?", new String[]{ user_lookup + ""});
+
+        int userIDIndex = c.getColumnIndex("user_id");
+
+        c.moveToFirst();
+
+        int user_id = c.getInt(userIDIndex);
+
+        c.close();
+        sqLiteDatabase.close();
+
+        return getUserByID(user_id);
+    }
+
+
     /**
      * Fetches the given users password from the database
      * @param username supplied into login form from UI
