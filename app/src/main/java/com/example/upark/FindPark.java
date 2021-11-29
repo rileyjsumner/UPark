@@ -1,13 +1,25 @@
 package com.example.upark;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 
@@ -15,58 +27,118 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class FindPark extends AppCompatActivity {
-    public String placesJSON = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_find_park);
 
-        PlacesRunnable runnable = new PlacesRunnable();
-        new Thread(runnable).start();
-
-    }
-
-    public class PlacesRunnable implements Runnable {
-        @Override
-        public void run() {
-            placesJSON = getPlaces();
-        }
-    }
-
-    public String getPlaces() {
-        // TODO: edit URL further to customize lat and long
-        String s1 = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522%2C151.1957362&radius=1500&type=park&keyword=park&key=";
-        String s2 = getPropVal();
-        String url = String.format("%s%s",s1,s2);
-
-        OkHttpClient client = new OkHttpClient().newBuilder()
-                .build();
-        Request request = new Request.Builder()
-                .url(url)
-                .method("GET", null)
-                .build();
-
-        Response response = null;
-        try {
-            response = client.newCall(request).execute();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            return response.body().string();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return null; // TODO fix
+        Button button = (Button) findViewById(R.id.searchButton);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                buttonPressed();
+            }
+        });
     }
 
     /* gets API value */
+    //TODO: change this to non static
     public String getPropVal() {
-        return BuildConfig.API_KEY; // TODO: maybe able to replace w/ BuildConfig.MAPS_API_KEY, see: https://stackoverflow.com/questions/32117413/how-to-read-local-properties-android-in-java-files
+        return "AIzaSyBYa31olm4mK-g37bt36pDQ2gwJAR3eyzA";
+        //return BuildConfig.API_KEY; // TODO: maybe able to replace w/ BuildConfig.MAPS_API_KEY, see: https://stackoverflow.com/questions/32117413/how-to-read-local-properties-android-in-java-files
+
+    }
+
+    //When button pressed, get api data and show in list view
+    public void buttonPressed() {
+        TextView searchInput = (TextView) findViewById(R.id.parkSearch);
+
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+
+
+                OkHttpClient client = new OkHttpClient().newBuilder()
+                        .build();
+                String url;
+                if (searchInput.getText().toString().contains("park")) {
+                    url = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + searchInput.getText().toString().replaceAll(" ", "%")+ "&key=" + getPropVal();
+                }
+                else {
+                    url = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + searchInput.getText().toString().replaceAll(" ", "%") + "%parks" + "&key=" + getPropVal();
+                }
+
+                //Get request from places API
+                Request request = new Request.Builder()
+                        .url(url)
+                        .method("GET", null)
+                        .build();
+                try {
+                    Response response = client.newCall(request).execute();
+                    String data = response.body().string();
+
+                    try {
+                        //Creating json object for request
+                        JSONObject json = new JSONObject(data);
+                        String newData = json.getString("results");
+                        String newJsonString = "{\"Parks\" : " + json.getString("results") + "}";
+
+                        //Create new JSON array with park results
+                        JSONArray JsonArray = json.getJSONArray("results");
+                        String testVal = JsonArray.getJSONObject(0).getString("name");
+
+
+                        runOnUiThread(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                populate(JsonArray);
+                            }
+                        });
+                        
+                    } catch (JSONException e) {
+                        runOnUiThread(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), "No Parks Found", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                        Log.i("FindPark", "JSON ERROR: " + e);
+                    }
+
+                } catch (IOException e) {
+                    Log.i("FindPark", "IO Exception: " + e);
+                }
+
+
+            }
+        });
+    }
+
+
+    //Populates list view with json array values
+    public void populate(JSONArray jsonArray) {
+        ArrayList<String> arrayList = new  ArrayList<String>();
+        for (int i = 0; i < jsonArray.length(); i++) {
+            try {
+                arrayList.add(jsonArray.getJSONObject(i).getString("name"));
+                Log.i("Array list adding: ", arrayList.get(i));
+            }
+            catch (JSONException e) {
+                Log.i("FindPark", "JSON EXCEPTION: " + e);
+            }
+        }
+
+        ArrayAdapter arrayAdapter =
+                new ArrayAdapter(this, android.R.layout.simple_list_item_1, arrayList);
+        ListView listView = findViewById(R.id.listView);
+        listView.setAdapter(arrayAdapter);
 
     }
 
@@ -109,4 +181,5 @@ public class FindPark extends AppCompatActivity {
 
         return false;
     }
+
 }

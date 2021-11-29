@@ -23,7 +23,9 @@
         <entry key="..\:/Users/imsak/Desktop/UPark/app/src/main/res/layout/main_fragment.xml" value="0.259375" />
         <entry key="..\:/Users/imsak/Desktop/UPark/app/src/main/res/menu/menu.xml" value="0.259375" />
         <entry key="app/src/main/res/layout/activity_create_account.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/activity_home_screen.xml" value="0.21197916666666666" />
+        <entry key="app/src/main/res/layout/activity_find_park.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_forgot_password.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_home_screen.xml" value="0.165" />
       </map>
     </option>
   </component>
