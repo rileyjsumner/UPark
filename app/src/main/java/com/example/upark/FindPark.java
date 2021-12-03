@@ -125,6 +125,7 @@ public class FindPark extends AppCompatActivity {
         ArrayList<String> arrayList = new  ArrayList<String>();
         for (int i = 0; i < jsonArray.length(); i++) {
             try {
+                // TODO: create park object instead and add to arraylist
                 arrayList.add(jsonArray.getJSONObject(i).getString("name"));
                 Log.i("Array list adding: ", arrayList.get(i));
             }

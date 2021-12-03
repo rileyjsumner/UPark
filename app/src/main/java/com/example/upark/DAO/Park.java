@@ -8,7 +8,7 @@ public class Park {
     String parkName;
     double rating;
     double distance;
-
+    double loc[] = new double[2];
     Review[] reviews;
 
     public Park(String parkName, double rating) {
@@ -47,6 +47,13 @@ public class Park {
     public void setReviews(Review[] reviews) {
         this.reviews = reviews;
     }
+
+    public void setLoc(double lat, double lan) {
+        this.loc[0] = lat;
+        this.loc[1] = lan;
+    }
+
+    public double[] getLoc() { return loc; }
 
     public void setDistance(double distance) { this.distance = distance; }
 
