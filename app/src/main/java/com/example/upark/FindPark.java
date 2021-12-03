@@ -48,8 +48,8 @@ public class FindPark extends AppCompatActivity {
     /* gets API value */
     //TODO: change this to non static
     public String getPropVal() {
-        //return "AIzaSyBYa31olm4mK-g37bt36pDQ2gwJAR3eyzA";
-        return BuildConfig.MAPS_API_KEY; // TODO: maybe able to replace w/ BuildConfig.MAPS_API_KEY, see: https://stackoverflow.com/questions/32117413/how-to-read-local-properties-android-in-java-files
+        return "AIzaSyBYa31olm4mK-g37bt36pDQ2gwJAR3eyzA";
+        //return BuildConfig.MAPS_API_KEY; // TODO: maybe able to replace w/ BuildConfig.MAPS_API_KEY, see: https://stackoverflow.com/questions/32117413/how-to-read-local-properties-android-in-java-files
 
     }
 
