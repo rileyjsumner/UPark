@@ -63,6 +63,13 @@ public class DBHelper {
                 "user_id INTEGER)");
     }
 
+    public void createFavoriteParkTable() {
+        sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS FavoriteParks " +
+                "(favorite_id INTEGER PRIMARY KEY," +
+                "park_id INTEGER," +
+                "user_id INTEGER)");
+    }
+
     /**
      * Reads all users in the database
      * @return a list of all users
@@ -308,6 +315,26 @@ public class DBHelper {
         return new User(userID, username, password, email, fName, lName);
     }
 
+    public Park getParkById(int parkID) {
+        createParkTable();
+        Cursor c = sqLiteDatabase.rawQuery("SELECT * FROM Parks WHERE park_id = ?", new String[]{ parkID + ""});
+
+        int parkIDIndex = c.getColumnIndex("park_id");
+        int nameIndex = c.getColumnIndex("name");
+
+        c.moveToFirst();
+
+        String name = c.getString(nameIndex);
+        double rating = getParkRating(parkID);
+
+        Park park = new Park(name, rating);
+
+        c.close();
+        sqLiteDatabase.close();
+
+        return park;
+    }
+
 
     public User getUserByUsername(String user_lookup) {
         createUserTable();
@@ -323,6 +350,30 @@ public class DBHelper {
         sqLiteDatabase.close();
 
         return getUserByID(user_id);
+    }
+
+    public ArrayList<Park> getUsersFavoriteParks(int userID) {
+        createParkTable();
+        createFavoriteParkTable();
+
+        Cursor c = sqLiteDatabase.rawQuery("SELECT * FROM FavoriteParks WHERE user_id = ?", new String[]{ userID + ""});
+
+        int parkIDIndex = c.getColumnIndex("park_id");
+        c.moveToFirst();
+
+        ArrayList<Park> parkList = new ArrayList<>();
+
+        while(!c.isAfterLast()) {
+
+            int parkID = c.getInt(parkIDIndex);
+
+            Park favoritePark = getParkById(parkID);
+
+            parkList.add(favoritePark);
+            c.moveToNext();
+        }
+
+        return parkList;
     }
 
 
