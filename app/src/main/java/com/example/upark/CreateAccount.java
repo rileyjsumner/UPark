@@ -88,7 +88,7 @@ public class CreateAccount extends AppCompatActivity {
             if(db.addUser(newUser)) {
                 Log.i("UPark", "added user");
                 // user added, move to main application
-                goToHome();
+                goToLogin();
             } else { // error in adding user
                 String toastText = "Error adding user, please try again later.";
                 Toast.makeText(CreateAccount.this, toastText, Toast.LENGTH_LONG).show();
@@ -99,8 +99,8 @@ public class CreateAccount extends AppCompatActivity {
     /*
         Used to switch activity to home_screen
      */
-    public void goToHome() {
-        Intent intent = new Intent(this, HomeScreen.class);
+    public void goToLogin() {
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 
