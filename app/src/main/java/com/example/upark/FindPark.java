@@ -166,8 +166,8 @@ public class FindPark extends AppCompatActivity {
     /* gets API value */
     //TODO: change this to non static
     public String getPropVal() {
-        //return "AIzaSyBYa31olm4mK-g37bt36pDQ2gwJAR3eyzA";
-        return BuildConfig.API_KEY; // TODO: maybe able to replace w/ BuildConfig.MAPS_API_KEY, see: https://stackoverflow.com/questions/32117413/how-to-read-local-properties-android-in-java-files
+        return "AIzaSyBYa31olm4mK-g37bt36pDQ2gwJAR3eyzA";
+        //return BuildConfig.API_KEY; // TODO: maybe able to replace w/ BuildConfig.MAPS_API_KEY, see: https://stackoverflow.com/questions/32117413/how-to-read-local-properties-android-in-java-files
 
     }
 
@@ -183,10 +183,10 @@ public class FindPark extends AppCompatActivity {
                         .build();
                 String url;
                 if (searchInput.getText().toString().contains("park")) {
-                    url = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + searchInput.getText().toString().replaceAll(" ", "%")+ "&key=" + getPropVal();
+                    url = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + searchInput.getText().toString().replaceAll(" ", "%")+ "&location=" + lat + "%2C" + lon + "&radius=" + "20000" + "&key=" + getPropVal();
                 }
                 else {
-                    url = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + searchInput.getText().toString().replaceAll(" ", "%") + "%parks" + "&key=" + getPropVal();
+                    url = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + searchInput.getText().toString().replaceAll(" ", "%") + "%parks" + "&location=" + lat + "%2C" + lon + "&radius=" + "20000" + "&key=" + getPropVal();
                 }
 
                 //Get request from places API
