@@ -39,6 +39,7 @@ public class CreateAccount extends AppCompatActivity {
         EditText securityA = (EditText) findViewById(R.id.securityA);
         Spinner securityQ = (Spinner)findViewById(R.id.spinner);
 
+        Log.i("LOGIN", "Start logging in");
         // turn values into strings
         String first = fname.getText().toString();
         String last = lname.getText().toString();

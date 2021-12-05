@@ -110,6 +110,7 @@ public class DBHelper {
     public boolean addUser(User user) {
         // TODO: check if user is inserted properly
         createUserTable();
+        Log.i("LOGIN", "Inserting into db" + user.toString());
         sqLiteDatabase.execSQL(String.format("INSERT INTO Users (username, password, email, fName, lName) VALUES ('%s', '%s', '%s', '%s', '%s');", user.getUsername(), user.getPassword(), user.getEmail(), user.getfName(), user.getlName()));
         return true;
     }
@@ -208,6 +209,49 @@ public class DBHelper {
             boolean isCarAccessible = c.getInt(isCarAccessibleIndex) == 1;
             boolean isPetFriendly = c.getInt(isPetFriendlyIndex) == 1;
             int userID = c.getInt(userIDIndex);
+            User user = getUserByID(userID);
+
+            Review review = new Review(reviewID, parkID, rating, reviewText, isBikeFriendly, isChildFriendly, isDisabilityFriendly, isWooded, isCarAccessible, isPetFriendly, user, null);
+            reviewList.add(review);
+            c.moveToNext();
+        }
+
+        c.close();
+        sqLiteDatabase.close();
+        return reviewList;
+    }
+
+    public ArrayList<Review> getReviewsByUser(int userID) {
+        createReviewTable();
+        Cursor c = sqLiteDatabase.rawQuery("SELECT * FROM Reviews WHERE user_id = ?", new String[]{ userID + "" });
+
+        int reviewIDIndex = c.getColumnIndex("review_id");
+        int ratingIndex = c.getColumnIndex("rating");
+        int reviewTextIndex = c.getColumnIndex("review_text");
+        int isBikeFriendlyIndex = c.getColumnIndex("isBikeFriendly");
+        int isChildFriendlyIndex = c.getColumnIndex("isChildFriendly");
+        int isDisabilityFriendlyIndex = c.getColumnIndex("isDisabilityFriendly");
+        int isWoodedIndex = c.getColumnIndex("isWooded");
+        int isCarAccessibleIndex = c.getColumnIndex("isCarAccessible");
+        int isPetFriendlyIndex = c.getColumnIndex("isPetFriendly");
+        int parkIDIndex = c.getColumnIndex("park_id");
+
+        c.moveToFirst();
+
+        ArrayList<Review> reviewList = new ArrayList<>();
+
+        while(!c.isAfterLast()) {
+
+            int reviewID = c.getInt(reviewIDIndex);
+            double rating = c.getDouble(ratingIndex);
+            String reviewText = c.getString(reviewTextIndex);
+            boolean isBikeFriendly = c.getInt(isBikeFriendlyIndex) == 1;
+            boolean isChildFriendly = c.getInt(isChildFriendlyIndex) == 1;
+            boolean isDisabilityFriendly = c.getInt(isDisabilityFriendlyIndex) == 1;
+            boolean isWooded = c.getInt(isWoodedIndex) == 1;
+            boolean isCarAccessible = c.getInt(isCarAccessibleIndex) == 1;
+            boolean isPetFriendly = c.getInt(isPetFriendlyIndex) == 1;
+            int parkID = c.getInt(parkIDIndex);
             User user = getUserByID(userID);
 
             Review review = new Review(reviewID, parkID, rating, reviewText, isBikeFriendly, isChildFriendly, isDisabilityFriendly, isWooded, isCarAccessible, isPetFriendly, user, null);
@@ -321,6 +365,7 @@ public class DBHelper {
         boolean userExists = false;
 
         while(!c.isAfterLast()) {
+            Log.i("LOGIN", "check exists");
             if(c.getString(usernameIndex).equals(username)) {
                 userExists = true;
             }
