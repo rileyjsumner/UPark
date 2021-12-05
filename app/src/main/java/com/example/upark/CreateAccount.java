@@ -17,8 +17,6 @@ import com.example.upark.DAO.User;
 import com.example.upark.Database.DBHelper;
 
 public class CreateAccount extends AppCompatActivity {
-    // when submit button pressed:
-
     Context context;
     DBHelper db;
 
