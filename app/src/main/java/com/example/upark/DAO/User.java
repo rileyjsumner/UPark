@@ -2,12 +2,15 @@ package com.example.upark.DAO;
 
 import android.media.Image;
 
+import java.util.ArrayList;
+
 public class User {
 
     int userID;
     Image profilePic;
-    Review[] reviewsGiven;
-    Park[] parksVisited;
+    ArrayList<Review> reviewsGiven;
+    ArrayList<Park> parksVisited;
+    ArrayList<Park> favoriteParks;
     SecurityQuestion[] securityQuestions;
 
     String username;
@@ -49,20 +52,28 @@ public class User {
         this.profilePic = profilePic;
     }
 
-    public Review[] getReviewsGiven() {
+    public ArrayList<Review> getReviewsGiven() {
         return reviewsGiven;
     }
 
-    public void setReviewsGiven(Review[] reviewsGiven) {
+    public void setReviewsGiven(ArrayList<Review> reviewsGiven) {
         this.reviewsGiven = reviewsGiven;
     }
 
-    public Park[] getParksVisited() {
+    public ArrayList<Park> getParksVisited() {
         return parksVisited;
     }
 
-    public void setParksVisited(Park[] parksVisited) {
+    public void setParksVisited(ArrayList<Park> parksVisited) {
         this.parksVisited = parksVisited;
+    }
+
+    public ArrayList<Park> getFavoriteParks() {
+        return favoriteParks;
+    }
+
+    public void setFavoriteParks(ArrayList<Park> favoriteParks) {
+        this.favoriteParks = favoriteParks;
     }
 
     public String getUsername() {
