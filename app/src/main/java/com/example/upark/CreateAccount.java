@@ -105,6 +105,11 @@ public class CreateAccount extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void returnToLogin(View v) {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
     /*
         Used to create toasts indicating empty field errors
      */
