@@ -5,6 +5,7 @@ import com.example.upark.DAO.Review;
 public class Park {
 
     int parkID;
+    String placeID;
     String parkName;
     double rating;
     double distance;
@@ -23,6 +24,10 @@ public class Park {
     public void setParkID(int parkID) {
         this.parkID = parkID;
     }
+
+    public String getPlaceID() { return placeID }
+
+    public void setPlaceID(String placeID) { this.placeID = placeID }
 
     public String getParkName() {
         return parkName;
