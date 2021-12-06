@@ -31,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
         user = usernameText.getText().toString();
         pword = passwordText.getText().toString();
 
+        // TODO: check if user/pass empty
+
         boolean login_success = false;
 
         login_success = db.login(user,pword);
@@ -42,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }
         else {
+            // TODO: change to setError
             String toastText = "Incorrect Username or Password. Please try again.";
             Toast.makeText(MainActivity.this, toastText, Toast.LENGTH_LONG).show();
         }
@@ -59,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void forgot_password(View view) {
+        // TODO: send user from field (or check on forgot password page)
         TextView forgotPassword = (TextView) findViewById(R.id.forgotPassword);
         forgotPassword.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
