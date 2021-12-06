@@ -419,16 +419,16 @@ public class DBHelper {
         int usernameIndex = c.getColumnIndex("username");
         c.moveToFirst();
 
-        boolean userExists = false;
-
         while(!c.isAfterLast()) {
             Log.i("LOGIN", "check exists");
             if(c.getString(usernameIndex).equals(username)) {
-                userExists = true;
+                return true;
+            } else {
+                Log.i("CHECK", username + " != " + c.getString(usernameIndex));
             }
         }
 
-        return userExists;
+        return false;
     }
 
     public boolean parkExists(int parkID) {
