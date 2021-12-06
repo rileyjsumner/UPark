@@ -242,11 +242,14 @@ public class FindPark extends AppCompatActivity {
     //Populates list view with json array values
     public void populate(JSONArray jsonArray) {
         ArrayList<String> arrayList = new  ArrayList<String>();
+        ArrayList<String> idArrayList = new  ArrayList<String>();
         for (int i = 0; i < jsonArray.length(); i++) {
             try {
                 // TODO: create park object instead and add to arraylist
                 arrayList.add(jsonArray.getJSONObject(i).getString("name"));
+                idArrayList.add(jsonArray.getJSONObject(i).getString("place_id"));
                 Log.i("Array list adding: ", arrayList.get(i));
+                Log.i("Array list ID adding: ", idArrayList.get(i));
             }
             catch (JSONException e) {
                 Log.i("FindPark", "JSON EXCEPTION: " + e);
