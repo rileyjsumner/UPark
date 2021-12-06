@@ -408,7 +408,7 @@ public class DBHelper {
      */
     public boolean userExists(String username) {
         createUserTable();
-        Cursor c = sqLiteDatabase.rawQuery("SELECT username FROM USERS", null);
+        Cursor c = sqLiteDatabase.rawQuery("SELECT username FROM Users", null);
 
         int usernameIndex = c.getColumnIndex("username");
         c.moveToFirst();
@@ -423,5 +423,25 @@ public class DBHelper {
         }
 
         return userExists;
+    }
+
+    public boolean parkExists(int parkID) {
+        createParkTable();
+
+        Cursor c = sqLiteDatabase.rawQuery("SELECT park_id FROM Parks", null);
+
+        int parkIndex = c.getColumnIndex("park_id");
+        c.moveToFirst();
+
+        boolean parkExists = false;
+
+        while(!c.isAfterLast()) {
+            Log.i("LOGIN", "check exists");
+            if(c.getInt(parkIndex) == parkID) {
+                parkExists = true;
+            }
+        }
+
+        return parkExists;
     }
 }

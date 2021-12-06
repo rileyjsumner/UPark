@@ -9,12 +9,19 @@ public class Park {
     String parkName;
     double rating;
     double distance;
-    double loc[] = new double[2];
+    double[] loc = new double[2];
     Review[] reviews;
+    String description;
 
-    public Park(String parkName, double rating) {
+    public Park(String parkName, double rating, String description) {
         this.parkName = parkName;
         this.rating = rating;
+        this.description = description;
+    }
+
+    public Park(String parkName, String description) {
+        this.parkName = parkName;
+        this.description = description;
     }
 
     public int getParkID() {
@@ -63,4 +70,12 @@ public class Park {
     public void setDistance(double distance) { this.distance = distance; }
 
     public double getDistance() { return distance; }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }
