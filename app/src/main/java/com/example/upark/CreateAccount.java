@@ -16,6 +16,8 @@ import android.widget.Toast;
 import com.example.upark.DAO.User;
 import com.example.upark.Database.DBHelper;
 
+import java.util.ArrayList;
+
 public class CreateAccount extends AppCompatActivity {
     Context context;
     DBHelper db;
@@ -49,12 +51,14 @@ public class CreateAccount extends AppCompatActivity {
         String secQ = securityQ.getSelectedItem().toString();
         String secA = securityA.getText().toString();
 
+        ArrayList<EditText> errorArray = new ArrayList<EditText>();
+
         if (TextUtils.isEmpty(first)) { // check if field empty
-            makeToast("first name");
+            errorArray.add(fname);
         } else if (TextUtils.isEmpty(last)) {
-            makeToast("last name");
+            errorArray.add(lname);
         } else if (TextUtils.isEmpty(e)) {
-            makeToast("email");
+            errorArray.add(email);
         } else if (TextUtils.isEmpty(user)) {
             makeToast("username");
         } else if (TextUtils.isEmpty(pw)) {
