@@ -108,7 +108,8 @@ public class HomeScreen extends AppCompatActivity {
             googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                 @Override
                 public boolean  onMarkerClick(Marker marker) {
-                    Double pr = 0.0;
+
+                    //Making preview visible
                     CardView cv = findViewById(R.id.preview);
                     TextView tv = findViewById(R.id.tv);
                     Button x = findViewById(R.id.xButton);
@@ -121,11 +122,15 @@ public class HomeScreen extends AppCompatActivity {
                     pd.setVisibility(View.VISIBLE);
                     d.setVisibility(View.VISIBLE);
 
+
+                    //Trying to read parks, this is where I am not sure what to do because I am not getting parks.
                     Context context;
                     DBHelper db;
                     context = getApplicationContext();
                     db = new DBHelper(context.openOrCreateDatabase("upark", Context.MODE_PRIVATE,null));
                     ArrayList<Park> parks = db.readParks();
+
+                    //I added my own parks to test, these will be removed in the future.
                     Park newPark = new Park("James Madison Park",4.3, "This is a great park! It has basketball courts, volleyball courts, and a great view.");
                     Park newPark2 = new Park("Arboretum",2.8, "The arboretum is a wonderful place to visit.");
                     Park newPark3 = new Park("Henry Vilas Park",1.2, "This is the best park in the vilas neighborhood by far.");
@@ -133,6 +138,7 @@ public class HomeScreen extends AppCompatActivity {
                     parks.add(newPark2);
                     parks.add(newPark3);
 
+                    //Going through list of parks to find the matching park and display data
                     boolean foundPark = false;
                     for(int i=0; i < parks.size(); i++) {
 
