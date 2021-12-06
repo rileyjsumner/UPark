@@ -101,29 +101,6 @@ public class CreateAccount extends AppCompatActivity {
             }
         }
 
-        /*
-        if (TextUtils.isEmpty(first)) { // check if field empty
-            errorArray.add(fname);
-        }
-        if (TextUtils.isEmpty(last)) {
-            errorArray.add(lname);
-        }
-        if (TextUtils.isEmpty(e)) {
-            errorArray.add(email);
-        }
-        if (TextUtils.isEmpty(user)) {
-            errorArray.add(username);
-        }
-        if (TextUtils.isEmpty(pw)) {
-            errorArray.add(pass);
-        }
-        if (TextUtils.isEmpty(pwCheck)) {
-            errorArray.add(passCheck);
-        }
-        if (TextUtils.isEmpty(secA)) {
-            errorArray.add(securityA);
-        } else */
-
     }
 
     /*
