@@ -26,7 +26,7 @@
         <entry key="app/src/main/res/layout/activity_create_account.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_find_park.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_forgot_password.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/activity_home_screen.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/activity_home_screen.xml" value="0.25" />
       </map>
     </option>
   </component>

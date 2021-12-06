@@ -2,21 +2,32 @@ package com.example.upark;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
+import com.example.upark.DAO.Park;
+import com.example.upark.Database.DBHelper;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.ArrayList;
 
 public class HomeScreen extends AppCompatActivity {
     // TODO: remove these hard-coded values once loop implemented
@@ -28,6 +39,7 @@ public class HomeScreen extends AppCompatActivity {
     private FusedLocationProviderClient mFusedLocationProviderClient; // Save the instance
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 12; // can be any num
     String current_user;
+    String selectedPark;
 
     public void findParks(View view) {
         Intent intent = new Intent(HomeScreen.this, FindPark.class);
@@ -44,6 +56,26 @@ public class HomeScreen extends AppCompatActivity {
         Intent intent = new Intent(HomeScreen.this, CheckIn.class);
         startActivity(intent);
 
+    }
+
+    public void parkPage(View view) {
+        Intent intent = new Intent(HomeScreen.this, ParkPage.class);
+        intent.putExtra("name",selectedPark);
+        startActivity(intent);
+    }
+
+    public void close(View view) {
+        CardView cv = findViewById(R.id.preview);
+        TextView tv = findViewById(R.id.tv);
+        Button x = findViewById(R.id.xButton);
+        TextView pd = findViewById(R.id.parkDetails);
+        Button d = findViewById(R.id.detailsButton);
+
+        cv.setVisibility(View.INVISIBLE);
+        tv.setVisibility(View.INVISIBLE);
+        x.setVisibility(View.INVISIBLE);
+        pd.setVisibility(View.INVISIBLE);
+        d.setVisibility(View.INVISIBLE);
     }
 
 
@@ -71,7 +103,65 @@ public class HomeScreen extends AppCompatActivity {
             googleMap.addMarker(new MarkerOptions()
                     .position(mParkLatLng3)
                     .title("James Madison Park"));
+
+            //Maps listener for map preview
+            googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                @Override
+                public boolean  onMarkerClick(Marker marker) {
+                    Double pr = 0.0;
+                    CardView cv = findViewById(R.id.preview);
+                    TextView tv = findViewById(R.id.tv);
+                    Button x = findViewById(R.id.xButton);
+                    TextView pd = findViewById(R.id.parkDetails);
+                    Button d = findViewById(R.id.detailsButton);
+
+                    cv.setVisibility(View.VISIBLE);
+                    tv.setVisibility(View.VISIBLE);
+                    x.setVisibility(View.VISIBLE);
+                    pd.setVisibility(View.VISIBLE);
+                    d.setVisibility(View.VISIBLE);
+
+                    Context context;
+                    DBHelper db;
+                    context = getApplicationContext();
+                    db = new DBHelper(context.openOrCreateDatabase("upark", Context.MODE_PRIVATE,null));
+                    ArrayList<Park> parks = db.readParks();
+                    Park newPark = new Park("James Madison Park",4.3, "This is a great park! It has basketball courts, volleyball courts, and a great view.");
+                    Park newPark2 = new Park("Arboretum",2.8, "The arboretum is a wonderful place to visit.");
+                    Park newPark3 = new Park("Henry Vilas Park",1.2, "This is the best park in the vilas neighborhood by far.");
+                    parks.add(newPark);
+                    parks.add(newPark2);
+                    parks.add(newPark3);
+
+                    boolean foundPark = false;
+                    for(int i=0; i < parks.size(); i++) {
+
+                        if (parks.get(i).getParkName().equals(marker.getTitle())) {
+                            foundPark = true;
+                            selectedPark = parks.get(i).getParkName();
+                            pd.setText("Rating: " + parks.get(i).getRating() + "\n\nDescription: " + parks.get(i).getDescription());
+                            tv.setText(marker.getTitle());
+                            if (parks.get(i).getRating() < 1.7) {
+                                cv.setCardBackgroundColor(getResources().getColor(R.color.red));
+                            }
+                            if ((parks.get(i).getRating() >= 1.7) && (parks.get(i).getRating() < 3.4)) {
+                                cv.setCardBackgroundColor(getResources().getColor(R.color.yellow));
+                            }
+                            if (parks.get(i).getRating() >= 3.4) {
+                                cv.setCardBackgroundColor(getResources().getColor(R.color.green));
+                            }
+                        }
+                    }
+                    if (!foundPark) {
+                        pd.setText("No park information found.");
+                        tv.setText(marker.getTitle());
+                    }
+                    return true;
+                }
+            });
         });
+
+
 
     }
 
