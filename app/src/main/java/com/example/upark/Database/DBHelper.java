@@ -41,7 +41,9 @@ public class DBHelper {
                 "(park_id INTEGER PRIMARY KEY," +
                 "park_name TEXT," +
                 "rating FLOAT," +
-                "distance FLOAT)");
+                "distance FLOAT," +
+                "description TEXT," +
+                "googleAPIID TEXT)");
     }
 
     /**
@@ -124,7 +126,7 @@ public class DBHelper {
 
     public boolean addPark(Park park) {
         createParkTable();
-        sqLiteDatabase.execSQL(String.format("INSERT INTO Parks (park_name, rating, distance) VALUES ('%s', '%s', '%s');", park.getParkName(), park.getRating(), park.getDistance()));
+        sqLiteDatabase.execSQL(String.format("INSERT INTO Parks (park_name, rating, distance, description, googleAPIID) VALUES ('%s', '%s', '%s');", park.getParkName(), park.getRating(), park.getDistance(), park.getDescription(), "")); // TODO add googleAPIID
         return true;
     }
 
@@ -162,6 +164,8 @@ public class DBHelper {
 
         int parkIDIndex = c.getColumnIndex("park_id");
         int nameIndex = c.getColumnIndex("name");
+        int descriptionIndex = c.getColumnIndex("description");
+        int googleAPIIDIndex = c.getColumnIndex("googleAPIID");
 
         c.moveToFirst();
 
@@ -172,8 +176,10 @@ public class DBHelper {
             int parkID = c.getInt(parkIDIndex);
             String name = c.getString(nameIndex);
             double rating = getParkRating(parkID);
+            String description = c.getString(descriptionIndex);
+            String googleAPIID = c.getString(googleAPIIDIndex);
 
-            Park park = new Park(name, rating);
+            Park park = new Park(googleAPIID, name, rating, description);
             parkList.add(park);
             c.moveToNext();
         }

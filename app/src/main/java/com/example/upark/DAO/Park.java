@@ -24,6 +24,13 @@ public class Park {
         this.description = description;
     }
 
+    public Park(String placeID, String parkName, double rating, String description) {
+        this.placeID = placeID;
+        this.parkName = parkName;
+        this.rating = rating;
+        this.description = description;
+    }
+
     public Park(String parkName, String description) {
         this.parkName = parkName;
         this.description = description;
