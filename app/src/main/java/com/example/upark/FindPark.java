@@ -267,7 +267,8 @@ public class FindPark extends AppCompatActivity {
                     //do nothing
                 }
                 else {
-                    Park newPark = new Park(this_name,
+                    Park newPark = new Park(jsonArray.getJSONObject(i).getString("place_id"),
+                            this_name,
                             jsonArray.getJSONObject(i).getString("description"));
                     newParks.add(newPark);
                     Log.i("New Park", this_name);
