@@ -17,6 +17,7 @@ import com.example.upark.DAO.User;
 import com.example.upark.Database.DBHelper;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class CreateAccount extends AppCompatActivity {
     Context context;
@@ -51,41 +52,42 @@ public class CreateAccount extends AppCompatActivity {
         String secQ = securityQ.getSelectedItem().toString();
         String secA = securityA.getText().toString();
 
+        // array of size 7, stores EditText fields
+        ArrayList<EditText> fields = new ArrayList<EditText>(Arrays.asList(
+                fname,
+                lname,
+                email,
+                username,
+                pass,
+                passCheck,
+                securityA));
+        // stores empty fields
         ArrayList<EditText> errorArray = new ArrayList<EditText>();
 
-        if (TextUtils.isEmpty(first)) { // check if field empty
-            errorArray.add(fname);
-        } else if (TextUtils.isEmpty(last)) {
-            errorArray.add(lname);
-        } else if (TextUtils.isEmpty(e)) {
-            errorArray.add(email);
-        } else if (TextUtils.isEmpty(user)) {
-            makeToast("username");
-        } else if (TextUtils.isEmpty(pw)) {
-            makeToast("password");
-        } else if (TextUtils.isEmpty(pwCheck)) {
-            String toastText = "Please confirm your password.";
-            Toast.makeText(CreateAccount.this, toastText, Toast.LENGTH_LONG).show();
-        } else if (TextUtils.isEmpty(secA)) {
-            String toastText = "Please answer a security question.";
-            Toast.makeText(CreateAccount.this, toastText, Toast.LENGTH_LONG).show();
+
+        for (int i = 0; i < fields.size(); i++){
+            if(TextUtils.isEmpty(fields.get(i).getText().toString())){
+                errorArray.add(fields.get(i));
+            }
+        }
+
+        if (errorArray.size() != 0){
+            for (int i = 0; i < errorArray.size(); i++){
+                errorArray.get(i).setError("This field cannot be empty.");
+            }
         } else if (!checkEmail(e)) { // check if email is in valid form
-            String toastText = "Please enter valid email.";
-            Toast.makeText(CreateAccount.this, toastText, Toast.LENGTH_LONG).show();
+            email.setError("Please enter a valid email.");
         } else if (!(pw.length() >= 8)) { // check that password is >= 8 characters
-            String toastText = "Your password should be at least 8 characters long.";
-            Toast.makeText(CreateAccount.this, toastText, Toast.LENGTH_LONG).show();
+            pass.setError("Your password should be at least 8 characters long.");
         } else if (!hasNum(pw)) { // check that password has at least 1 num
-            String toastText = "Your password should have at least one number.";
-            Toast.makeText(CreateAccount.this, toastText, Toast.LENGTH_LONG).show();
+            pass.setError("Your password should have at least one number.");
         } else if (!pw.equals(pwCheck)) { // check that passwords match
-            String toastText = "The passwords do not match. Please try again.";
-            Toast.makeText(CreateAccount.this, toastText, Toast.LENGTH_LONG).show();
+            pass.setError("The passwords do not match. Please try again.");
+            passCheck.setError("The passwords do not match. Please try again.");
         } else if (db.userExists(user)) { // check if username is already in use
             // trigger error
-            String toastText = "This username is already in use.";
+            username.setError("This username is already in use.");
             Log.i("UPark", "user already exists");
-            Toast.makeText(CreateAccount.this, toastText, Toast.LENGTH_LONG).show();
         } else { // valid input
             User newUser = new User(user, pw, e, first, last);
             Log.i("UPark", "valid user");
@@ -98,6 +100,30 @@ public class CreateAccount extends AppCompatActivity {
                 Toast.makeText(CreateAccount.this, toastText, Toast.LENGTH_LONG).show();
             }
         }
+
+        /*
+        if (TextUtils.isEmpty(first)) { // check if field empty
+            errorArray.add(fname);
+        }
+        if (TextUtils.isEmpty(last)) {
+            errorArray.add(lname);
+        }
+        if (TextUtils.isEmpty(e)) {
+            errorArray.add(email);
+        }
+        if (TextUtils.isEmpty(user)) {
+            errorArray.add(username);
+        }
+        if (TextUtils.isEmpty(pw)) {
+            errorArray.add(pass);
+        }
+        if (TextUtils.isEmpty(pwCheck)) {
+            errorArray.add(passCheck);
+        }
+        if (TextUtils.isEmpty(secA)) {
+            errorArray.add(securityA);
+        } else */
+
     }
 
     /*
