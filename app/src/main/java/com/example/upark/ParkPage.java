@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -41,11 +42,13 @@ public class ParkPage extends AppCompatActivity {
         ArrayList<Park> parksList = db.readParks();
 
         Intent intent_in = getIntent();
-        String park_name = intent_in.getStringExtra("park_name");
+        String park_name = intent_in.getStringExtra("name");
+        Log.i("Park Name", park_name);
 
         TextView title_view = (TextView)findViewById(R.id.parkName_TextView);
         title_view.setText(park_name);
 
+        /**
         Park currentPark = null;
 
         for(Park p : parksList) {
@@ -81,6 +84,7 @@ public class ParkPage extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+         */
 
     }
 

@@ -13,6 +13,11 @@ public class Park {
     Review[] reviews;
     String description;
 
+    public Park(String parkName, double rating) {
+        this.parkName = parkName;
+        this.rating = rating;
+    }
+
     public Park(String parkName, double rating, String description) {
         this.parkName = parkName;
         this.rating = rating;

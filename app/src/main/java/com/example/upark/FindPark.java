@@ -32,6 +32,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.example.upark.DAO.Park;
+import com.example.upark.Database.DBHelper;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
@@ -60,6 +62,8 @@ public class FindPark extends AppCompatActivity {
     private double lon;
     LocationManager locationManager;
     LocationListener locationListener;
+    DBHelper db;
+    Context context;
 
     //this might be a problem later -> @SuppressLint("MissingPermission")
     @SuppressLint("MissingPermission")
@@ -67,6 +71,8 @@ public class FindPark extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find_park);
+        context = getApplicationContext();
+        db = new DBHelper(context.openOrCreateDatabase("upark", Context.MODE_PRIVATE,null));
         locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         locationListener = new LocationListener() {
             @Override
@@ -242,15 +248,31 @@ public class FindPark extends AppCompatActivity {
 
     //Populates list view with json array values
     public void populate(JSONArray jsonArray) {
-        ArrayList<String> arrayList = new  ArrayList<String>();
-        ArrayList<String> idArrayList = new  ArrayList<String>();
+        ArrayList<Park> newParks = new  ArrayList<Park>();
+        ArrayList<String> arrayList = new ArrayList<String>();
+        ArrayList<Park> existingParks = db.readParks();
         for (int i = 0; i < jsonArray.length(); i++) {
             try {
-                // TODO: create park object instead and add to arraylist
-                arrayList.add(jsonArray.getJSONObject(i).getString("name"));
-                idArrayList.add(jsonArray.getJSONObject(i).getString("place_id"));
-                Log.i("Array list adding: ", arrayList.get(i));
-                Log.i("Array list ID adding: ", idArrayList.get(i));
+                String this_name = jsonArray.getJSONObject(i).getString("name");
+                arrayList.add(this_name);
+                int condition = -1;
+                for (Park p: existingParks) {
+                    String temp_name = p.getParkName();
+                    if(temp_name.equals(this_name)) {
+                        condition = 1;
+                        Log.i("Hi", "hi");
+                        break;
+                    }
+                }
+                if(condition == -1) {
+                    //do nothing
+                }
+                else {
+                    Park newPark = new Park(this_name,
+                            jsonArray.getJSONObject(i).getString("description"));
+                    newParks.add(newPark);
+                    Log.i("New Park", this_name);
+                }
             }
             catch (JSONException e) {
                 Log.i("FindPark", "JSON EXCEPTION: " + e);
@@ -262,6 +284,16 @@ public class FindPark extends AppCompatActivity {
         ListView listView = findViewById(R.id.listView);
         listView.setAdapter(arrayAdapter);
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getApplicationContext(), ParkPage.class);
+                intent.putExtra("park_name", position);
+                String temp_name = arrayList.get(position);
+                intent.putExtra("name", temp_name);
+                startActivity(intent);
+            }
+        });
 
     }
 
