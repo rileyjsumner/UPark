@@ -426,6 +426,8 @@ public class DBHelper {
             } else {
                 Log.i("CHECK", username + " != " + c.getString(usernameIndex));
             }
+
+            c.moveToNext();
         }
 
         return false;

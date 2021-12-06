@@ -104,7 +104,7 @@ public class CreateAccount extends AppCompatActivity {
     }
 
     /*
-        Used to switch activity to home_screen
+        Used to switch activity to login_screen
      */
     public void goToLogin() {
         Intent intent = new Intent(this, MainActivity.class);
