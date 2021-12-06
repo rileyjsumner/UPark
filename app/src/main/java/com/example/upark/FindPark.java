@@ -260,7 +260,6 @@ public class FindPark extends AppCompatActivity {
                     String temp_name = p.getParkName();
                     if(temp_name.equals(this_name)) {
                         condition = 1;
-                        Log.i("Hi", "hi");
                         break;
                     }
                 }
