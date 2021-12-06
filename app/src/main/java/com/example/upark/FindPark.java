@@ -20,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -260,6 +261,7 @@ public class FindPark extends AppCompatActivity {
                 new ArrayAdapter(this, android.R.layout.simple_list_item_1, arrayList);
         ListView listView = findViewById(R.id.listView);
         listView.setAdapter(arrayAdapter);
+
 
     }
 

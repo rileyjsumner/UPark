@@ -25,9 +25,9 @@ public class Park {
         this.parkID = parkID;
     }
 
-    public String getPlaceID() { return placeID }
+    public String getPlaceID() { return placeID; }
 
-    public void setPlaceID(String placeID) { this.placeID = placeID }
+    public void setPlaceID(String placeID) { this.placeID = placeID; }
 
     public String getParkName() {
         return parkName;
