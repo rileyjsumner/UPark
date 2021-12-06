@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -31,22 +32,28 @@ public class MainActivity extends AppCompatActivity {
         user = usernameText.getText().toString();
         pword = passwordText.getText().toString();
 
-        // TODO: check if user/pass empty
-
-        boolean login_success = false;
-
-        login_success = db.login(user,pword);
-
-        if(login_success) {
-            Intent intent = new Intent(MainActivity.this, HomeScreen.class);
-
-            intent.putExtra("current_user", user);
-            startActivity(intent);
+        // checking if user/pass empty
+        if (TextUtils.isEmpty(user)){
+            usernameText.setError("Username cannot be blank.");
         }
-        else {
-            // TODO: change to setError
-            String toastText = "Incorrect Username or Password. Please try again.";
-            Toast.makeText(MainActivity.this, toastText, Toast.LENGTH_LONG).show();
+
+        if (TextUtils.isEmpty(pword)){
+            passwordText.setError("Password cannot be blank.");
+        } else {
+            boolean login_success = false;
+
+            login_success = db.login(user,pword);
+
+            if(login_success) {
+                Intent intent = new Intent(MainActivity.this, HomeScreen.class);
+
+                intent.putExtra("current_user", user);
+                startActivity(intent);
+            }
+            else {
+                String toastText = "Incorrect Username or Password. Please try again.";
+                Toast.makeText(MainActivity.this, toastText, Toast.LENGTH_LONG).show();
+            }
         }
     }
 
