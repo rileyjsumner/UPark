@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.example.upark.DAO.Park;
 import com.example.upark.DAO.Review;
+import com.example.upark.DAO.SecurityQuestion;
 import com.example.upark.DAO.User;
 
 import java.util.ArrayList;
@@ -72,6 +73,14 @@ public class DBHelper {
                 "user_id INTEGER)");
     }
 
+    public void createSecurityQuestionTable() {
+        sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS SecurityQuestions " +
+                "(question_id INTEGER PRIMARY KEY," +
+                "user_id INTEGER," +
+                "question_text TEXT," +
+                "answer TEXT)");
+    }
+
     /**
      * Reads all users in the database
      * @return a list of all users
@@ -126,7 +135,11 @@ public class DBHelper {
 
     public boolean addPark(Park park) {
         createParkTable();
-        sqLiteDatabase.execSQL(String.format("INSERT INTO Parks (park_name, rating, distance, description, googleAPIID) VALUES ('%s', '%s', '%s');", park.getParkName(), park.getRating(), park.getDistance(), park.getDescription(), "")); // TODO add googleAPIID
+        if(park.getRating() != -1) {
+            sqLiteDatabase.execSQL(String.format("INSERT INTO Parks (park_name, rating, distance, description, googleAPIID) VALUES ('%s', '%s', '%s', '%s', '%s');", park.getParkName(), park.getRating(), park.getDistance(), park.getDescription(), "")); // TODO add googleAPIID
+        } else {
+            sqLiteDatabase.execSQL(String.format("INSERT INTO Parks (park_name, description, googleAPIID) VALUES ('%s', '%s', '%s');", park.getParkName(), park.getDescription(), ""));
+        }
         return true;
     }
 
@@ -143,6 +156,12 @@ public class DBHelper {
                 review.isCarAccessible(),
                 review.isPetFriendly(),
                 review.getReviewer().getUserID()));
+        return true;
+    }
+
+    public boolean addSecurityQuestion(User user, SecurityQuestion q) {
+        createSecurityQuestionTable();
+        sqLiteDatabase.execSQL(String.format("INSERT INTO SecurityQuestions (user_id, question_text, answer) VALUES ('%s', '%s', '%s');", user.getUserID(), q.getQuestionText(), q.getAnswerText()));
         return true;
     }
 
@@ -321,11 +340,30 @@ public class DBHelper {
         return new User(userID, username, password, email, fName, lName);
     }
 
+    public SecurityQuestion getUsersSecurityQuestion(int userID) {
+        createSecurityQuestionTable();
+        Cursor c = sqLiteDatabase.rawQuery("SELECT * FROM SecurityQuestions WHERE user_id = ?", new String[]{ userID + "" });
+
+        int questionIDIndex = c.getColumnIndex("question_id");
+        int questionTextIndex = c.getColumnIndex("question_text");
+        int answerTextIndex = c.getColumnIndex("answer_text");
+
+        c.moveToFirst();
+
+        int qID = c.getInt(questionIDIndex);
+        String qText = c.getString(questionTextIndex);
+        String aText = c.getString(answerTextIndex);
+
+        c.close();
+        sqLiteDatabase.close();
+
+        return new SecurityQuestion(qID, qText, aText);
+    }
+
     public Park getParkById(int parkID) {
         createParkTable();
         Cursor c = sqLiteDatabase.rawQuery("SELECT * FROM Parks WHERE park_id = ?", new String[]{ parkID + ""});
 
-        int parkIDIndex = c.getColumnIndex("park_id");
         int nameIndex = c.getColumnIndex("name");
 
         c.moveToFirst();
@@ -426,7 +464,6 @@ public class DBHelper {
             } else {
                 Log.i("CHECK", username + " != " + c.getString(usernameIndex));
             }
-
             c.moveToNext();
         }
 
@@ -448,6 +485,7 @@ public class DBHelper {
             if(c.getInt(parkIndex) == parkID) {
                 parkExists = true;
             }
+            c.moveToNext();
         }
 
         return parkExists;
