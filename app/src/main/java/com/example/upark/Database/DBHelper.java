@@ -135,7 +135,7 @@ public class DBHelper {
 
     public boolean addPark(Park park) {
         createParkTable();
-        if(park.getRating() != -1) {
+        if(park.getRating() > -1) {
             sqLiteDatabase.execSQL(String.format("INSERT INTO Parks (park_name, rating, distance, description, googleAPIID) VALUES ('%s', '%s', '%s', '%s', '%s');", park.getParkName(), park.getRating(), park.getDistance(), park.getDescription(), "")); // TODO add googleAPIID
         } else {
             sqLiteDatabase.execSQL(String.format("INSERT INTO Parks (park_name, description, googleAPIID) VALUES ('%s', '%s', '%s');", park.getParkName(), park.getDescription(), ""));
