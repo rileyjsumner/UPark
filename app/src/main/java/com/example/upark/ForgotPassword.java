@@ -52,5 +52,10 @@ public class ForgotPassword extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_password);
 
+        // TODO: initially hide forgot password fields only show username, show fields when
+        // valid username entered
+
+        
+
     }
 }
