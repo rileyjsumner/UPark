@@ -123,6 +123,8 @@ public class HomeScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
+        context = getApplicationContext();
+        db = new DBHelper(context.openOrCreateDatabase("upark", Context.MODE_PRIVATE,null));
         Intent intent = getIntent();
         current_user = intent.getStringExtra("current_user");
         locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
@@ -257,9 +259,8 @@ public class HomeScreen extends AppCompatActivity {
 
 
                     //Trying to read parks, this is where I am not sure what to do because I am not getting parks.
-                    context = getApplicationContext();
-                    db = new DBHelper(context.openOrCreateDatabase("upark", Context.MODE_PRIVATE,null));
-                    //ArrayList<Park> parks = db.readParks();
+                    ArrayList<Park> parks = db.readParks();
+                    /**
                     ArrayList<Park> parks = new ArrayList<Park>();
 
                     //I added my own parks to test, these will be removed in the future.
@@ -269,6 +270,7 @@ public class HomeScreen extends AppCompatActivity {
                     parks.add(newPark);
                     parks.add(newPark2);
                     parks.add(newPark3);
+                     */
 
                     //Going through list of parks to find the matching park and display data
                     boolean foundPark = false;
@@ -369,11 +371,38 @@ public class HomeScreen extends AppCompatActivity {
         for (int i = 0; i < jsonArray.length(); i++) {
             try {
                 String this_name = jsonArray.getJSONObject(i).getString("name");
+                String this_placeid = jsonArray.getJSONObject(i).getString("place_id");
                 String curr_lat = jsonArray.getJSONObject(i).getJSONObject("geometry").getJSONObject("location").getString("lat");
                 String curr_lon = jsonArray.getJSONObject(i).getJSONObject("geometry").getJSONObject("location").getString("lng");
                 double p_lat = Double.parseDouble(curr_lat);
                 double p_lon = Double.parseDouble(curr_lon);
                 Log.i("Populate Lat long", "Lat: " + p_lat + " Lon: " + p_lon);
+                int condition = -1;
+                if(db.readParks() == null) {
+                    Park newPark = new Park(jsonArray.getJSONObject(i).getString("place_id"),
+                            this_name, -1,
+                            jsonArray.getJSONObject(i).getString("formatted_address"));
+                    newPark.setLoc(p_lat,p_lon);
+                    db.addPark(newPark);
+                }
+                else {
+                    ArrayList<Park> existingParks = db.readParks();
+                    for (Park p : existingParks) {
+                        String temp_placeid = p.getPlaceID();
+                        if (temp_placeid.equals(this_placeid)) {
+                            condition = 1;
+                            break;
+                        }
+                    }
+                }
+                if(condition == -1) {
+                    Park newPark = new Park(jsonArray.getJSONObject(i).getString("place_id"),
+                            this_name, -1,
+                            jsonArray.getJSONObject(i).getString("formatted_address"));
+                    newPark.setLoc(p_lat,p_lon);
+                    db.addPark(newPark);
+                }
+
                 if(count == 1) {
                     mParkLatLng1 = new LatLng(p_lat, p_lon);
                     p1 = this_name;

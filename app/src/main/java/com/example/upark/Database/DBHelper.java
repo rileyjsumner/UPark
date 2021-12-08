@@ -116,7 +116,8 @@ public class DBHelper {
         }
 
         c.close();
-        sqLiteDatabase.close();
+        //TODO: See why closing is causing crashes
+        //sqLiteDatabase.close();
 
         return userList;
     }
@@ -136,12 +137,13 @@ public class DBHelper {
     public boolean addPark(Park park) {
         createParkTable();
         if(park.getRating() > -1) {
-            sqLiteDatabase.execSQL(String.format("INSERT INTO Parks (park_name, rating, distance, description, googleAPIID) VALUES ('%s', '%s', '%s', '%s', '%s');", park.getParkName(), park.getRating(), park.getDistance(), park.getDescription(), "")); // TODO add googleAPIID
+            sqLiteDatabase.execSQL(String.format("INSERT INTO Parks (park_name, rating, distance, description, googleAPIID) VALUES ('%s', '%s', '%s', '%s', '%s');", park.getParkName(), park.getRating(), park.getDistance(), park.getDescription(), park.getPlaceID())); // TODO add googleAPIID
         } else {
-            sqLiteDatabase.execSQL(String.format("INSERT INTO Parks (park_name, description, googleAPIID) VALUES ('%s', '%s', '%s');", park.getParkName(), park.getDescription(), ""));
+            sqLiteDatabase.execSQL(String.format("INSERT INTO Parks (park_name, description, googleAPIID) VALUES ('%s', '%s', '%s');", park.getParkName(), park.getDescription(), park.getPlaceID()));
         }
         return true;
     }
+
 
     public boolean addReview(Review review) {
         createReviewTable();
@@ -182,7 +184,7 @@ public class DBHelper {
         Cursor c = sqLiteDatabase.rawQuery("SELECT * FROM Parks", null);
 
         int parkIDIndex = c.getColumnIndex("park_id");
-        int nameIndex = c.getColumnIndex("name");
+        int nameIndex = c.getColumnIndex("park_name");
         int descriptionIndex = c.getColumnIndex("description");
         int googleAPIIDIndex = c.getColumnIndex("googleAPIID");
 
@@ -204,7 +206,7 @@ public class DBHelper {
         }
 
         c.close();
-        sqLiteDatabase.close();
+        //sqLiteDatabase.close();
 
         return parkList;
     }
@@ -249,7 +251,7 @@ public class DBHelper {
         }
 
         c.close();
-        sqLiteDatabase.close();
+        //sqLiteDatabase.close();
         return reviewList;
     }
 
@@ -292,7 +294,7 @@ public class DBHelper {
         }
 
         c.close();
-        sqLiteDatabase.close();
+        //sqLiteDatabase.close();
         return reviewList;
     }
 
@@ -311,7 +313,7 @@ public class DBHelper {
         double rating = c.getDouble(ratingIndex);
 
         c.close();
-        sqLiteDatabase.close();
+        //sqLiteDatabase.close();
 
         return rating;
     }
@@ -335,7 +337,7 @@ public class DBHelper {
         String lName = c.getString(lNameIndex);
 
         c.close();
-        sqLiteDatabase.close();
+        //sqLiteDatabase.close();
 
         return new User(userID, username, password, email, fName, lName);
     }
@@ -355,7 +357,7 @@ public class DBHelper {
         String aText = c.getString(answerTextIndex);
 
         c.close();
-        sqLiteDatabase.close();
+        //sqLiteDatabase.close();
 
         return new SecurityQuestion(qID, qText, aText);
     }
@@ -374,7 +376,7 @@ public class DBHelper {
         Park park = new Park(name, rating);
 
         c.close();
-        sqLiteDatabase.close();
+        //sqLiteDatabase.close();
 
         return park;
     }
@@ -391,7 +393,7 @@ public class DBHelper {
         int user_id = c.getInt(userIDIndex);
 
         c.close();
-        sqLiteDatabase.close();
+        //sqLiteDatabase.close();
 
         return getUserByID(user_id);
     }

@@ -254,22 +254,30 @@ public class FindPark extends AppCompatActivity {
         for (int i = 0; i < jsonArray.length(); i++) {
             try {
                 String this_name = jsonArray.getJSONObject(i).getString("name");
+                String this_placeid = jsonArray.getJSONObject(i).getString("place_id");
+                String curr_lat = jsonArray.getJSONObject(i).getJSONObject("geometry").getJSONObject("location").getString("lat");
+                String curr_lon = jsonArray.getJSONObject(i).getJSONObject("geometry").getJSONObject("location").getString("lng");
+                double p_lat = Double.parseDouble(curr_lat);
+                double p_lon = Double.parseDouble(curr_lon);
                 arrayList.add(this_name);
                 int condition = -1;
-                for (Park p: existingParks) {
-                    String temp_name = p.getParkName();
-                    if(temp_name.equals(this_name)) {
-                        condition = 1;
-                        break;
+                if(existingParks != null) {
+                    for (Park p : existingParks) {
+                        String temp_placeid = p.getPlaceID();
+                        if (temp_placeid.equals(this_placeid)) {
+                            condition = 1;
+                            break;
+                        }
                     }
                 }
-                if(condition == -1) {
+                if(condition == 1) {
                     //do nothing
                 }
                 else {
                     Park newPark = new Park(jsonArray.getJSONObject(i).getString("place_id"),
-                            this_name,
-                            jsonArray.getJSONObject(i).getString("description"));
+                            this_name, -1,
+                            jsonArray.getJSONObject(i).getString("formatted_address"));
+                    newPark.setLoc(p_lat,p_lon);
                     newParks.add(newPark);
                     Log.i("New Park", this_name);
                 }
@@ -277,6 +285,10 @@ public class FindPark extends AppCompatActivity {
             catch (JSONException e) {
                 Log.i("FindPark", "JSON EXCEPTION: " + e);
             }
+        }
+
+        for(Park p: newParks) {
+            db.addPark(p);
         }
 
         ArrayAdapter arrayAdapter =
