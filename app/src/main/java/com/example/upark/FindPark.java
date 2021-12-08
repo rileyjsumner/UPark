@@ -64,6 +64,7 @@ public class FindPark extends AppCompatActivity {
     LocationListener locationListener;
     DBHelper db;
     Context context;
+    String current_user;
 
     //this might be a problem later -> @SuppressLint("MissingPermission")
     @SuppressLint("MissingPermission")
@@ -72,6 +73,8 @@ public class FindPark extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find_park);
         context = getApplicationContext();
+        Intent intent = getIntent();
+        current_user = intent.getStringExtra("current_user");
         db = new DBHelper(context.openOrCreateDatabase("upark", Context.MODE_PRIVATE,null));
         locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         locationListener = new LocationListener() {
@@ -250,6 +253,7 @@ public class FindPark extends AppCompatActivity {
     public void populate(JSONArray jsonArray) {
         ArrayList<Park> newParks = new  ArrayList<Park>();
         ArrayList<String> arrayList = new ArrayList<String>();
+        ArrayList<String> place_id_list = new ArrayList<String>();
         ArrayList<Park> existingParks = db.readParks();
         for (int i = 0; i < jsonArray.length(); i++) {
             try {
@@ -260,6 +264,7 @@ public class FindPark extends AppCompatActivity {
                 double p_lat = Double.parseDouble(curr_lat);
                 double p_lon = Double.parseDouble(curr_lon);
                 arrayList.add(this_name);
+                place_id_list.add(this_placeid);
                 int condition = -1;
                 if(existingParks != null) {
                     for (Park p : existingParks) {
@@ -300,9 +305,12 @@ public class FindPark extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getApplicationContext(), ParkPage.class);
-                intent.putExtra("park_name", position);
                 String temp_name = arrayList.get(position);
                 intent.putExtra("name", temp_name);
+                double[] current_loc = {lat, lon};
+                intent.putExtra("coords", current_loc);
+                String temp_placeid = place_id_list.get(position);
+                intent.putExtra("place_id", temp_placeid);
                 startActivity(intent);
             }
         });
@@ -322,21 +330,25 @@ public class FindPark extends AppCompatActivity {
 
         if(item.getItemId() == R.id.my_account) {
             Intent intent = new Intent(FindPark.this, Account.class);
+            intent.putExtra("current_user", current_user);
             startActivity(intent);
             return true;
         }
         if(item.getItemId() == R.id.find_parks) {
             Intent intent = new Intent(FindPark.this, FindPark.class);
+            intent.putExtra("current_user", current_user);
             startActivity(intent);
             return true;
         }
         if(item.getItemId() == R.id.favorites) {
             Intent intent = new Intent(FindPark.this, Favorites.class);
+            intent.putExtra("current_user", current_user);
             startActivity(intent);
             return true;
         }
         if(item.getItemId() == R.id.check_in) {
             Intent intent = new Intent(FindPark.this, CheckIn.class);
+            intent.putExtra("current_user", current_user);
             startActivity(intent);
             return true;
         }

@@ -42,7 +42,8 @@ public class DBHelper {
                 "(park_id INTEGER PRIMARY KEY," +
                 "park_name TEXT," +
                 "rating FLOAT," +
-                "distance FLOAT," +
+                "lat FLOAT," +
+                "lon FLOAT," +
                 "description TEXT," +
                 "googleAPIID TEXT)");
     }
@@ -139,7 +140,10 @@ public class DBHelper {
         if(park.getRating() > -1) {
             sqLiteDatabase.execSQL(String.format("INSERT INTO Parks (park_name, rating, distance, description, googleAPIID) VALUES ('%s', '%s', '%s', '%s', '%s');", park.getParkName(), park.getRating(), park.getDistance(), park.getDescription(), park.getPlaceID())); // TODO add googleAPIID
         } else {
-            sqLiteDatabase.execSQL(String.format("INSERT INTO Parks (park_name, description, googleAPIID) VALUES ('%s', '%s', '%s');", park.getParkName(), park.getDescription(), park.getPlaceID()));
+            double[] temp_loc = park.getLoc();
+            double temp_lat = temp_loc[0];
+            double temp_lon = temp_loc[1];
+            sqLiteDatabase.execSQL(String.format("INSERT INTO Parks (park_name, description, lat, lon, googleAPIID) VALUES ('%s', '%s', '%s', '%s', '%s');", park.getParkName(), park.getDescription(), temp_lat, temp_lon, park.getPlaceID()));
         }
         return true;
     }
@@ -186,6 +190,8 @@ public class DBHelper {
         int parkIDIndex = c.getColumnIndex("park_id");
         int nameIndex = c.getColumnIndex("park_name");
         int descriptionIndex = c.getColumnIndex("description");
+        int latIndex = c.getColumnIndex("lat");
+        int lonIndex = c.getColumnIndex("lon");
         int googleAPIIDIndex = c.getColumnIndex("googleAPIID");
 
         c.moveToFirst();
@@ -199,8 +205,11 @@ public class DBHelper {
             double rating = getParkRating(parkID);
             String description = c.getString(descriptionIndex);
             String googleAPIID = c.getString(googleAPIIDIndex);
+            double lat = c.getFloat(latIndex);
+            double lon = c.getFloat(lonIndex);
 
             Park park = new Park(googleAPIID, name, rating, description);
+            park.setLoc(lat, lon);
             parkList.add(park);
             c.moveToNext();
         }

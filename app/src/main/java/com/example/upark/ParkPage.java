@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -22,6 +24,7 @@ import com.example.upark.Database.DBHelper;
 
 import org.w3c.dom.Text;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class ParkPage extends AppCompatActivity {
@@ -30,12 +33,16 @@ public class ParkPage extends AppCompatActivity {
     Context context;
     ListView reviewList;
     public static ArrayList<Review> curr_reviews = new ArrayList<>();
+    double[] park_lat_lon;
+    double[] last_location;
+    String current_user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_park_page);
-
+        Intent intent = getIntent();
+        current_user = intent.getStringExtra("current_user");
         context = getApplicationContext();
         db = new DBHelper(context.openOrCreateDatabase("upark", Context.MODE_PRIVATE,null));
 
@@ -43,16 +50,17 @@ public class ParkPage extends AppCompatActivity {
 
         Intent intent_in = getIntent();
         String park_name = intent_in.getStringExtra("name");
+        String park_placeid= intent_in.getStringExtra("place_id");
         Log.i("Park Name", park_name);
 
         TextView title_view = (TextView)findViewById(R.id.parkName_TextView);
         title_view.setText(park_name);
 
-        /**
+
         Park currentPark = null;
 
         for(Park p : parksList) {
-            if(p.getParkName().equals(park_name)) {
+            if(p.getPlaceID().equals(park_placeid)) {
                 currentPark = p;
                 break;
             }
@@ -65,9 +73,16 @@ public class ParkPage extends AppCompatActivity {
         rating_view.setText(rating);
 
         TextView distance_view = (TextView)findViewById(R.id.distance_TextView);
-        String dist = currentPark.getDistance() + " miles";
+        park_lat_lon = currentPark.getLoc();
+        last_location = intent_in.getDoubleArrayExtra("coords");
+        float[] results = new float[10];
+        Location.distanceBetween(last_location[0], last_location[1], park_lat_lon[0], park_lat_lon[1], results);
+        double miles = results[0] * 0.000621371192;
+        DecimalFormat df = new DecimalFormat("###.##");
+        String dist = df.format(miles) + " miles";
         distance_view.setText(dist);
 
+        /**
         curr_reviews = db.readReviews(currentPark.getParkID());
 
         ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, curr_reviews);
@@ -88,6 +103,11 @@ public class ParkPage extends AppCompatActivity {
 
     }
 
+    public void navigate(View v) {
+        String uri = "http://maps.google.com/maps?f=d&hl=en&saddr="+last_location[0]+","+last_location[1]+"&daddr="+park_lat_lon[0]+","+park_lat_lon[1];
+        Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
+        startActivity(Intent.createChooser(intent, "Select an application"));
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -102,21 +122,25 @@ public class ParkPage extends AppCompatActivity {
 
         if(item.getItemId() == R.id.my_account) {
             Intent intent = new Intent(ParkPage.this, Account.class);
+            intent.putExtra("current_user", current_user);
             startActivity(intent);
             return true;
         }
         if(item.getItemId() == R.id.find_parks) {
             Intent intent = new Intent(ParkPage.this, FindPark.class);
+            intent.putExtra("current_user", current_user);
             startActivity(intent);
             return true;
         }
         if(item.getItemId() == R.id.favorites) {
             Intent intent = new Intent(ParkPage.this, Favorites.class);
+            intent.putExtra("current_user", current_user);
             startActivity(intent);
             return true;
         }
         if(item.getItemId() == R.id.check_in) {
             Intent intent = new Intent(ParkPage.this, CheckIn.class);
+            intent.putExtra("current_user", current_user);
             startActivity(intent);
             return true;
         }
