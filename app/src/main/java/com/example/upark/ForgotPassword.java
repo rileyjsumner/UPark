@@ -13,8 +13,13 @@ import android.widget.Toast;
 
 public class ForgotPassword extends AppCompatActivity {
 
-    //
+    public void submitUser(View view) {
+        // todo: find user in db and find their security q and answer
+    }
+
+
     public void clickFunction(View view) {
+        /*
         EditText newPassword = (EditText) findViewById(R.id.newPassword);
         String updatedPassword = newPassword.getText().toString();
         EditText confirmPassword = (EditText) findViewById(R.id.confirmNewPassword);
@@ -32,6 +37,8 @@ public class ForgotPassword extends AppCompatActivity {
             submitResetPassword(updatedPassword);
         }
 
+
+         */
         //TODO check and makeToast for security question answer.
 
 
@@ -55,7 +62,7 @@ public class ForgotPassword extends AppCompatActivity {
         // TODO: initially hide forgot password fields only show username, show fields when
         // valid username entered
 
-        
+
 
     }
 }
