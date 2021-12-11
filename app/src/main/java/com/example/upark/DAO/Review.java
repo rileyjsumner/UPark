@@ -6,21 +6,21 @@ import com.example.upark.DAO.User;
 
 public class Review {
 
-    int ratingID;
-    int parkID;
-    double rating;
-    String reviewText;
-    boolean isBikeFriendly;
-    boolean isChildFriendly;
-    boolean isDisabilityFriendly;
-    boolean isWooded;
-    boolean isCarAccessible;
-    boolean isPetFriendly;
-    User reviewer;
+    private long ratingID;
+    private long parkID;
+    private double rating;
+    private String reviewText;
+    private boolean isBikeFriendly;
+    private boolean isChildFriendly;
+    private boolean isDisabilityFriendly;
+    private boolean isWooded;
+    private boolean isCarAccessible;
+    private boolean isPetFriendly;
+    private User reviewer;
 
-    Image[] images;
+    private Image[] images;
 
-    public Review(int ratingID, int parkID, double rating, String reviewText, boolean isBikeFriendly, boolean isChildFriendly, boolean isDisabilityFriendly, boolean isWooded, boolean isCarAccessible, boolean isPetFriendly, User reviewer, Image[] images) {
+    public Review(long ratingID, long parkID, double rating, String reviewText, boolean isBikeFriendly, boolean isChildFriendly, boolean isDisabilityFriendly, boolean isWooded, boolean isCarAccessible, boolean isPetFriendly, User reviewer, Image[] images) {
         this.ratingID = ratingID;
         this.parkID = parkID;
         this.rating = rating;
@@ -35,19 +35,19 @@ public class Review {
         this.images = images;
     }
 
-    public int getRatingID() {
+    public long getRatingID() {
         return ratingID;
     }
 
-    public void setRatingID(int ratingID) {
+    public void setRatingID(long ratingID) {
         this.ratingID = ratingID;
     }
 
-    public int getParkID() {
+    public long getParkID() {
         return parkID;
     }
 
-    public void setParkID(int parkID) {
+    public void setParkID(long parkID) {
         this.parkID = parkID;
     }
 

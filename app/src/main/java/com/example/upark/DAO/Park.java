@@ -4,16 +4,16 @@ import com.example.upark.DAO.Review;
 
 public class Park {
 
-    int parkID;
-    String placeID;
-    String parkName;
-    double rating;
-    double distance;
-    double[] loc = new double[2];
-    Review[] reviews;
-    String description;
+    private long parkID;
+    private String placeID;
+    private String parkName;
+    private double rating;
+    private double distance;
+    private final double[] loc = new double[2];
+    private Review[] reviews;
+    private String description;
 
-    public Park(String parkName, double rating) {
+    public Park(long parkID, String parkName, double rating) {
         this.parkName = parkName;
         this.rating = rating;
     }
@@ -24,7 +24,8 @@ public class Park {
         this.description = description;
     }
 
-    public Park(String placeID, String parkName, double rating, String description) {
+    public Park(long parkID, String placeID, String parkName, double rating, String description) {
+        this.parkID = parkID;
         this.placeID = placeID;
         this.parkName = parkName;
         this.rating = rating;
@@ -37,7 +38,7 @@ public class Park {
         this.description = description;
     }
 
-    public int getParkID() {
+    public long getParkID() {
         return parkID;
     }
 

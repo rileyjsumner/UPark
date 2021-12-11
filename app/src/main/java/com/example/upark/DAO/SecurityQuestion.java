@@ -2,11 +2,11 @@ package com.example.upark.DAO;
 
 public class SecurityQuestion {
 
-    private int questionID;
+    private long questionID;
     private String questionText;
     private String answerText;
 
-    public SecurityQuestion(int questionID, String questionText, String answerText) {
+    public SecurityQuestion(long questionID, String questionText, String answerText) {
         this.questionID = questionID;
         this.questionText = questionText;
         this.answerText = answerText;

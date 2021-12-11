@@ -88,9 +88,9 @@ public class DBHelper {
     public ArrayList<User> readAllUsers() {
 
         createUserTable();
-        Cursor c = sqLiteDatabase.rawQuery("SELECT * FROM Users", null);
+        Cursor c = sqLiteDatabase.rawQuery("SELECT *, Users.rowid AS user_id FROM Users", null);
 
-        int userIDIndex = c.getColumnIndex("user_id");
+        int userIDIndex = c.getColumnIndexOrThrow("user_id");
         int usernameIndex = c.getColumnIndex("username");
         int passwordIndex = c.getColumnIndex("password");
         int emailIndex = c.getColumnIndex("email");
@@ -103,7 +103,7 @@ public class DBHelper {
 
         while(!c.isAfterLast()) {
 
-            int userID = c.getInt(userIDIndex);
+            long userID = c.getLong(userIDIndex);
             String username = c.getString(usernameIndex);
             String password = c.getString(passwordIndex);
             String email = c.getString(emailIndex);
@@ -173,13 +173,13 @@ public class DBHelper {
      */
     public boolean updatePassword(User user, String newPassword) {
         createUserTable();
-        sqLiteDatabase.execSQL(String.format("UPDATE Users SET password = %s WHERE username = %s", newPassword, user.getUsername()));
+        sqLiteDatabase.execSQL(String.format("UPDATE Users SET password = %s WHERE Users.rowid = %s", newPassword, user.getUserID()));
         return true;
     }
 
     public ArrayList<Park> readParks() {
         createParkTable();
-        Cursor c = sqLiteDatabase.rawQuery("SELECT * FROM Parks", null);
+        Cursor c = sqLiteDatabase.rawQuery("SELECT *, Parks.rowid as park_id FROM Parks", null);
 
         int parkIDIndex = c.getColumnIndex("park_id");
         int nameIndex = c.getColumnIndex("name");
@@ -192,13 +192,13 @@ public class DBHelper {
 
         while(!c.isAfterLast()) {
 
-            int parkID = c.getInt(parkIDIndex);
+            long parkID = c.getLong(parkIDIndex);
             String name = c.getString(nameIndex);
             double rating = getParkRating(parkID);
             String description = c.getString(descriptionIndex);
             String googleAPIID = c.getString(googleAPIIDIndex);
 
-            Park park = new Park(googleAPIID, name, rating, description);
+            Park park = new Park(parkID, googleAPIID, name, rating, description);
             parkList.add(park);
             c.moveToNext();
         }
@@ -209,10 +209,10 @@ public class DBHelper {
         return parkList;
     }
 
-    public ArrayList<Review> readReviews(int parkID) {
+    public ArrayList<Review> readReviews(long parkID) {
 
         createReviewTable();
-        Cursor c = sqLiteDatabase.rawQuery("SELECT * FROM Reviews WHERE park_id = ?", new String[]{ parkID + "" });
+        Cursor c = sqLiteDatabase.rawQuery("SELECT *, Reviews.rowid AS review_id FROM Reviews WHERE park_id = ?", new String[]{ parkID + "" });
 
         int reviewIDIndex = c.getColumnIndex("review_id");
         int ratingIndex = c.getColumnIndex("rating");
@@ -231,7 +231,7 @@ public class DBHelper {
 
         while(!c.isAfterLast()) {
 
-            int reviewID = c.getInt(reviewIDIndex);
+            long reviewID = c.getLong(reviewIDIndex);
             double rating = c.getDouble(ratingIndex);
             String reviewText = c.getString(reviewTextIndex);
             boolean isBikeFriendly = c.getInt(isBikeFriendlyIndex) == 1;
@@ -240,7 +240,7 @@ public class DBHelper {
             boolean isWooded = c.getInt(isWoodedIndex) == 1;
             boolean isCarAccessible = c.getInt(isCarAccessibleIndex) == 1;
             boolean isPetFriendly = c.getInt(isPetFriendlyIndex) == 1;
-            int userID = c.getInt(userIDIndex);
+            long userID = c.getLong(userIDIndex);
             User user = getUserByID(userID);
 
             Review review = new Review(reviewID, parkID, rating, reviewText, isBikeFriendly, isChildFriendly, isDisabilityFriendly, isWooded, isCarAccessible, isPetFriendly, user, null);
@@ -253,9 +253,9 @@ public class DBHelper {
         return reviewList;
     }
 
-    public ArrayList<Review> getReviewsByUser(int userID) {
+    public ArrayList<Review> getReviewsByUser(long userID) {
         createReviewTable();
-        Cursor c = sqLiteDatabase.rawQuery("SELECT * FROM Reviews WHERE user_id = ?", new String[]{ userID + "" });
+        Cursor c = sqLiteDatabase.rawQuery("SELECT *, Reviews.rowid AS review_id FROM Reviews WHERE user_id = ?", new String[]{ userID + "" });
 
         int reviewIDIndex = c.getColumnIndex("review_id");
         int ratingIndex = c.getColumnIndex("rating");
@@ -274,7 +274,7 @@ public class DBHelper {
 
         while(!c.isAfterLast()) {
 
-            int reviewID = c.getInt(reviewIDIndex);
+            long reviewID = c.getLong(reviewIDIndex);
             double rating = c.getDouble(ratingIndex);
             String reviewText = c.getString(reviewTextIndex);
             boolean isBikeFriendly = c.getInt(isBikeFriendlyIndex) == 1;
@@ -283,7 +283,7 @@ public class DBHelper {
             boolean isWooded = c.getInt(isWoodedIndex) == 1;
             boolean isCarAccessible = c.getInt(isCarAccessibleIndex) == 1;
             boolean isPetFriendly = c.getInt(isPetFriendlyIndex) == 1;
-            int parkID = c.getInt(parkIDIndex);
+            long parkID = c.getLong(parkIDIndex);
             User user = getUserByID(userID);
 
             Review review = new Review(reviewID, parkID, rating, reviewText, isBikeFriendly, isChildFriendly, isDisabilityFriendly, isWooded, isCarAccessible, isPetFriendly, user, null);
@@ -301,9 +301,9 @@ public class DBHelper {
      * @param parkID id of the park to get the rating of
      * @return rating of park with given id
      */
-    public double getParkRating(int parkID) {
+    public double getParkRating(long parkID) {
         createReviewTable();
-        Cursor c = sqLiteDatabase.rawQuery("SELECT AVG(rating) AS avg_rating FROM Reviews WHERE park_id = ?", new String[]{ parkID + "" });
+        Cursor c = sqLiteDatabase.rawQuery("SELECT AVG(rating) AS avg_rating FROM Reviews WHERE Reviews.rowid = ?", new String[]{ parkID + "" });
 
         int ratingIndex = c.getColumnIndex("avg_rating");
 
@@ -316,9 +316,9 @@ public class DBHelper {
         return rating;
     }
 
-    public User getUserByID(int userID) {
+    public User getUserByID(long userID) {
         createUserTable();
-        Cursor c = sqLiteDatabase.rawQuery("SELECT * FROM Users WHERE user_id = ?", new String[]{ userID + ""});
+        Cursor c = sqLiteDatabase.rawQuery("SELECT * FROM Users WHERE Users.rowid = ?", new String[]{ userID + ""});
 
         int usernameIndex = c.getColumnIndex("username");
         int passwordIndex = c.getColumnIndex("password");
@@ -340,9 +340,9 @@ public class DBHelper {
         return new User(userID, username, password, email, fName, lName);
     }
 
-    public SecurityQuestion getUsersSecurityQuestion(int userID) {
+    public SecurityQuestion getUsersSecurityQuestion(long userID) {
         createSecurityQuestionTable();
-        Cursor c = sqLiteDatabase.rawQuery("SELECT * FROM SecurityQuestions WHERE user_id = ?", new String[]{ userID + "" });
+        Cursor c = sqLiteDatabase.rawQuery("SELECT *, SecurityQuestions.rowid AS question_id FROM SecurityQuestions WHERE user_id = ?", new String[]{ userID + "" });
 
         int questionIDIndex = c.getColumnIndex("question_id");
         int questionTextIndex = c.getColumnIndex("question_text");
@@ -350,7 +350,7 @@ public class DBHelper {
 
         c.moveToFirst();
 
-        int qID = c.getInt(questionIDIndex);
+        long qID = c.getLong(questionIDIndex);
         String qText = c.getString(questionTextIndex);
         String aText = c.getString(answerTextIndex);
 
@@ -360,9 +360,9 @@ public class DBHelper {
         return new SecurityQuestion(qID, qText, aText);
     }
 
-    public Park getParkById(int parkID) {
+    public Park getParkById(long parkID) {
         createParkTable();
-        Cursor c = sqLiteDatabase.rawQuery("SELECT * FROM Parks WHERE park_id = ?", new String[]{ parkID + ""});
+        Cursor c = sqLiteDatabase.rawQuery("SELECT * FROM Parks WHERE Parks.rowid = ?", new String[]{ parkID + ""});
 
         int nameIndex = c.getColumnIndex("name");
 
@@ -371,7 +371,7 @@ public class DBHelper {
         String name = c.getString(nameIndex);
         double rating = getParkRating(parkID);
 
-        Park park = new Park(name, rating);
+        Park park = new Park(parkID, name, rating);
 
         c.close();
         sqLiteDatabase.close();
@@ -388,7 +388,7 @@ public class DBHelper {
 
         c.moveToFirst();
 
-        int user_id = c.getInt(userIDIndex);
+        long user_id = c.getLong(userIDIndex);
 
         c.close();
         sqLiteDatabase.close();
@@ -396,7 +396,7 @@ public class DBHelper {
         return getUserByID(user_id);
     }
 
-    public ArrayList<Park> getUsersFavoriteParks(int userID) {
+    public ArrayList<Park> getUsersFavoriteParks(long userID) {
         createParkTable();
         createFavoriteParkTable();
 
@@ -409,7 +409,7 @@ public class DBHelper {
 
         while(!c.isAfterLast()) {
 
-            int parkID = c.getInt(parkIDIndex);
+            long parkID = c.getLong(parkIDIndex);
 
             Park favoritePark = getParkById(parkID);
 
@@ -418,6 +418,14 @@ public class DBHelper {
         }
 
         return parkList;
+    }
+
+    public boolean addUserFavoritePark(Park park, User user) {
+        createParkTable();
+        createFavoriteParkTable();
+
+        sqLiteDatabase.execSQL(String.format("INSERT INTO FavoriteParks (park_id, user_id) VALUES ('%s', '%s');", park.getParkID(), user.getUserID()));
+        return true;
     }
 
 
@@ -470,10 +478,10 @@ public class DBHelper {
         return false;
     }
 
-    public boolean parkExists(int parkID) {
+    public boolean parkExists(long parkID) {
         createParkTable();
 
-        Cursor c = sqLiteDatabase.rawQuery("SELECT park_id FROM Parks", null);
+        Cursor c = sqLiteDatabase.rawQuery("SELECT Parks.rowid AS park_id FROM Parks", null);
 
         int parkIndex = c.getColumnIndex("park_id");
         c.moveToFirst();
@@ -482,7 +490,7 @@ public class DBHelper {
 
         while(!c.isAfterLast()) {
             Log.i("LOGIN", "check exists");
-            if(c.getInt(parkIndex) == parkID) {
+            if(c.getLong(parkIndex) == parkID) {
                 parkExists = true;
             }
             c.moveToNext();

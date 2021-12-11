@@ -6,18 +6,18 @@ import java.util.ArrayList;
 
 public class User {
 
-    int userID;
-    Image profilePic;
-    ArrayList<Review> reviewsGiven;
-    ArrayList<Park> parksVisited;
-    ArrayList<Park> favoriteParks;
-    SecurityQuestion[] securityQuestions;
+    private long userID;
+    private Image profilePic;
+    private ArrayList<Review> reviewsGiven;
+    private ArrayList<Park> parksVisited;
+    private ArrayList<Park> favoriteParks;
+    private ArrayList<SecurityQuestion> securityQuestions;
 
-    String username;
-    String password;
-    String email;
-    String fName;
-    String lName;
+    private String username;
+    private String password;
+    private String email;
+    private String fName;
+    private String lName;
 
     public User(String username, String password, String email, String fName, String lName) {
         this.username = username;
@@ -27,7 +27,7 @@ public class User {
         this.lName = lName;
     }
 
-    public User(int userID, String username, String password, String email, String fName, String lName) {
+    public User(long userID, String username, String password, String email, String fName, String lName) {
         this.userID = userID;
         this.username = username;
         this.password = password;
@@ -36,7 +36,7 @@ public class User {
         this.lName = lName;
     }
 
-    public int getUserID() {
+    public long getUserID() {
         return userID;
     }
 
@@ -114,5 +114,13 @@ public class User {
 
     public void setlName(String lName) {
         this.lName = lName;
+    }
+
+    public ArrayList<SecurityQuestion> getSecurityQuestions() {
+        return securityQuestions;
+    }
+
+    public void setSecurityQuestions(ArrayList<SecurityQuestion> securityQuestions) {
+        this.securityQuestions = securityQuestions;
     }
 }
