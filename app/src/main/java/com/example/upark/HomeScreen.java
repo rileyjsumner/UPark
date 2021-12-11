@@ -79,14 +79,17 @@ public class HomeScreen extends AppCompatActivity {
     Marker m1;
     Marker m2;
     Marker m3;
+    SupportMapFragment mapFragment;
 
     public void findParks(View view) {
         Intent intent = new Intent(HomeScreen.this, FindPark.class);
+        intent.putExtra("current_user", current_user);
         startActivity(intent);
     }
 
     public void favorites(View view) {
         Intent intent = new Intent(HomeScreen.this, Favorites.class);
+        intent.putExtra("current_user", current_user);
         startActivity(intent);
 
     }
@@ -100,6 +103,7 @@ public class HomeScreen extends AppCompatActivity {
     public void parkPage(View view) {
         Intent intent = new Intent(HomeScreen.this, ParkPage.class);
         intent.putExtra("name",selectedPark);
+        intent.putExtra("current_user", current_user);
         startActivity(intent);
     }
 
@@ -220,7 +224,7 @@ public class HomeScreen extends AppCompatActivity {
             }
         });
 
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_map);
+        mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_map);
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         // TODO: get nearby parks and add them in a loop to the map (probably own function)
         mapFragment.getMapAsync(googleMap -> {
@@ -348,6 +352,9 @@ public class HomeScreen extends AppCompatActivity {
             lat = location.getLatitude();
             lon = location.getLongitude();
             mLatLng = new LatLng(lat, lon);
+            if(mMap != null) {
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mLatLng, 11.0f));
+            }
             Log.i("Location", "Lat: " + lat + " Lon: " + lon);
         }
 

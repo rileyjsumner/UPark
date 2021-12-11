@@ -368,7 +368,7 @@ public class DBHelper {
         createParkTable();
         Cursor c = sqLiteDatabase.rawQuery("SELECT * FROM Parks WHERE Parks.rowid = ?", new String[]{ parkID + ""});
 
-        int nameIndex = c.getColumnIndex("name");
+        int nameIndex = c.getColumnIndex("park_name");
 
         c.moveToFirst();
 

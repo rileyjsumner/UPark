@@ -51,11 +51,15 @@ public class Account extends AppCompatActivity {
         */
         long user_id = user_obj.getUserID();
         ArrayList<Park> favorite_list = db.getUsersFavoriteParks(user_id);
+        ArrayList<String> park_names = new ArrayList<>();
+        for(Park p: favorite_list) {
+            park_names.add(p.getParkName());
+        }
         ArrayAdapter arrayAdapter =
-                new ArrayAdapter(this, android.R.layout.simple_list_item_1, favorite_list);
+                new ArrayAdapter(this, android.R.layout.simple_list_item_1, park_names);
         ListView listView = findViewById(R.id.favorites_list_account);
         listView.setAdapter(arrayAdapter);
-        //set on click
+        //set on click maybe
 
     }
 

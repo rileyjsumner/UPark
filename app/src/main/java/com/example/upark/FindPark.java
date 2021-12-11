@@ -311,6 +311,7 @@ public class FindPark extends AppCompatActivity {
                 intent.putExtra("coords", current_loc);
                 String temp_placeid = place_id_list.get(position);
                 intent.putExtra("place_id", temp_placeid);
+                intent.putExtra("current_user", current_user);
                 startActivity(intent);
             }
         });
