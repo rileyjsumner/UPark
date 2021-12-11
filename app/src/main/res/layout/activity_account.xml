@@ -30,8 +30,8 @@
         android:id="@+id/totalparksvisted_textview"
         android:layout_width="203dp"
         android:layout_height="33dp"
-        android:layout_marginStart="102dp"
-        android:layout_marginTop="53dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="36dp"
         android:text="Total Parks Visited:"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/EditProfileButton" />
@@ -44,4 +44,44 @@
         android:layout_marginTop="33dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/my_favorite_parks"
+        android:layout_width="231dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="37dp"
+        android:layout_marginEnd="78dp"
+        android:text="My Favorite Parks"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/totalparksvisted_textview" />
+
+    <TextView
+        android:id="@+id/my_reviews_account"
+        android:layout_width="231dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="76dp"
+        android:text="My Reviews"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/favorites_list_account" />
+
+    <ListView
+        android:id="@+id/favorites_list_account"
+        android:layout_width="405dp"
+        android:layout_height="166dp"
+        android:layout_marginTop="17dp"
+        android:layout_marginEnd="3dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/my_favorite_parks" />
+
+    <ListView
+        android:id="@+id/account_review_list"
+        android:layout_width="406dp"
+        android:layout_height="190dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginBottom="28dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
