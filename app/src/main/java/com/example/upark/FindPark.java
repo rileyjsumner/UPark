@@ -64,6 +64,7 @@ public class FindPark extends AppCompatActivity {
     LocationListener locationListener;
     DBHelper db;
     Context context;
+    String current_user;
 
     //this might be a problem later -> @SuppressLint("MissingPermission")
     @SuppressLint("MissingPermission")
@@ -72,6 +73,8 @@ public class FindPark extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find_park);
         context = getApplicationContext();
+        Intent intent = getIntent();
+        current_user = intent.getStringExtra("current_user");
         db = new DBHelper(context.openOrCreateDatabase("upark", Context.MODE_PRIVATE,null));
         locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         locationListener = new LocationListener() {
@@ -250,26 +253,36 @@ public class FindPark extends AppCompatActivity {
     public void populate(JSONArray jsonArray) {
         ArrayList<Park> newParks = new  ArrayList<Park>();
         ArrayList<String> arrayList = new ArrayList<String>();
+        ArrayList<String> place_id_list = new ArrayList<String>();
         ArrayList<Park> existingParks = db.readParks();
         for (int i = 0; i < jsonArray.length(); i++) {
             try {
                 String this_name = jsonArray.getJSONObject(i).getString("name");
+                String this_placeid = jsonArray.getJSONObject(i).getString("place_id");
+                String curr_lat = jsonArray.getJSONObject(i).getJSONObject("geometry").getJSONObject("location").getString("lat");
+                String curr_lon = jsonArray.getJSONObject(i).getJSONObject("geometry").getJSONObject("location").getString("lng");
+                double p_lat = Double.parseDouble(curr_lat);
+                double p_lon = Double.parseDouble(curr_lon);
                 arrayList.add(this_name);
+                place_id_list.add(this_placeid);
                 int condition = -1;
-                for (Park p: existingParks) {
-                    String temp_name = p.getParkName();
-                    if(temp_name.equals(this_name)) {
-                        condition = 1;
-                        break;
+                if(existingParks != null) {
+                    for (Park p : existingParks) {
+                        String temp_placeid = p.getPlaceID();
+                        if (temp_placeid.equals(this_placeid)) {
+                            condition = 1;
+                            break;
+                        }
                     }
                 }
-                if(condition == -1) {
+                if(condition == 1) {
                     //do nothing
                 }
                 else {
                     Park newPark = new Park(jsonArray.getJSONObject(i).getString("place_id"),
-                            this_name,
-                            jsonArray.getJSONObject(i).getString("description"));
+                            this_name, -1,
+                            jsonArray.getJSONObject(i).getString("formatted_address"));
+                    newPark.setLoc(p_lat,p_lon);
                     newParks.add(newPark);
                     Log.i("New Park", this_name);
                 }
@@ -277,6 +290,10 @@ public class FindPark extends AppCompatActivity {
             catch (JSONException e) {
                 Log.i("FindPark", "JSON EXCEPTION: " + e);
             }
+        }
+
+        for(Park p: newParks) {
+            db.addPark(p);
         }
 
         ArrayAdapter arrayAdapter =
@@ -288,9 +305,12 @@ public class FindPark extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getApplicationContext(), ParkPage.class);
-                intent.putExtra("park_name", position);
                 String temp_name = arrayList.get(position);
                 intent.putExtra("name", temp_name);
+                double[] current_loc = {lat, lon};
+                intent.putExtra("coords", current_loc);
+                String temp_placeid = place_id_list.get(position);
+                intent.putExtra("place_id", temp_placeid);
                 startActivity(intent);
             }
         });
@@ -310,21 +330,25 @@ public class FindPark extends AppCompatActivity {
 
         if(item.getItemId() == R.id.my_account) {
             Intent intent = new Intent(FindPark.this, Account.class);
+            intent.putExtra("current_user", current_user);
             startActivity(intent);
             return true;
         }
         if(item.getItemId() == R.id.find_parks) {
             Intent intent = new Intent(FindPark.this, FindPark.class);
+            intent.putExtra("current_user", current_user);
             startActivity(intent);
             return true;
         }
         if(item.getItemId() == R.id.favorites) {
             Intent intent = new Intent(FindPark.this, Favorites.class);
+            intent.putExtra("current_user", current_user);
             startActivity(intent);
             return true;
         }
         if(item.getItemId() == R.id.check_in) {
             Intent intent = new Intent(FindPark.this, CheckIn.class);
+            intent.putExtra("current_user", current_user);
             startActivity(intent);
             return true;
         }
