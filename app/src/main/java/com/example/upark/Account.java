@@ -9,11 +9,15 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.upark.DAO.Park;
 import com.example.upark.DAO.User;
 import com.example.upark.Database.DBHelper;
+
+import java.util.ArrayList;
 
 public class Account extends AppCompatActivity {
 
@@ -45,6 +49,13 @@ public class Account extends AppCompatActivity {
         parkVisits = (TextView)findViewById(R.id.totalparksvisted_textview);
         parkVisits.setText(visits);
         */
+        long user_id = user_obj.getUserID();
+        ArrayList<Park> favorite_list = db.getUsersFavoriteParks(user_id);
+        ArrayAdapter arrayAdapter =
+                new ArrayAdapter(this, android.R.layout.simple_list_item_1, favorite_list);
+        ListView listView = findViewById(R.id.favorites_list_account);
+        listView.setAdapter(arrayAdapter);
+        //set on click
 
     }
 

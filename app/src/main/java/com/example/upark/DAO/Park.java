@@ -32,7 +32,7 @@ public class Park {
         this.description = description;
     }
 
-    public Park(String placeID, String parkName, String description) {
+    public Park(String placeID, String parkName, double rating, String description) {
         this.placeID = placeID;
         this.parkName = parkName;
         this.description = description;

@@ -17,9 +17,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.upark.DAO.Park;
 import com.example.upark.DAO.Review;
+import com.example.upark.DAO.User;
 import com.example.upark.Database.DBHelper;
 
 import org.w3c.dom.Text;
@@ -36,6 +38,7 @@ public class ParkPage extends AppCompatActivity {
     double[] park_lat_lon;
     double[] last_location;
     String current_user;
+    Park found_park;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +65,7 @@ public class ParkPage extends AppCompatActivity {
         for(Park p : parksList) {
             if(p.getPlaceID().equals(park_placeid)) {
                 currentPark = p;
+                found_park = p;
                 break;
             }
         }
@@ -107,6 +111,17 @@ public class ParkPage extends AppCompatActivity {
         String uri = "http://maps.google.com/maps?f=d&hl=en&saddr="+last_location[0]+","+last_location[1]+"&daddr="+park_lat_lon[0]+","+park_lat_lon[1];
         Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
         startActivity(Intent.createChooser(intent, "Select an application"));
+    }
+
+    public void add_favorite(View v) {
+        User curr = db.getUserByUsername(current_user);
+        boolean add = false;
+        add = db.addUserFavoritePark(found_park, curr);
+        if(!add) {
+            //throw some kind of error
+            Toast toast = Toast.makeText(context, "Could not add park to Favorites", Toast.LENGTH_LONG);
+            toast.show();
+        }
     }
 
     @Override
