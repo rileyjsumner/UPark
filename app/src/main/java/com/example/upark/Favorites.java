@@ -29,6 +29,7 @@ public class Favorites extends AppCompatActivity {
     double current_lat;
     double current_lon;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,12 +109,6 @@ public class Favorites extends AppCompatActivity {
         }
         if(item.getItemId() == R.id.favorites) {
             Intent intent = new Intent(Favorites.this, Favorites.class);
-            intent.putExtra("current_user", current_user);
-            startActivity(intent);
-            return true;
-        }
-        if(item.getItemId() == R.id.check_in) {
-            Intent intent = new Intent(Favorites.this, CheckIn.class);
             intent.putExtra("current_user", current_user);
             startActivity(intent);
             return true;

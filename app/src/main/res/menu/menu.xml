@@ -21,11 +21,6 @@
         />
 
     <item
-        android:id="@+id/check_in"
-        android:title="Check In"
-        app:showAsAction="never"
-        />
-    <item
         android:id="@+id/log_out"
         android:title="Log Out"
         app:showAsAction="never"

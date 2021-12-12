@@ -73,11 +73,6 @@ public class ViewReview extends AppCompatActivity {
             startActivity(intent);
             return true;
         }
-        if(item.getItemId() == R.id.check_in) {
-            Intent intent = new Intent(ViewReview.this, CheckIn.class);
-            startActivity(intent);
-            return true;
-        }
         if(item.getItemId() == R.id.log_out) {
             Intent intent = new Intent(ViewReview.this, MainActivity.class);
             startActivity(intent);

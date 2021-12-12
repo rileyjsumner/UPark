@@ -50,12 +50,6 @@ public class CheckIn extends AppCompatActivity {
             startActivity(intent);
             return true;
         }
-        if(item.getItemId() == R.id.check_in) {
-            Intent intent = new Intent(CheckIn.this, CheckIn.class);
-            intent.putExtra("current_user", current_user);
-            startActivity(intent);
-            return true;
-        }
         if(item.getItemId() == R.id.log_out) {
             Intent intent = new Intent(CheckIn.this, MainActivity.class);
             startActivity(intent);

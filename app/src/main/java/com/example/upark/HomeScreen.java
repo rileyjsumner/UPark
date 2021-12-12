@@ -96,8 +96,9 @@ public class HomeScreen extends AppCompatActivity {
 
     }
 
-    public void checkIn(View view) {
-        Intent intent = new Intent(HomeScreen.this, CheckIn.class);
+    public void account(View view) {
+        Intent intent = new Intent(HomeScreen.this, Account.class);
+        intent.putExtra("current_user", current_user);
         startActivity(intent);
 
     }
@@ -473,12 +474,6 @@ public class HomeScreen extends AppCompatActivity {
         }
         if(item.getItemId() == R.id.favorites) {
             Intent intent = new Intent(HomeScreen.this, Favorites.class);
-            intent.putExtra("current_user", current_user);
-            startActivity(intent);
-            return true;
-        }
-        if(item.getItemId() == R.id.check_in) {
-            Intent intent = new Intent(HomeScreen.this, CheckIn.class);
             intent.putExtra("current_user", current_user);
             startActivity(intent);
             return true;

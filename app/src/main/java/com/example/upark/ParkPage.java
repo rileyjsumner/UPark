@@ -124,6 +124,12 @@ public class ParkPage extends AppCompatActivity {
         }
     }
 
+    public void checkin(View v) {
+        Intent intent = new Intent(ParkPage.this, CheckIn.class);
+        intent.putExtra("current_user", current_user);
+        startActivity(intent);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -149,12 +155,6 @@ public class ParkPage extends AppCompatActivity {
         }
         if(item.getItemId() == R.id.favorites) {
             Intent intent = new Intent(ParkPage.this, Favorites.class);
-            intent.putExtra("current_user", current_user);
-            startActivity(intent);
-            return true;
-        }
-        if(item.getItemId() == R.id.check_in) {
-            Intent intent = new Intent(ParkPage.this, CheckIn.class);
             intent.putExtra("current_user", current_user);
             startActivity(intent);
             return true;

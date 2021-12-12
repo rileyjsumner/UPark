@@ -42,11 +42,11 @@
         app:layout_constraintVertical_bias="0.53" />
 
     <Button
-        android:id="@+id/check_in_button"
-        android:layout_width="95dp"
-        android:layout_height="66dp"
-        android:onClick="checkIn"
-        android:text="Check In"
+        android:id="@+id/account_button"
+        android:layout_width="108dp"
+        android:layout_height="63dp"
+        android:onClick="account"
+        android:text="Account"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/favorites_button"
         app:layout_constraintHorizontal_bias="0.507"

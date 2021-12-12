@@ -92,12 +92,6 @@ public class Account extends AppCompatActivity {
             startActivity(intent);
             return true;
         }
-        if(item.getItemId() == R.id.check_in) {
-            Intent intent = new Intent(Account.this, CheckIn.class);
-            intent.putExtra("current_user", current_user);
-            startActivity(intent);
-            return true;
-        }
         if(item.getItemId() == R.id.log_out) {
             Intent intent = new Intent(Account.this, MainActivity.class);
             startActivity(intent);
