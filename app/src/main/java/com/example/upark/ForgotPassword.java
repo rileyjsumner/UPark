@@ -64,6 +64,7 @@ public class ForgotPassword extends AppCompatActivity {
             User user = db.getUserByUsername(username);
             SecurityQuestion security = db.getUsersSecurityQuestion(user.getUserID());
             String secAnswer = security.getAnswerText();
+            String oldPass = user.getPassword();
 
             if (!secAnswer.equals(answer)) { // check if answer matches stored answer
                 ans.setError("Incorrect answer.");
@@ -74,10 +75,10 @@ public class ForgotPassword extends AppCompatActivity {
             } else if (!pass.equals(confirm)) { // check if pass and confirmation match
                 newPass.setError("The passwords do not match. Please try again.");
                 confirmPass.setError("The passwords do not match. Please try again.");
+            } else if (pass.equals(oldPass)) {
+                newPass.setError("Pick something different from what you had before.");
             } else { // set user pass
                 // update password in db
-                // TODO: results in fatal exception, sqlite error, NO SUCH COLUMN: thepasswordentered
-                /*
                 if (db.updatePassword(user, pass)) {
                     String toastText = "Your password was successfully changed!";
                     Toast.makeText(ForgotPassword.this, toastText, Toast.LENGTH_LONG).show();
@@ -87,7 +88,7 @@ public class ForgotPassword extends AppCompatActivity {
                 } else {
                     String toastText = "Something went wrong. Try again later.";
                     Toast.makeText(ForgotPassword.this, toastText, Toast.LENGTH_LONG).show();
-                }*/
+                }
 
             }
         }
