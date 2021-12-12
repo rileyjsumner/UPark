@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,8 +22,6 @@ public class CheckIn extends AppCompatActivity {
     long curr_park_id;
     Park curr_park;
     User curr_user;
-
-    // TODO: get/store current park
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
