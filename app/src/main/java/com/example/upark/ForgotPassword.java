@@ -25,7 +25,11 @@ public class ForgotPassword extends AppCompatActivity {
     Context context;
     DBHelper db;
 
+    // TODO store fields up here?
+
     public void submitPass (View view) {
+        EditText userField = (EditText) findViewById(R.id.userField);
+        String username = userField.getText().toString();
         EditText ans = (EditText) findViewById(R.id.answerField);
         EditText newPass = (EditText) findViewById(R.id.newPassField);
         EditText confirmPass = (EditText) findViewById(R.id.confirmNewPassField);
@@ -56,10 +60,13 @@ public class ForgotPassword extends AppCompatActivity {
             String pass = newPass.getText().toString();
             String confirm = confirmPass.getText().toString();
 
-            // TODO: get and store stored answer
+            // get and store stored answer
+            User user = db.getUserByUsername(username);
+            SecurityQuestion security = db.getUsersSecurityQuestion(user.getUserID());
+            String secAnswer = security.getAnswerText();
 
-            if (false) { // TODO: check if answer matches stored answer
-
+            if (!secAnswer.equals(answer)) { // check if answer matches stored answer
+                ans.setError("Incorrect answer.");
             } else if (!(pass.length() >= 8)) { // check that password is >= 8 characters
                 newPass.setError("Your password should be at least 8 characters long.");
             } else if (!hasNum(pass)) { // check that password has at least 1 num
@@ -68,8 +75,8 @@ public class ForgotPassword extends AppCompatActivity {
                 newPass.setError("The passwords do not match. Please try again.");
                 confirmPass.setError("The passwords do not match. Please try again.");
             } else { // set user pass
-                // update password in user obj
-                // update password in db
+                // TODO: update password in user obj
+                // TODO: update password in db
             }
         }
 
@@ -93,10 +100,10 @@ public class ForgotPassword extends AppCompatActivity {
 
             SecurityQuestion security = db.getUsersSecurityQuestion(user.getUserID());
             String question = security.getQuestionText();
-            Log.i("questiontxt", question);
+            //Log.i("questiontxt", question); TODO remove
 
             // set secQ to user's security question
-            secQ.setText("Security Question Would Go Here");
+            secQ.setText(question);
 
             // show additional fields
             secQ.setVisibility(View.VISIBLE);
@@ -116,33 +123,6 @@ public class ForgotPassword extends AppCompatActivity {
             confirmPass.setVisibility(View.INVISIBLE);
             submitPass.setVisibility(View.INVISIBLE);
         }
-    }
-
-
-    public void clickFunction(View view) {
-        /*
-        EditText newPassword = (EditText) findViewById(R.id.newPassword);
-        String updatedPassword = newPassword.getText().toString();
-        EditText confirmPassword = (EditText) findViewById(R.id.confirmNewPassword);
-        EditText securityQuestionAnswer = (EditText) findViewById(R.id.securityQuestionAnswer);
-
-        if (TextUtils.isEmpty(securityQuestionAnswer.getText().toString())) {
-            makeToast("a security answer");
-        } if (TextUtils.isEmpty(newPassword.getText().toString())) {
-            makeToast("a new password");
-        } else if (TextUtils.isEmpty(confirmPassword.getText().toString())) {
-            makeToast("a confirmation password");
-        } else if (!newPassword.getText().toString().equals(confirmPassword.getText().toString())) {
-            makeToast("matching passwords. " + newPassword.getText().toString() + " " + confirmPassword.getText().toString());
-        } else {
-            submitResetPassword(updatedPassword);
-        }
-
-
-         */
-
-
-
     }
 
     boolean hasNum(String pass) {
