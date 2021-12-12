@@ -176,7 +176,7 @@ public class DBHelper {
      */
     public boolean updatePassword(User user, String newPassword) {
         createUserTable();
-        sqLiteDatabase.execSQL(String.format("UPDATE Users SET password = %s WHERE Users.rowid = %s", newPassword, user.getUserID()));
+        sqLiteDatabase.execSQL(String.format("UPDATE Users SET password = '%s' WHERE Users.rowid = '%s'", newPassword, user.getUserID()));
         return true;
     }
 
