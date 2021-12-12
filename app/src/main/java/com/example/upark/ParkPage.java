@@ -127,6 +127,7 @@ public class ParkPage extends AppCompatActivity {
     public void checkin(View v) {
         Intent intent = new Intent(ParkPage.this, CheckIn.class);
         intent.putExtra("current_user", current_user);
+        intent.putExtra("current_park", found_park.getParkID());
         startActivity(intent);
     }
 

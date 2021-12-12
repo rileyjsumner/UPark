@@ -3,22 +3,41 @@ package com.example.upark;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-public class CheckIn extends AppCompatActivity {
+import com.example.upark.DAO.Park;
+import com.example.upark.DAO.User;
+import com.example.upark.Database.DBHelper;
 
+public class CheckIn extends AppCompatActivity {
+    Context context;
+    DBHelper db;
     String current_user;
+    long curr_park_id;
+    Park curr_park;
+    User curr_user;
+
+    // TODO: get/store current park
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check_in);
+
+        context = getApplicationContext();
+        db = new DBHelper(context.openOrCreateDatabase("upark", Context.MODE_PRIVATE,null));
+
         Intent intent = getIntent();
-        String current_user = intent.getStringExtra("current_user");
+        // TODO: removed String (should i have?)
+        current_user = intent.getStringExtra("current_user"); // curr username str
+        curr_park_id = intent.getLongExtra("current_park", 0);
+        curr_user = db.getUserByUsername(current_user);
+        curr_park = db.getParkById(curr_park_id);
     }
 
     @Override
