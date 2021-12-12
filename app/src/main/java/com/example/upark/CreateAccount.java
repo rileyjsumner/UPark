@@ -102,14 +102,14 @@ public class CreateAccount extends AppCompatActivity {
             if(db.addUser(newUser)) {
                 // TODO: retrieve user from DB and set secq
                 // Sets users' security question
-                // TODO: fix question id?
                 SecurityQuestion security = new SecurityQuestion(0, secQ, secA);
                 User addedUser = db.getUserByUsername(user);
                 db.addSecurityQuestion(addedUser, security);
 
-                // TODO remove (this results in an illegal state exception)
-                // SecurityQuestion secCheck = db.getUsersSecurityQuestion(addedUser.getUserID());
-                //Log.i("questiontxt", question);
+                // TODO remove
+                SecurityQuestion secCheck = db.getUsersSecurityQuestion(addedUser.getUserID());
+                String question = secCheck.getQuestionText();
+                Log.i("questiontxt", question);
 
                 Log.i("UPark", "added user");
 

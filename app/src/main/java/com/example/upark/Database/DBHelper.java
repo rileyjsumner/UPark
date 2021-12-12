@@ -357,7 +357,7 @@ public class DBHelper {
 
         int questionIDIndex = c.getColumnIndex("question_id");
         int questionTextIndex = c.getColumnIndex("question_text");
-        int answerTextIndex = c.getColumnIndex("answer_text");
+        int answerTextIndex = c.getColumnIndex("answer");
 
         c.moveToFirst();
 
