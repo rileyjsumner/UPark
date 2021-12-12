@@ -358,6 +358,14 @@ public class HomeScreen extends AppCompatActivity {
             if(mMap != null) {
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mLatLng, 11.0f));
             }
+            if(m1 != null && m2 != null && m3 != null) {
+                m1.hideInfoWindow();
+                m1.showInfoWindow();
+                m2.hideInfoWindow();
+                m2.showInfoWindow();
+                m3.hideInfoWindow();
+                m3.showInfoWindow();
+            }
             Log.i("Location", "Lat: " + lat + " Lon: " + lon);
         }
 
