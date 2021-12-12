@@ -29,6 +29,11 @@ public class EditAccount extends AppCompatActivity {
         TextView second_email = (TextView) findViewById(R.id.confirm_email_area);
         String email_one = first_email.getText().toString();
         String email_two = second_email.getText().toString();
+        if(!android.util.Patterns.EMAIL_ADDRESS.matcher(email_one).matches() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email_two).matches()) {
+            Toast toast = Toast.makeText(context, "Enter a valid email!", Toast.LENGTH_LONG);
+            toast.show();
+            return;
+        }
         if(!email_one.equals(email_two)) {
             Toast toast = Toast.makeText(context, "Emails must match!", Toast.LENGTH_LONG);
             toast.show();
@@ -51,6 +56,9 @@ public class EditAccount extends AppCompatActivity {
             toast.show();
             return;
         }
+        Intent intent = new Intent(EditAccount.this, Account.class);
+        intent.putExtra("current_user", current_user);
+        startActivity(intent);
     }
 
     public void password_change(View v) {

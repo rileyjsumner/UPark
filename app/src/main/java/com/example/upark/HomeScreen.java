@@ -177,7 +177,7 @@ public class HomeScreen extends AppCompatActivity {
                         .build();
                 String url;
 
-                url = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + "%parks" + "&location=" + lat + "%2C" + lon + "&radius=" + "20000" + "&key=" + getPropVal();
+                url = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + "%parks" + "&location=" + lat + "%2C" + lon + "&radius=" + "5000" + "&key=" + getPropVal();
 
                 //Get request from places API
                 Request request = new Request.Builder()
