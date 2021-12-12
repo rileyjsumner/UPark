@@ -182,7 +182,7 @@ public class DBHelper {
 
     public boolean updateEmail(User user, String newEmail) {
         createUserTable();
-        sqLiteDatabase.execSQL(String.format("UPDATE Users SET email = %s WHERE Users.rowid = %s", newEmail, user.getUserID()));
+        sqLiteDatabase.execSQL(String.format("UPDATE Users SET email = '%s' WHERE Users.rowid = '%s'", newEmail, user.getUserID()));
         return true;
     }
 
