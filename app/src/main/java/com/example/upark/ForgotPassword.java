@@ -38,9 +38,11 @@ public class ForgotPassword extends AppCompatActivity {
         } else if (db.userExists(username)){ // valid user
             // retrieve security question
             User user = db.getUserByUsername(username);
-            //ArrayList<SecurityQuestion> securityQA = user.getSecurityQuestions();
-            //String question = securityQA.get(0).getQuestionText();
-            //Log.i("msg", question); // TODO remove
+            ArrayList<SecurityQuestion> securityQA = user.getSecurityQuestions();
+            if (!(securityQA == null)){
+                String question = securityQA.get(0).getQuestionText();
+                Log.i("msg", question); // TODO remove
+            }
 
             // show additional fields
             secQ.setVisibility(View.VISIBLE);

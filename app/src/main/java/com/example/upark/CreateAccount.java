@@ -92,17 +92,27 @@ public class CreateAccount extends AppCompatActivity {
         } else { // valid input
             User newUser = new User(user, pw, e, first, last);
 
-            // Sets users' security question
-            // TODO: fix question id?
-            SecurityQuestion security = new SecurityQuestion(0, secQ, secA);
+            /* TODO: this didn't work to set a security question
             ArrayList<SecurityQuestion> securityArray = new ArrayList<SecurityQuestion>();
             securityArray.add(security);
-            newUser.setSecurityQuestions(securityArray);
+            newUser.setSecurityQuestions(securityArray);*/
 
             Log.i("UPark", "valid user");
 
             if(db.addUser(newUser)) {
+                // TODO: retrieve user from DB and set secq
+                // Sets users' security question
+                // TODO: fix question id?
+                SecurityQuestion security = new SecurityQuestion(0, secQ, secA);
+                User addedUser = db.getUserByUsername(user);
+                db.addSecurityQuestion(addedUser, security);
+
+                // TODO remove (this results in an illegal state exception)
+                // SecurityQuestion secCheck = db.getUsersSecurityQuestion(addedUser.getUserID());
+                //Log.i("questiontxt", question);
+
                 Log.i("UPark", "added user");
+
                 // user added, move to main application
                 goToLogin();
             } else { // error in adding user
