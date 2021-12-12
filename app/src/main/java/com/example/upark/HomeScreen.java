@@ -90,6 +90,8 @@ public class HomeScreen extends AppCompatActivity {
     public void favorites(View view) {
         Intent intent = new Intent(HomeScreen.this, Favorites.class);
         intent.putExtra("current_user", current_user);
+        intent.putExtra("lat", lat);
+        intent.putExtra("lon", lon);
         startActivity(intent);
 
     }

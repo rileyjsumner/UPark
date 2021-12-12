@@ -14,6 +14,7 @@ public class Park {
     private String description;
 
     public Park(long parkID, String parkName, double rating) {
+        this.parkID = parkID;
         this.parkName = parkName;
         this.rating = rating;
     }
