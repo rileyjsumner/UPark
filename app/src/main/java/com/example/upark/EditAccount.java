@@ -3,22 +3,76 @@ package com.example.upark;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.upark.DAO.User;
+import com.example.upark.Database.DBHelper;
+
+import java.util.ArrayList;
 
 public class EditAccount extends AppCompatActivity {
 
     String current_user;
+    Context context;
+    DBHelper db;
+
+    public void email_change(View v) {
+        TextView first_email = (TextView) findViewById(R.id.first_email_area);
+        TextView second_email = (TextView) findViewById(R.id.confirm_email_area);
+        String email_one = first_email.getText().toString();
+        String email_two = second_email.getText().toString();
+        if(!email_one.equals(email_two)) {
+            Toast toast = Toast.makeText(context, "Emails must match!", Toast.LENGTH_LONG);
+            toast.show();
+            return;
+        }
+
+        User user = db.getUserByUsername(current_user);
+        ArrayList<User> user_list = db.readAllUsers();
+        long user_id = user.getUserID();
+        boolean found = false;
+        for(User u: user_list) {
+            long temp_id = u.getUserID();
+            if(temp_id == user_id) {
+                found = db.updateEmail(u, email_one);
+            }
+        }
+
+        if(!found) {
+            Toast toast = Toast.makeText(context, "Error Updating email!", Toast.LENGTH_LONG);
+            toast.show();
+            return;
+        }
+    }
+
+    public void password_change(View v) {
+        Intent intent = new Intent(EditAccount.this, ForgotPassword.class);
+        intent.putExtra("current_user", current_user);
+        startActivity(intent);
+    }
+
+    public void go_back_account(View v) {
+        Intent intent = new Intent(EditAccount.this, Account.class);
+        intent.putExtra("current_user", current_user);
+        startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_account);
         Intent intent = getIntent();
-        String current_user = intent.getStringExtra("current_user");
+        current_user = intent.getStringExtra("current_user");
+        context = getApplicationContext();
+        db = new DBHelper(context.openOrCreateDatabase("upark", Context.MODE_PRIVATE,null));
     }
 
     @Override

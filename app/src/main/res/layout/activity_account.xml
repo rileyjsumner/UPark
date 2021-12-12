@@ -12,7 +12,8 @@
         android:layout_height="wrap_content"
         android:text="Edit Profile"
         tools:layout_editor_absoluteX="31dp"
-        tools:layout_editor_absoluteY="124dp" />
+        tools:layout_editor_absoluteY="124dp"
+        android:onClick="edit_account"/>
 
     <TextView
         android:id="@+id/username_account_textview"

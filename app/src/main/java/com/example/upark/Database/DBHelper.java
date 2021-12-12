@@ -180,6 +180,12 @@ public class DBHelper {
         return true;
     }
 
+    public boolean updateEmail(User user, String newEmail) {
+        createUserTable();
+        sqLiteDatabase.execSQL(String.format("UPDATE Users SET email = %s WHERE Users.rowid = %s", newEmail, user.getUserID()));
+        return true;
+    }
+
     public ArrayList<Park> readParks() {
         createParkTable();
         Cursor c = sqLiteDatabase.rawQuery("SELECT *, Parks.rowid as park_id FROM Parks", null);

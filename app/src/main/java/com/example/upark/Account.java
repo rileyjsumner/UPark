@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -27,6 +28,12 @@ public class Account extends AppCompatActivity {
     DBHelper db;
     Context context;
 
+    public void edit_account(View v) {
+        Intent intent = new Intent(Account.this, EditAccount.class);
+        intent.putExtra("current_user", current_user);
+        startActivity(intent);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +43,7 @@ public class Account extends AppCompatActivity {
 
         Intent intent = getIntent();
         accountUsername = (TextView)findViewById(R.id.username_account_textview);
-        String current_user = intent.getStringExtra("current_user");
+        current_user = intent.getStringExtra("current_user");
         User user_obj = db.getUserByUsername(current_user);
         String full_name = user_obj.getfName() + " " + user_obj.getlName();
         accountUsername.setText(full_name);
