@@ -92,7 +92,7 @@ public class CreateAccount extends AppCompatActivity {
         } else { // valid input
             User newUser = new User(user, pw, e, first, last);
 
-            /* TODO: this didn't work to set a security question
+            /* TODO: this didn't work earlier, should q be added to user obj as well?
             ArrayList<SecurityQuestion> securityArray = new ArrayList<SecurityQuestion>();
             securityArray.add(security);
             newUser.setSecurityQuestions(securityArray);*/
@@ -100,16 +100,10 @@ public class CreateAccount extends AppCompatActivity {
             Log.i("UPark", "valid user");
 
             if(db.addUser(newUser)) {
-                // TODO: retrieve user from DB and set secq
                 // Sets users' security question
                 SecurityQuestion security = new SecurityQuestion(0, secQ, secA);
                 User addedUser = db.getUserByUsername(user);
                 db.addSecurityQuestion(addedUser, security);
-
-                // TODO remove
-                SecurityQuestion secCheck = db.getUsersSecurityQuestion(addedUser.getUserID());
-                String question = secCheck.getQuestionText();
-                Log.i("questiontxt", question);
 
                 Log.i("UPark", "added user");
 

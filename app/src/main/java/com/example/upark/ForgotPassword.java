@@ -88,14 +88,12 @@ public class ForgotPassword extends AppCompatActivity {
             userField.setError("Please enter a username.");
         } else if (db.userExists(username)){ // valid user
             // retrieve security question
-            // TODO: doesn't work atm
-            /*
+
             User user = db.getUserByUsername(username);
-            ArrayList<SecurityQuestion> securityQA = user.getSecurityQuestions();
-            if (!(securityQA == null)){
-                String question = securityQA.get(0).getQuestionText();
-                Log.i("msg", question); // TODO remove
-            }*/
+
+            SecurityQuestion security = db.getUsersSecurityQuestion(user.getUserID());
+            String question = security.getQuestionText();
+            Log.i("questiontxt", question);
 
             // set secQ to user's security question
             secQ.setText("Security Question Would Go Here");
