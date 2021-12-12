@@ -2,19 +2,52 @@ package com.example.upark;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.upark.DAO.User;
+import com.example.upark.Database.DBHelper;
 
 
 public class ForgotPassword extends AppCompatActivity {
+    Context context;
+    DBHelper db;
 
     public void submitUser(View view) {
         // todo: find user in db and find their security q and answer
+        EditText userField = (EditText) findViewById(R.id.userField);
+        String username = userField.getText().toString();
+
+        if (TextUtils.isEmpty(username)) { // empty
+            userField.setError("Please enter a username.");
+        } else if (db.userExists(username)){ // valid user
+            TextView secQ = (TextView) findViewById(R.id.secQ);
+            EditText ans = (EditText) findViewById(R.id.answerField);
+            EditText newPass = (EditText) findViewById(R.id.newPassField);
+            EditText confirmPass = (EditText) findViewById(R.id.confirmNewPassField);
+            Button submitPass = (Button) findViewById(R.id.submitPassButton);
+
+            // retrieve security question
+            User user = db.getUserByUsername(username);
+
+
+            // show additional fields
+            secQ.setVisibility(View.VISIBLE);
+            ans.setVisibility(View.VISIBLE);
+            newPass.setVisibility(View.VISIBLE);
+            confirmPass.setVisibility(View.VISIBLE);
+            submitPass.setVisibility(View.VISIBLE);
+        } else { // user dne
+            String toastText = "User not found. Please try again.";
+            Toast.makeText(ForgotPassword.this, toastText, Toast.LENGTH_LONG).show();
+        }
     }
 
 
@@ -58,6 +91,21 @@ public class ForgotPassword extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_password);
+
+        context = getApplicationContext();
+        db = new DBHelper(context.openOrCreateDatabase("upark", Context.MODE_PRIVATE,null));
+
+        TextView secQ = (TextView) findViewById(R.id.secQ);
+        EditText ans = (EditText) findViewById(R.id.answerField);
+        EditText newPass = (EditText) findViewById(R.id.newPassField);
+        EditText confirmPass = (EditText) findViewById(R.id.confirmNewPassField);
+        Button submitPass = (Button) findViewById(R.id.submitPassButton);
+
+        secQ.setVisibility(View.INVISIBLE);
+        ans.setVisibility(View.INVISIBLE);
+        newPass.setVisibility(View.INVISIBLE);
+        confirmPass.setVisibility(View.INVISIBLE);
+        submitPass.setVisibility(View.INVISIBLE);
 
         // TODO: initially hide forgot password fields only show username, show fields when
         // valid username entered
