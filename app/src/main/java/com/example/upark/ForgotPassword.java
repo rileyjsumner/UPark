@@ -18,11 +18,62 @@ import com.example.upark.DAO.User;
 import com.example.upark.Database.DBHelper;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 
 public class ForgotPassword extends AppCompatActivity {
     Context context;
     DBHelper db;
+
+    public void submitPass (View view) {
+        EditText ans = (EditText) findViewById(R.id.answerField);
+        EditText newPass = (EditText) findViewById(R.id.newPassField);
+        EditText confirmPass = (EditText) findViewById(R.id.confirmNewPassField);
+        Button submitPass = (Button) findViewById(R.id.submitPassButton);
+
+        // check if fields are empty
+        // array of size 7, stores EditText fields
+        ArrayList<EditText> fields = new ArrayList<EditText>(Arrays.asList(
+                ans,
+                newPass,
+                confirmPass));
+        // stores empty fields
+        ArrayList<EditText> errorArray = new ArrayList<EditText>();
+
+
+        for (int i = 0; i < fields.size(); i++){
+            if(TextUtils.isEmpty(fields.get(i).getText().toString())){
+                errorArray.add(fields.get(i));
+            }
+        }
+
+        if (errorArray.size() != 0){
+            for (int i = 0; i < errorArray.size(); i++){
+                errorArray.get(i).setError("This field cannot be empty.");
+            }
+        } else {
+            String answer = ans.getText().toString();
+            String pass = newPass.getText().toString();
+            String confirm = confirmPass.getText().toString();
+
+            // TODO: get and store stored answer
+
+            if (false) { // TODO: check if answer matches stored answer
+
+            } else if (!(pass.length() >= 8)) { // check that password is >= 8 characters
+                newPass.setError("Your password should be at least 8 characters long.");
+            } else if (!hasNum(pass)) { // check that password has at least 1 num
+                newPass.setError("Your password should have at least one number.");
+            } else if (!pass.equals(confirm)) { // check if pass and confirmation match
+                newPass.setError("The passwords do not match. Please try again.");
+                confirmPass.setError("The passwords do not match. Please try again.");
+            } else { // set user pass
+                // update password in user obj
+                // update password in db
+            }
+        }
+
+    }
 
     public void submitUser(View view) {
         EditText userField = (EditText) findViewById(R.id.userField);
@@ -37,12 +88,17 @@ public class ForgotPassword extends AppCompatActivity {
             userField.setError("Please enter a username.");
         } else if (db.userExists(username)){ // valid user
             // retrieve security question
+            // TODO: doesn't work atm
+            /*
             User user = db.getUserByUsername(username);
             ArrayList<SecurityQuestion> securityQA = user.getSecurityQuestions();
             if (!(securityQA == null)){
                 String question = securityQA.get(0).getQuestionText();
                 Log.i("msg", question); // TODO remove
-            }
+            }*/
+
+            // set secQ to user's security question
+            secQ.setText("Security Question Would Go Here");
 
             // show additional fields
             secQ.setVisibility(View.VISIBLE);
@@ -50,6 +106,7 @@ public class ForgotPassword extends AppCompatActivity {
             newPass.setVisibility(View.VISIBLE);
             confirmPass.setVisibility(View.VISIBLE);
             submitPass.setVisibility(View.VISIBLE);
+
         } else { // user dne
             String toastText = "User not found. Please try again.";
             Toast.makeText(ForgotPassword.this, toastText, Toast.LENGTH_LONG).show();
@@ -85,11 +142,24 @@ public class ForgotPassword extends AppCompatActivity {
 
 
          */
-        //TODO check and makeToast for security question answer.
 
 
 
     }
+
+    boolean hasNum(String pass) {
+        char[] passChars = pass.toCharArray();
+        boolean hasNum = false;
+        for (int i = 0; i < passChars.length; i++) {
+            if (Character.isDigit(passChars[i])){
+                hasNum = true;
+            }
+        }
+
+        return hasNum;
+
+    }
+
     public void submitResetPassword(String s) {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
@@ -114,14 +184,12 @@ public class ForgotPassword extends AppCompatActivity {
         EditText confirmPass = (EditText) findViewById(R.id.confirmNewPassField);
         Button submitPass = (Button) findViewById(R.id.submitPassButton);
 
+        // initially set additional fields to not visible
         secQ.setVisibility(View.INVISIBLE);
         ans.setVisibility(View.INVISIBLE);
         newPass.setVisibility(View.INVISIBLE);
         confirmPass.setVisibility(View.INVISIBLE);
         submitPass.setVisibility(View.INVISIBLE);
-
-        // TODO: initially hide forgot password fields only show username, show fields when
-        // valid username entered
 
 
 
