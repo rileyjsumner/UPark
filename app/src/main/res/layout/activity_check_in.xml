@@ -63,7 +63,7 @@
         app:layout_constraintHorizontal_bias="0.052"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ratingLabel" />
-    
+
     <EditText
         android:id="@+id/reviewText"
         android:layout_width="328dp"
@@ -83,4 +83,24 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/reviewText" />
+
+    <TextView
+        android:id="@+id/charLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Character Count:"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.475"
+        app:layout_constraintStart_toEndOf="@+id/reviewLabel"
+        app:layout_constraintTop_toTopOf="@+id/reviewLabel" />
+
+    <TextView
+        android:id="@+id/charLimit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0/4000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.26"
+        app:layout_constraintStart_toEndOf="@+id/charLabel"
+        app:layout_constraintTop_toTopOf="@+id/charLabel" />
 </androidx.constraintlayout.widget.ConstraintLayout>
