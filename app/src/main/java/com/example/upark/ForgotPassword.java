@@ -6,14 +6,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.upark.DAO.SecurityQuestion;
 import com.example.upark.DAO.User;
 import com.example.upark.Database.DBHelper;
+
+import java.util.ArrayList;
 
 
 public class ForgotPassword extends AppCompatActivity {
@@ -21,22 +25,22 @@ public class ForgotPassword extends AppCompatActivity {
     DBHelper db;
 
     public void submitUser(View view) {
-        // todo: find user in db and find their security q and answer
         EditText userField = (EditText) findViewById(R.id.userField);
         String username = userField.getText().toString();
+        TextView secQ = (TextView) findViewById(R.id.secQ);
+        EditText ans = (EditText) findViewById(R.id.answerField);
+        EditText newPass = (EditText) findViewById(R.id.newPassField);
+        EditText confirmPass = (EditText) findViewById(R.id.confirmNewPassField);
+        Button submitPass = (Button) findViewById(R.id.submitPassButton);
 
         if (TextUtils.isEmpty(username)) { // empty
             userField.setError("Please enter a username.");
         } else if (db.userExists(username)){ // valid user
-            TextView secQ = (TextView) findViewById(R.id.secQ);
-            EditText ans = (EditText) findViewById(R.id.answerField);
-            EditText newPass = (EditText) findViewById(R.id.newPassField);
-            EditText confirmPass = (EditText) findViewById(R.id.confirmNewPassField);
-            Button submitPass = (Button) findViewById(R.id.submitPassButton);
-
             // retrieve security question
             User user = db.getUserByUsername(username);
-
+            //ArrayList<SecurityQuestion> securityQA = user.getSecurityQuestions();
+            //String question = securityQA.get(0).getQuestionText();
+            //Log.i("msg", question); // TODO remove
 
             // show additional fields
             secQ.setVisibility(View.VISIBLE);
@@ -47,6 +51,13 @@ public class ForgotPassword extends AppCompatActivity {
         } else { // user dne
             String toastText = "User not found. Please try again.";
             Toast.makeText(ForgotPassword.this, toastText, Toast.LENGTH_LONG).show();
+
+            // hides additional fields again
+            secQ.setVisibility(View.INVISIBLE);
+            ans.setVisibility(View.INVISIBLE);
+            newPass.setVisibility(View.INVISIBLE);
+            confirmPass.setVisibility(View.INVISIBLE);
+            submitPass.setVisibility(View.INVISIBLE);
         }
     }
 

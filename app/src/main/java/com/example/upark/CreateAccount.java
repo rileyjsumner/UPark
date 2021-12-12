@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.upark.DAO.SecurityQuestion;
 import com.example.upark.DAO.User;
 import com.example.upark.Database.DBHelper;
 
@@ -90,7 +91,16 @@ public class CreateAccount extends AppCompatActivity {
             Log.i("UPark", "user already exists");
         } else { // valid input
             User newUser = new User(user, pw, e, first, last);
+
+            // Sets users' security question
+            // TODO: fix question id?
+            SecurityQuestion security = new SecurityQuestion(0, secQ, secA);
+            ArrayList<SecurityQuestion> securityArray = new ArrayList<SecurityQuestion>();
+            securityArray.add(security);
+            newUser.setSecurityQuestions(securityArray);
+
             Log.i("UPark", "valid user");
+
             if(db.addUser(newUser)) {
                 Log.i("UPark", "added user");
                 // user added, move to main application
