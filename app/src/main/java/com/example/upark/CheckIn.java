@@ -5,15 +5,22 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.Rating;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RatingBar;
+import android.widget.TextView;
 
 import com.example.upark.DAO.Park;
 import com.example.upark.DAO.User;
 import com.example.upark.Database.DBHelper;
+
+import org.w3c.dom.Text;
 
 public class CheckIn extends AppCompatActivity {
     Context context;
@@ -22,6 +29,11 @@ public class CheckIn extends AppCompatActivity {
     long curr_park_id;
     Park curr_park;
     User curr_user;
+    TextView park_label;
+    RatingBar rating_bar;
+    TextView chars_label;
+    EditText review_field;
+    Button submit_button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +49,13 @@ public class CheckIn extends AppCompatActivity {
         curr_park_id = intent.getLongExtra("current_park", 0);
         curr_user = db.getUserByUsername(current_user);
         curr_park = db.getParkById(curr_park_id);
+
+        // get/store elements
+        park_label = (TextView) findViewById(R.id.parkName);
+        rating_bar = (RatingBar) findViewById(R.id.ratingBar);
+        chars_label = (TextView) findViewById(R.id.charLimit);
+        review_field = (EditText) findViewById(R.id.reviewText);
+        submit_button = (Button) findViewById(R.id.submitButton);
     }
 
     @Override
