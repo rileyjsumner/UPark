@@ -75,8 +75,20 @@ public class ForgotPassword extends AppCompatActivity {
                 newPass.setError("The passwords do not match. Please try again.");
                 confirmPass.setError("The passwords do not match. Please try again.");
             } else { // set user pass
-                // TODO: update password in user obj
-                // TODO: update password in db
+                // update password in db
+                // TODO: results in fatal exception, sqlite error, NO SUCH COLUMN: thepasswordentered
+                /*
+                if (db.updatePassword(user, pass)) {
+                    String toastText = "Your password was successfully changed!";
+                    Toast.makeText(ForgotPassword.this, toastText, Toast.LENGTH_LONG).show();
+
+                    // go to login screen
+                    goToLogin();
+                } else {
+                    String toastText = "Something went wrong. Try again later.";
+                    Toast.makeText(ForgotPassword.this, toastText, Toast.LENGTH_LONG).show();
+                }*/
+
             }
         }
 
@@ -123,6 +135,14 @@ public class ForgotPassword extends AppCompatActivity {
             confirmPass.setVisibility(View.INVISIBLE);
             submitPass.setVisibility(View.INVISIBLE);
         }
+    }
+
+    /*
+        Used to switch activity to login_screen
+     */
+    public void goToLogin() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
     boolean hasNum(String pass) {
