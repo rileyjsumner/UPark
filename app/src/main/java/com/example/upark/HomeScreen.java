@@ -72,6 +72,8 @@ public class HomeScreen extends AppCompatActivity {
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 12; // can be any num
     String current_user;
     String selectedPark;
+    String selectedID;
+    double[] lastLocation = new double[2];
     double lat;
     double lon;
     Context context;
@@ -108,6 +110,8 @@ public class HomeScreen extends AppCompatActivity {
         Intent intent = new Intent(HomeScreen.this, ParkPage.class);
         intent.putExtra("name",selectedPark);
         intent.putExtra("current_user", current_user);
+        intent.putExtra("place_id", selectedID);
+        intent.putExtra("coords", lastLocation);
         startActivity(intent);
     }
 
@@ -273,6 +277,7 @@ public class HomeScreen extends AppCompatActivity {
 
 
 
+
                     /**
                     ArrayList<Park> parks = new ArrayList<Park>();
 
@@ -297,7 +302,8 @@ public class HomeScreen extends AppCompatActivity {
                             Log.i("parrot", "Inside loop");
                             foundPark = true;
                             selectedPark = parks.get(i).getParkName();
-
+                            selectedID = parks.get(i).getPlaceID();
+                            Log.i("bear", "getID: " + parks.get(i).getPlaceID() + ", SID: " + selectedID);
 
                             pd.setText("Rating: " + parks.get(i).getRating() + "\n\nAddress: " + parks.get(i).getDescription());
                             tv.setText(marker.getTitle());
@@ -366,6 +372,8 @@ public class HomeScreen extends AppCompatActivity {
             }
             lat = location.getLatitude();
             lon = location.getLongitude();
+            lastLocation[0] = lat;
+            lastLocation[1] = lon;
             mLatLng = new LatLng(lat, lon);
             if(mMap != null) {
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mLatLng, 11.0f));
