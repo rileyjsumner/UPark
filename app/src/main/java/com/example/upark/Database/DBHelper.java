@@ -346,7 +346,7 @@ public class DBHelper {
      */
     public double getParkRating(long parkID) {
         createReviewTable();
-        Cursor c = sqLiteDatabase.rawQuery("SELECT AVG(rating) AS avg_rating FROM Reviews WHERE Reviews.rowid = ?", new String[]{ parkID + "" });
+        Cursor c = sqLiteDatabase.rawQuery("SELECT AVG(rating) AS avg_rating FROM Reviews WHERE park_id = ?", new String[]{ parkID + "" });
 
         int ratingIndex = c.getColumnIndex("avg_rating");
 

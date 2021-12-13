@@ -177,7 +177,9 @@ public class CheckIn extends AppCompatActivity {
         Intent intent = new Intent(this, ParkPage.class); // TODO: edit
         intent.putExtra("name",curr_park.getParkName());
         intent.putExtra("current_user",curr_user.getUsername());
-        intent.putExtra("place_id",curr_park.getPlaceID());
+        intent.putExtra("place_id", curr_park.getPlaceID());
+        intent.putExtra("park_id", curr_park.getParkID());
+        intent.putExtra("coords", curr_park.getLoc());
         Log.i("BACK", "Why am I not going to park page?");
         startActivity(intent);
         // TODO: look at find parks to see how to do it

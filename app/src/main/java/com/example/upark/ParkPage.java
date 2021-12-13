@@ -46,17 +46,18 @@ public class ParkPage extends AppCompatActivity {
         setContentView(R.layout.activity_park_page);
         Intent intent = getIntent();
         current_user = intent.getStringExtra("current_user");
-        Log.i("FETCH", "am i here?");
+        Log.i("FETCH", current_user);
         context = getApplicationContext();
         db = new DBHelper(context.openOrCreateDatabase("upark", Context.MODE_PRIVATE,null));
         User user_obj = db.getUserByUsername(current_user);
         ArrayList<Park> parksList = db.readParks();
 
-        Intent intent_in = getIntent();
-        String park_name = intent_in.getStringExtra("name");
-        String park_placeid= intent_in.getStringExtra("place_id");
-        double[] lastLocation = intent_in.getDoubleArrayExtra("coords");
+        String park_name = intent.getStringExtra("name");
+        String park_placeid= intent.getStringExtra("place_id");
+        double[] lastLocation = intent.getDoubleArrayExtra("coords");
         Log.i("tiger", "Intent PID: " + park_placeid);
+
+        long park_id = intent.getLongExtra("park_id", -1);
 
         TextView title_view = (TextView)findViewById(R.id.parkName_TextView);
         title_view.setText(park_name);
@@ -65,7 +66,7 @@ public class ParkPage extends AppCompatActivity {
         Park currentPark = null;
 
         for(Park p : parksList) {
-            if(p.getPlaceID().equals(park_placeid)) {
+            if(p.getPlaceID().equals(park_placeid) || p.getParkID() == park_id) {
                 currentPark = p;
                 found_park = p;
                 break;
@@ -103,7 +104,7 @@ public class ParkPage extends AppCompatActivity {
 
             TextView distance_view = (TextView) findViewById(R.id.distance_TextView);
             park_lat_lon = currentPark.getLoc();
-            last_location = intent_in.getDoubleArrayExtra("coords");
+            last_location = intent.getDoubleArrayExtra("coords");
             Log.i("tampa", "lat: " + lastLocation[0] + ", lon: " + lastLocation[1]);
             float[] results = new float[10];
             Location.distanceBetween(last_location[0], last_location[1], park_lat_lon[0], park_lat_lon[1], results);
