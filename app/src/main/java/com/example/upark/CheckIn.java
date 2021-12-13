@@ -92,7 +92,7 @@ public class CheckIn extends AppCompatActivity {
 
                 chars_label.setText(countStr + "/500");
 
-                if (charCount > 25 && charCount < 501) {
+                if (charCount > 25 && charCount < 1001) {
                     chars_label.setTextColor(Color.parseColor("#81c45c")); // set to red since num out of range
                 } else {
                     chars_label.setTextColor(Color.parseColor("#cf4b23")); // set to red since num out of range
@@ -127,7 +127,7 @@ public class CheckIn extends AppCompatActivity {
             String toastText = "Write some more before submitting.";
             Toast.makeText(CheckIn.this, toastText, Toast.LENGTH_LONG).show();
 
-        } else if (charCount > 500) {
+        } else if (charCount > 1000) {
             String toastText = "You went over the character limit. Edit your review before submitting.";
             Toast.makeText(CheckIn.this, toastText, Toast.LENGTH_LONG).show();
 
