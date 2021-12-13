@@ -129,7 +129,12 @@ public class DBHelper {
         // TODO: check if user is inserted properly
         createUserTable();
         Log.i("LOGIN", "Inserting into db" + user.toString());
-        sqLiteDatabase.execSQL(String.format("INSERT INTO Users (username, password, email, fName, lName) VALUES ('%s', '%s', '%s', '%s', '%s');", user.getUsername(), user.getPassword(), user.getEmail(), user.getfName(), user.getlName()));
+        try {
+            sqLiteDatabase.execSQL(String.format("INSERT INTO Users (username, password, email, fName, lName) VALUES ('%s', '%s', '%s', '%s', '%s');", user.getUsername(), user.getPassword(), user.getEmail(), user.getfName(), user.getlName()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
         return true;
     }
 
@@ -138,33 +143,48 @@ public class DBHelper {
         double[] temp_loc = park.getLoc();
         double temp_lat = temp_loc[0];
         double temp_lon = temp_loc[1];
-        if(park.getRating() > -1) {
-            sqLiteDatabase.execSQL(String.format("INSERT INTO Parks (park_name, rating, description, lat, lon, googleAPIID) VALUES ('%s', '%s', '%s', '%s', '%s', '%s');", park.getParkName(), park.getRating(), park.getDescription(), temp_lat, temp_lon, park.getPlaceID())); // TODO add googleAPIID
-        } else {
-            sqLiteDatabase.execSQL(String.format("INSERT INTO Parks (park_name, description, lat, lon, googleAPIID) VALUES ('%s', '%s', '%s', '%s', '%s');", park.getParkName(), park.getDescription(), temp_lat, temp_lon, park.getPlaceID()));
+        try {
+            if(park.getRating() > -1) {
+                sqLiteDatabase.execSQL(String.format("INSERT INTO Parks (park_name, rating, description, lat, lon, googleAPIID) VALUES ('%s', '%s', '%s', '%s', '%s', '%s');", park.getParkName(), park.getRating(), park.getDescription(), temp_lat, temp_lon, park.getPlaceID())); // TODO add googleAPIID
+            } else {
+                sqLiteDatabase.execSQL(String.format("INSERT INTO Parks (park_name, description, lat, lon, googleAPIID) VALUES ('%s', '%s', '%s', '%s', '%s');", park.getParkName(), park.getDescription(), temp_lat, temp_lon, park.getPlaceID()));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
         }
         return true;
     }
 
     public boolean addReview(Review review) {
         createReviewTable();
-        sqLiteDatabase.execSQL(String.format("INSERT INTO Reviews (park_id, rating, review_text, isBikeFriendly, isChildFriendly, isDisabilityFriendly, isWooded, isCarAccessible, isPetFriendly, user_id) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');",
-                review.getParkID(),
-                review.getRating(),
-                review.getReviewText(),
-                review.isBikeFriendly(),
-                review.isChildFriendly(),
-                review.isDisabilityFriendly(),
-                review.isWooded(),
-                review.isCarAccessible(),
-                review.isPetFriendly(),
-                review.getReviewer().getUserID()));
+        try {
+            sqLiteDatabase.execSQL(String.format("INSERT INTO Reviews (park_id, rating, review_text, isBikeFriendly, isChildFriendly, isDisabilityFriendly, isWooded, isCarAccessible, isPetFriendly, user_id) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');",
+                    review.getParkID(),
+                    review.getRating(),
+                    review.getReviewText(),
+                    review.isBikeFriendly(),
+                    review.isChildFriendly(),
+                    review.isDisabilityFriendly(),
+                    review.isWooded(),
+                    review.isCarAccessible(),
+                    review.isPetFriendly(),
+                    review.getReviewer().getUserID()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+
         return true;
     }
 
     public boolean addSecurityQuestion(User user, SecurityQuestion q) {
         createSecurityQuestionTable();
-        sqLiteDatabase.execSQL(String.format("INSERT INTO SecurityQuestions (user_id, question_text, answer) VALUES ('%s', '%s', '%s');", user.getUserID(), q.getQuestionText(), q.getAnswerText()));
+        try {
+            sqLiteDatabase.execSQL(String.format("INSERT INTO SecurityQuestions (user_id, question_text, answer) VALUES ('%s', '%s', '%s');", user.getUserID(), q.getQuestionText(), q.getAnswerText()));
+        } catch (Exception e) {
+            return false;
+        }
         return true;
     }
 
@@ -176,13 +196,23 @@ public class DBHelper {
      */
     public boolean updatePassword(User user, String newPassword) {
         createUserTable();
-        sqLiteDatabase.execSQL(String.format("UPDATE Users SET password = '%s' WHERE Users.rowid = '%s'", newPassword, user.getUserID()));
+        try {
+            sqLiteDatabase.execSQL(String.format("UPDATE Users SET password = '%s' WHERE Users.rowid = '%s'", newPassword, user.getUserID()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
         return true;
     }
 
     public boolean updateEmail(User user, String newEmail) {
         createUserTable();
-        sqLiteDatabase.execSQL(String.format("UPDATE Users SET email = '%s' WHERE Users.rowid = '%s'", newEmail, user.getUserID()));
+        try {
+            sqLiteDatabase.execSQL(String.format("UPDATE Users SET email = '%s' WHERE Users.rowid = '%s'", newEmail, user.getUserID()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
         return true;
     }
 
@@ -431,8 +461,12 @@ public class DBHelper {
     public boolean addUserFavoritePark(Park park, User user) {
         createParkTable();
         createFavoriteParkTable();
-
-        sqLiteDatabase.execSQL(String.format("INSERT INTO FavoriteParks (park_id, user_id) VALUES ('%s', '%s');", park.getParkID(), user.getUserID()));
+        try {
+            sqLiteDatabase.execSQL(String.format("INSERT INTO FavoriteParks (park_id, user_id) VALUES ('%s', '%s');", park.getParkID(), user.getUserID()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
         return true;
     }
 
