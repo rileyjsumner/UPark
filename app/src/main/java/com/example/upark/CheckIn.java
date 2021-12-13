@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.media.Rating;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -76,6 +78,32 @@ public class CheckIn extends AppCompatActivity {
 
         park_label.setText(curr_park.getParkName());
         chars_label.setTextColor(Color.parseColor("#cf4b23")); // set to red since chars 0
+
+        review_field.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                int charCount = review_field.length();
+                String countStr = String.valueOf(charCount);
+
+                chars_label.setText(countStr + "/500");
+
+                if (charCount > 25 && charCount < 501) {
+                    chars_label.setTextColor(Color.parseColor("#81c45c")); // set to red since num out of range
+                } else {
+                    chars_label.setTextColor(Color.parseColor("#cf4b23")); // set to red since num out of range
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
     }
 
     public void submitPressed(View view) {
@@ -88,18 +116,18 @@ public class CheckIn extends AppCompatActivity {
         boolean bike_friend = bike.isChecked();
         boolean child_friend = child.isChecked();
 
-        if (rating == 0) { // TODO: if ratingBar blank
+        if (rating == 0) { // if ratingBar blank
             String toastText = "Please select a rating.";
             Toast.makeText(CheckIn.this, toastText, Toast.LENGTH_LONG).show();
 
         } else if (charCount == 0) {
             review_field.setError("Review can't be blank.");
 
-        } else if (charCount < 10) {
+        } else if (charCount < 25) {
             String toastText = "Write some more before submitting.";
             Toast.makeText(CheckIn.this, toastText, Toast.LENGTH_LONG).show();
 
-        } else if (charCount > 1500) {
+        } else if (charCount > 500) {
             String toastText = "You went over the character limit. Edit your review before submitting.";
             Toast.makeText(CheckIn.this, toastText, Toast.LENGTH_LONG).show();
 
@@ -121,7 +149,6 @@ public class CheckIn extends AppCompatActivity {
                     );
 
             // save review
-            // TODO: causing sqlite error
             db.addReview(user_review);
 
             String toastText = "Review added successfully. Thank you!";

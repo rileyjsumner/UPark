@@ -71,6 +71,7 @@
         android:ems="10"
         android:gravity="start|top"
         android:inputType="textMultiLine"
+        android:hint="25 character minimum"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/reviewLabel" />
@@ -102,7 +103,7 @@
         android:id="@+id/charLimit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="0/1500"
+        android:text="0/500"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.26"
         app:layout_constraintStart_toEndOf="@+id/charLabel"
