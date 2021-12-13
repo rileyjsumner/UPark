@@ -67,7 +67,7 @@
     <EditText
         android:id="@+id/reviewText"
         android:layout_width="328dp"
-        android:layout_height="265dp"
+        android:layout_height="150dp"
         android:ems="10"
         android:gravity="start|top"
         android:inputType="textMultiLine"
@@ -79,10 +79,14 @@
         android:id="@+id/submitButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="submitPressed"
         android:text="Submit"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/reviewText" />
+        app:layout_constraintTop_toBottomOf="@+id/carCheck"
+        app:layout_constraintVertical_bias="0.243" />
 
     <TextView
         android:id="@+id/charLabel"
@@ -98,9 +102,70 @@
         android:id="@+id/charLimit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="0/4000"
+        android:text="0/2000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.26"
         app:layout_constraintStart_toEndOf="@+id/charLabel"
         app:layout_constraintTop_toTopOf="@+id/charLabel" />
+
+    <CheckBox
+        android:id="@+id/treeCheck"
+        android:layout_width="97dp"
+        android:layout_height="46dp"
+        android:text="Wooded"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.026"
+        app:layout_constraintStart_toEndOf="@+id/childCheck"
+        app:layout_constraintTop_toTopOf="@+id/childCheck" />
+
+    <CheckBox
+        android:id="@+id/abilityCheck"
+        android:layout_width="141dp"
+        android:layout_height="44dp"
+        android:text="Disability friendly"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.072"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bikeCheck" />
+
+    <CheckBox
+        android:id="@+id/petCheck"
+        android:layout_width="141dp"
+        android:layout_height="44dp"
+        android:text="Pet friendly"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.073"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/abilityCheck" />
+
+    <CheckBox
+        android:id="@+id/carCheck"
+        android:layout_width="141dp"
+        android:layout_height="44dp"
+        android:text="Car accessible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/abilityCheck"
+        app:layout_constraintTop_toTopOf="@+id/abilityCheck" />
+
+    <CheckBox
+        android:id="@+id/bikeCheck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="Bike friendly"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.067"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/reviewText" />
+
+    <CheckBox
+        android:id="@+id/childCheck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Child friendly"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/bikeCheck"
+        app:layout_constraintTop_toTopOf="@+id/bikeCheck" />
 </androidx.constraintlayout.widget.ConstraintLayout>

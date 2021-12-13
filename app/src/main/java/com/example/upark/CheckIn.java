@@ -5,16 +5,19 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.Rating;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.upark.DAO.Park;
 import com.example.upark.DAO.User;
@@ -56,6 +59,44 @@ public class CheckIn extends AppCompatActivity {
         chars_label = (TextView) findViewById(R.id.charLimit);
         review_field = (EditText) findViewById(R.id.reviewText);
         submit_button = (Button) findViewById(R.id.submitButton);
+
+        park_label.setText(curr_park.getParkName());
+        chars_label.setTextColor(Color.parseColor("#cf4b23")); // set to red since chars 0
+    }
+
+    public void submitPressed(View view) {
+        int charCount = review_field.getText().length();
+        double rating = rating_bar.getRating();
+
+        if (rating == 0) { // TODO: if ratingBar blank
+            String toastText = "Please select a rating.";
+            Toast.makeText(CheckIn.this, toastText, Toast.LENGTH_LONG).show();
+
+        } else if (charCount == 0) {
+            review_field.setError("Review can't be blank.");
+
+        } else if (charCount < 1000) {
+            String toastText = "Write some more before submitting.";
+            Toast.makeText(CheckIn.this, toastText, Toast.LENGTH_LONG).show();
+
+        } else if (charCount > 2000) {
+            String toastText = "You went over the character limit. Edit your review before submitting.";
+            Toast.makeText(CheckIn.this, toastText, Toast.LENGTH_LONG).show();
+
+        } else { // success
+            // TODO: create review
+
+            // TODO: save review
+
+            // go back to park page
+            goBackToPark();
+        }
+    }
+
+    public void goBackToPark() {
+        Intent intent = new Intent(this, MainActivity.class); // TODO: edit
+        startActivity(intent);
+        // TODO: look at find parks to see how to do it
     }
 
     @Override
