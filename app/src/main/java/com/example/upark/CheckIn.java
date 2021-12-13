@@ -92,7 +92,7 @@ public class CheckIn extends AppCompatActivity {
 
                 chars_label.setText(countStr + "/1000");
 
-                if (charCount > 25 && charCount < 1001) {
+                if (charCount > 24 && charCount < 1001) {
                     chars_label.setTextColor(Color.parseColor("#81c45c")); // set to red since num out of range
                 } else {
                     chars_label.setTextColor(Color.parseColor("#cf4b23")); // set to red since num out of range
