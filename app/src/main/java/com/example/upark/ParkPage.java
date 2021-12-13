@@ -119,6 +119,12 @@ public class ParkPage extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), ViewReview.class);
                 intent.putExtra("reviewid", position);
                 intent.putExtra("current_user", current_user);
+                intent.putExtra("name", found_park.getParkName());
+                intent.putExtra("coords", last_location);
+                long temp_parkid;
+                temp_parkid = curr_reviews.get(position).getParkID();
+                String temp_placeid = found_park.getPlaceID();
+                intent.putExtra("place_id", temp_placeid);
                 startActivity(intent);
             }
         });
