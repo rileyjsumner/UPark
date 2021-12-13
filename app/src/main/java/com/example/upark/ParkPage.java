@@ -55,6 +55,8 @@ public class ParkPage extends AppCompatActivity {
         Intent intent_in = getIntent();
         String park_name = intent_in.getStringExtra("name");
         String park_placeid= intent_in.getStringExtra("place_id");
+        double[] lastLocation = intent_in.getDoubleArrayExtra("coords");
+        Log.i("tiger", "Intent PID: " + park_placeid);
 
         TextView title_view = (TextView)findViewById(R.id.parkName_TextView);
         title_view.setText(park_name);
@@ -76,6 +78,8 @@ public class ParkPage extends AppCompatActivity {
             intent.putExtra("current_user", current_user);
             startActivity(intent1);
         } else {
+
+            Log.i("Shark",currentPark.getParkName());
             TextView rating_view = (TextView) findViewById(R.id.rating_TextView);
 
             curr_reviews = db.readReviews(currentPark.getParkID());
@@ -100,6 +104,7 @@ public class ParkPage extends AppCompatActivity {
             TextView distance_view = (TextView) findViewById(R.id.distance_TextView);
             park_lat_lon = currentPark.getLoc();
             last_location = intent_in.getDoubleArrayExtra("coords");
+            Log.i("tampa", "lat: " + lastLocation[0] + ", lon: " + lastLocation[1]);
             float[] results = new float[10];
             Location.distanceBetween(last_location[0], last_location[1], park_lat_lon[0], park_lat_lon[1], results);
             double miles = results[0] * 0.000621371192;
