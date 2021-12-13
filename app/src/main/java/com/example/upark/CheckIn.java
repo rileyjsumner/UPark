@@ -105,9 +105,11 @@ public class CheckIn extends AppCompatActivity {
 
         } else { // success
             // create review
-            // TODO: rating id? images?
             String review_text = review_field.getText().toString();
-            Review user_review = new Review(0, curr_park_id, rating, review_text,
+            // TODO: sanitize review text
+            String clean_review = sanitize(review_text);
+
+            Review user_review = new Review(0, curr_park_id, rating, clean_review,
                     bike_friend,
                     child_friend,
                     disability_friend,
@@ -119,7 +121,8 @@ public class CheckIn extends AppCompatActivity {
                     );
 
             // save review
-            db.addReview(user_review);
+            // TODO: causing sqlite error
+            //db.addReview(user_review);
 
             String toastText = "Review added successfully. Thank you!";
             Toast.makeText(CheckIn.this, toastText, Toast.LENGTH_LONG).show();
@@ -129,8 +132,15 @@ public class CheckIn extends AppCompatActivity {
         }
     }
 
+    /*
+    * Replace ' in strings so db accepts
+    * */
+    public String sanitize(String text) {
+        return text.replace("\'", "\\\'");
+    }
+
     public void goBackToPark() {
-        Intent intent = new Intent(this, MainActivity.class); // TODO: edit
+        Intent intent = new Intent(this, ParkPage.class); // TODO: edit
         startActivity(intent);
         // TODO: look at find parks to see how to do it
     }
