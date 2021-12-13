@@ -90,7 +90,7 @@ public class CheckIn extends AppCompatActivity {
                 int charCount = review_field.length();
                 String countStr = String.valueOf(charCount);
 
-                chars_label.setText(countStr + "/500");
+                chars_label.setText(countStr + "/1000");
 
                 if (charCount > 25 && charCount < 1001) {
                     chars_label.setTextColor(Color.parseColor("#81c45c")); // set to red since num out of range
