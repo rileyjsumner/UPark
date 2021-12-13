@@ -3,6 +3,7 @@ package com.example.upark;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,11 +15,14 @@ import android.widget.TextView;
 import com.example.upark.DAO.Park;
 import com.example.upark.DAO.Review;
 import com.example.upark.DAO.User;
+import com.example.upark.Database.DBHelper;
 
 public class ViewReview extends AppCompatActivity {
 
     int reviewid;
     String current_user;
+    DBHelper db;
+    Context context;
 
     public void go_back(View v) {
         Intent intent = new Intent(ViewReview.this, ParkPage.class);
@@ -36,7 +40,9 @@ public class ViewReview extends AppCompatActivity {
         Intent intent = getIntent();
         reviewid = intent.getIntExtra("reviewid", -1);
         current_user = intent.getStringExtra("current_user");
-        Review review = ParkPage.curr_reviews.get(reviewid);
+        context = getApplicationContext();
+        db = new DBHelper(context.openOrCreateDatabase("upark", Context.MODE_PRIVATE,null));
+        Review review = db.getReviewById(reviewid);
 
         TextView username = (TextView)findViewById(R.id.username_Review);
         User user = review.getReviewer();

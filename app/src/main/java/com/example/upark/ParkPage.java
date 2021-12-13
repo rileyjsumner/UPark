@@ -53,7 +53,7 @@ public class ParkPage extends AppCompatActivity {
 
         Intent intent_in = getIntent();
         String park_name = intent_in.getStringExtra("name");
-        String park_placeid= intent_in.getStringExtra("place_id");
+        long park_placeid= intent_in.getLongExtra("place_id", -1);
 
         TextView title_view = (TextView)findViewById(R.id.parkName_TextView);
         title_view.setText(park_name);
