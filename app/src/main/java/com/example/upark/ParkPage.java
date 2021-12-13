@@ -98,7 +98,7 @@ public class ParkPage extends AppCompatActivity {
                 rating_view.setText(rating);
             }
 
-
+            Log.i("water", currentPark.getParkID() + "");
             String rating = currentPark.getRating() + " out of 5 stars";
             rating_view.setText(rating);
 

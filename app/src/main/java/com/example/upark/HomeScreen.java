@@ -287,16 +287,17 @@ public class HomeScreen extends AppCompatActivity {
                             selectedPark = parks.get(i);
 
 
-                            pd.setText("Rating: " + parks.get(i).getRating() + "\n\nAddress: " + parks.get(i).getDescription());
+                            Log.i("Rating", "id: " + parks.get(i).getParkID());
+                            pd.setText("Rating: " + parks.get(i).getRating() + "\n\nAddress: " + selectedPark.getDescription());
                             tv.setText(marker.getTitle());
                             cv.setCardBackgroundColor(Color.parseColor("#E4C3AD"));
+                            break;
                         }
                     }
                     if (!foundPark) {
                         pd.setText("No park information found.");
                         tv.setText(marker.getTitle());
-                    } else {
-                        // Set values here from selectedPark
+                        Log.i("herring", "park not found");
                     }
                     return true;
                 }
@@ -391,7 +392,7 @@ public class HomeScreen extends AppCompatActivity {
                 int condition = -1;
                 if(db.readParks() == null || db.readParks() != null) {
                     Park newPark = new Park(jsonArray.getJSONObject(i).getString("place_id"),
-                            this_name, -1,
+                            this_name, 4,
                             jsonArray.getJSONObject(i).getString("formatted_address"));
                     newPark.setLoc(p_lat,p_lon);
                     db.addPark(newPark);
