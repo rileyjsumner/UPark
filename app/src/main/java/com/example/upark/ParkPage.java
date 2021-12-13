@@ -119,6 +119,7 @@ public class ParkPage extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getApplicationContext(), ViewReview.class);
                 intent.putExtra("reviewid", position);
+                intent.putExtra("current_user", current_user);
                 startActivity(intent);
             }
         });
