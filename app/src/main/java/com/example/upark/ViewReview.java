@@ -43,8 +43,8 @@ public class ViewReview extends AppCompatActivity {
         rating.setText(user_rating);
 
         TextView content = (TextView) findViewById(R.id.content_Review);
-        //TODO: add user content
-
+        String desc = review.getReviewText();
+        content.setText(desc);
     }
 
     @Override

@@ -48,7 +48,7 @@ public class ParkPage extends AppCompatActivity {
         current_user = intent.getStringExtra("current_user");
         context = getApplicationContext();
         db = new DBHelper(context.openOrCreateDatabase("upark", Context.MODE_PRIVATE,null));
-
+        User user_obj = db.getUserByUsername(current_user);
         ArrayList<Park> parksList = db.readParks();
 
         Intent intent_in = getIntent();
@@ -70,9 +70,31 @@ public class ParkPage extends AppCompatActivity {
             }
         }
         if(currentPark == null) {
-            //TODO throw some kind of error
+            Toast toast = Toast.makeText(context, "Error fetching park info!", Toast.LENGTH_LONG);
+            toast.show();
+            Intent intent1 = new Intent(ParkPage.this, HomeScreen.class);
+            intent.putExtra("current_user", current_user);
+            startActivity(intent1);
         }
         TextView rating_view = (TextView)findViewById(R.id.rating_TextView);
+
+        curr_reviews = db.readReviews(currentPark.getParkID());
+        if(curr_reviews.size() == 0) {
+            String rating = 0 + " out of 5 stars";
+            rating_view.setText(rating);
+        }
+        else {
+            double rating_total = 0;
+            int rating_amt = 0;
+            for(Review r: curr_reviews) {
+                rating_total += r.getRating();
+                rating_amt++;
+            }
+            String rating = rating_total/rating_amt + " out of 5 stars";
+            rating_view.setText(rating);
+        }
+
+
         String rating = currentPark.getRating() + " out of 5 stars";
         rating_view.setText(rating);
 
@@ -85,9 +107,6 @@ public class ParkPage extends AppCompatActivity {
         DecimalFormat df = new DecimalFormat("###.##");
         String dist = df.format(miles) + " miles";
         distance_view.setText(dist);
-
-        /**
-        curr_reviews = db.readReviews(currentPark.getParkID());
 
         ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, curr_reviews);
 
@@ -103,7 +122,6 @@ public class ParkPage extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-         */
 
     }
 

@@ -193,10 +193,10 @@ public class FindPark extends AppCompatActivity {
                         .build();
                 String url;
                 if (searchInput.getText().toString().contains("park")) {
-                    url = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + searchInput.getText().toString().replaceAll(" ", "%")+ "&location=" + lat + "%2C" + lon + "&radius=" + "20000" + "&key=" + getPropVal();
+                    url = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + searchInput.getText().toString().replaceAll(" ", "%")+ "&location=" + lat + "%2C" + lon + "&radius=" + "10000" + "&key=" + getPropVal();
                 }
                 else {
-                    url = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + searchInput.getText().toString().replaceAll(" ", "%") + "%parks" + "&location=" + lat + "%2C" + lon + "&radius=" + "20000" + "&key=" + getPropVal();
+                    url = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + searchInput.getText().toString().replaceAll(" ", "%") + "%parks" + "&location=" + lat + "%2C" + lon + "&radius=" + "10000" + "&key=" + getPropVal();
                 }
 
                 //Get request from places API
