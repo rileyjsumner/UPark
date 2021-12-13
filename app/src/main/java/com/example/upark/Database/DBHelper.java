@@ -462,6 +462,8 @@ public class DBHelper {
 
         c.moveToFirst();
 
+        Log.i("user_id", userIDIndex + "");
+
         long user_id = c.getLong(userIDIndex);
 
         c.close();

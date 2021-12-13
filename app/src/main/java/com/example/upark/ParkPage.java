@@ -53,7 +53,7 @@ public class ParkPage extends AppCompatActivity {
 
         Intent intent_in = getIntent();
         String park_name = intent_in.getStringExtra("name");
-        long park_placeid= intent_in.getLongExtra("place_id", -1);
+        String park_placeid= intent_in.getStringExtra("place_id");
 
         TextView title_view = (TextView)findViewById(R.id.parkName_TextView);
         title_view.setText(park_name);
@@ -145,7 +145,11 @@ public class ParkPage extends AppCompatActivity {
     public void checkin(View v) {
         Intent intent = new Intent(ParkPage.this, CheckIn.class);
         intent.putExtra("current_user", current_user);
-        intent.putExtra("current_park", found_park.getParkID());
+        if (found_park != null) {
+            intent.putExtra("current_park", found_park.getParkID());
+        } else {
+            intent.putExtra("current_park", -1);
+        }
         startActivity(intent);
     }
 

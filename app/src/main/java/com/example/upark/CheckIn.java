@@ -63,6 +63,13 @@ public class CheckIn extends AppCompatActivity {
         curr_user = db.getUserByUsername(current_user);
         curr_park = db.getParkById(curr_park_id);
 
+        if (curr_park_id == -1){
+            String toastText = "Error retrieving park.";
+            Toast.makeText(CheckIn.this, toastText, Toast.LENGTH_LONG).show();
+
+            return;
+        }
+
         // get/store elements
         park_label = (TextView) findViewById(R.id.parkName);
         rating_bar = (RatingBar) findViewById(R.id.ratingBar);
