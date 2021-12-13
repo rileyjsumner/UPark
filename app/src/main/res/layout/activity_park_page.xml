@@ -8,44 +8,51 @@
 
     <TextView
         android:id="@+id/parkName_TextView"
-        android:layout_width="374dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="24dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="12dp"
         android:layout_marginTop="48dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="76dp"
         android:textSize="24dp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/navigate_button"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/rating_TextView"
-        android:layout_width="164dp"
-        android:layout_height="20dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="76dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="21dp"
+        android:layout_marginEnd="89dp"
+        app:layout_constraintBottom_toBottomOf="@+id/navigate_button"
+        app:layout_constraintEnd_toStartOf="@+id/navigate_button"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/parkName_TextView" />
+        app:layout_constraintTop_toTopOf="@+id/navigate_button" />
 
     <TextView
         android:id="@+id/distance_TextView"
-        android:layout_width="165dp"
-        android:layout_height="19dp"
+        android:layout_width="122dp"
+        android:layout_height="36dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="56dp"
+        android:layout_marginEnd="27dp"
+        android:layout_marginBottom="124dp"
+        app:layout_constraintBottom_toTopOf="@+id/go_to_checkin"
+        app:layout_constraintEnd_toStartOf="@+id/favorite_button_parkpage"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rating_TextView" />
+        app:layout_constraintTop_toBottomOf="@+id/navigate_button" />
 
     <ListView
         android:id="@+id/review_list"
-        android:layout_width="387dp"
-        android:layout_height="252dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="139dp"
         android:layout_marginEnd="12dp"
         android:layout_marginBottom="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/go_to_checkin" />
 
@@ -53,36 +60,36 @@
         android:id="@+id/navigate_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:layout_marginEnd="44dp"
+        android:layout_marginEnd="22dp"
+        android:layout_marginBottom="53dp"
         android:onClick="navigate"
         android:text="Navigate"
+        app:layout_constraintBottom_toTopOf="@+id/distance_TextView"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/rating_TextView"
         app:layout_constraintTop_toBottomOf="@+id/parkName_TextView" />
 
     <Button
         android:id="@+id/favorite_button_parkpage"
-        android:layout_width="173dp"
+        android:layout_width="0dp"
         android:layout_height="53dp"
-        android:layout_marginStart="27dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="3dp"
+        android:layout_marginEnd="22dp"
         android:onClick="add_favorite"
         android:text="Add Park to Favorites"
+        app:layout_constraintBottom_toBottomOf="@+id/distance_TextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/distance_TextView"
-        app:layout_constraintTop_toBottomOf="@+id/navigate_button" />
+        app:layout_constraintStart_toEndOf="@+id/distance_TextView" />
 
     <Button
         android:id="@+id/go_to_checkin"
-        android:layout_width="158dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="11dp"
-        android:layout_marginEnd="16dp"
-        android:text="Check In"
+        android:layout_width="185dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="56dp"
         android:onClick="checkin"
+        android:text="Check In"
+        app:layout_constraintBottom_toTopOf="@+id/review_list"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/favorite_button_parkpage" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/distance_TextView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

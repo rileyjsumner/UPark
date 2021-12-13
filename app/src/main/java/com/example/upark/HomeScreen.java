@@ -71,7 +71,7 @@ public class HomeScreen extends AppCompatActivity {
     private FusedLocationProviderClient mFusedLocationProviderClient; // Save the instance
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 12; // can be any num
     String current_user;
-    String selectedPark;
+    Park selectedPark;
     double lat;
     double lon;
     Context context;
@@ -106,8 +106,10 @@ public class HomeScreen extends AppCompatActivity {
 
     public void parkPage(View view) {
         Intent intent = new Intent(HomeScreen.this, ParkPage.class);
-        intent.putExtra("name",selectedPark);
+        intent.putExtra("name", selectedPark.getParkName());
         intent.putExtra("current_user", current_user);
+        intent.putExtra("place_id", selectedPark.getPlaceID());
+        intent.putExtra("coords", selectedPark.getLoc());
         startActivity(intent);
     }
 
@@ -271,20 +273,6 @@ public class HomeScreen extends AppCompatActivity {
                     //Trying to read parks, this is where I am not sure what to do because I am not getting parks.
                     ArrayList<Park> parks = db.readParks();
 
-
-
-                    /**
-                    ArrayList<Park> parks = new ArrayList<Park>();
-
-                    //I added my own parks to test, these will be removed in the future.
-                    Park newPark = new Park("James Madison Park",4.3, "This is a great park! It has basketball courts, volleyball courts, and a great view.");
-                    Park newPark2 = new Park("Arboretum",2.8, "The arboretum is a wonderful place to visit.");
-                    Park newPark3 = new Park("Henry Vilas Park",1.2, "This is the best park in the vilas neighborhood by far.");
-                    parks.add(newPark);
-                    parks.add(newPark2);
-                    parks.add(newPark3);
-                     */
-
                     //Going through list of parks to find the matching park and display data
                     boolean foundPark = false;
                     for(int i=0; i < parks.size(); i++) {
@@ -296,25 +284,19 @@ public class HomeScreen extends AppCompatActivity {
                         if (parks.get(i).getParkName().equals(marker.getTitle())) {
                             Log.i("parrot", "Inside loop");
                             foundPark = true;
-                            selectedPark = parks.get(i).getParkName();
+                            selectedPark = parks.get(i);
 
 
                             pd.setText("Rating: " + parks.get(i).getRating() + "\n\nAddress: " + parks.get(i).getDescription());
                             tv.setText(marker.getTitle());
-                            if (parks.get(i).getRating() < 1.7) {
-                                cv.setCardBackgroundColor(getResources().getColor(R.color.red));
-                            }
-                            if ((parks.get(i).getRating() >= 1.7) && (parks.get(i).getRating() < 3.4)) {
-                                cv.setCardBackgroundColor(getResources().getColor(R.color.yellow));
-                            }
-                            if (parks.get(i).getRating() >= 3.4) {
-                                cv.setCardBackgroundColor(getResources().getColor(R.color.green));
-                            }
+                            cv.setCardBackgroundColor(Color.parseColor("#E4C3AD"));
                         }
                     }
                     if (!foundPark) {
                         pd.setText("No park information found.");
                         tv.setText(marker.getTitle());
+                    } else {
+                        // Set values here from selectedPark
                     }
                     return true;
                 }

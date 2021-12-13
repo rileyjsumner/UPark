@@ -46,6 +46,7 @@ public class ParkPage extends AppCompatActivity {
         setContentView(R.layout.activity_park_page);
         Intent intent = getIntent();
         current_user = intent.getStringExtra("current_user");
+        Log.i("FETCH", "am i here?");
         context = getApplicationContext();
         db = new DBHelper(context.openOrCreateDatabase("upark", Context.MODE_PRIVATE,null));
         User user_obj = db.getUserByUsername(current_user);
