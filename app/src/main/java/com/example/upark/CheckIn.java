@@ -122,7 +122,7 @@ public class CheckIn extends AppCompatActivity {
 
             // save review
             // TODO: causing sqlite error
-            //db.addReview(user_review);
+            db.addReview(user_review);
 
             String toastText = "Review added successfully. Thank you!";
             Toast.makeText(CheckIn.this, toastText, Toast.LENGTH_LONG).show();
