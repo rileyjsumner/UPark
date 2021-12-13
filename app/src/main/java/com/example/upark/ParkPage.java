@@ -75,38 +75,38 @@ public class ParkPage extends AppCompatActivity {
             Intent intent1 = new Intent(ParkPage.this, HomeScreen.class);
             intent.putExtra("current_user", current_user);
             startActivity(intent1);
-        }
-        TextView rating_view = (TextView)findViewById(R.id.rating_TextView);
+        } else {
+            TextView rating_view = (TextView) findViewById(R.id.rating_TextView);
 
-        curr_reviews = db.readReviews(currentPark.getParkID());
-        if(curr_reviews.size() == 0) {
-            String rating = 0 + " out of 5 stars";
-            rating_view.setText(rating);
-        }
-        else {
-            double rating_total = 0;
-            int rating_amt = 0;
-            for(Review r: curr_reviews) {
-                rating_total += r.getRating();
-                rating_amt++;
+            curr_reviews = db.readReviews(currentPark.getParkID());
+            if (curr_reviews.size() == 0) {
+                String rating = 0 + " out of 5 stars";
+                rating_view.setText(rating);
+            } else {
+                double rating_total = 0;
+                int rating_amt = 0;
+                for (Review r : curr_reviews) {
+                    rating_total += r.getRating();
+                    rating_amt++;
+                }
+                String rating = rating_total / rating_amt + " out of 5 stars";
+                rating_view.setText(rating);
             }
-            String rating = rating_total/rating_amt + " out of 5 stars";
+
+
+            String rating = currentPark.getRating() + " out of 5 stars";
             rating_view.setText(rating);
+
+            TextView distance_view = (TextView) findViewById(R.id.distance_TextView);
+            park_lat_lon = currentPark.getLoc();
+            last_location = intent_in.getDoubleArrayExtra("coords");
+            float[] results = new float[10];
+            Location.distanceBetween(last_location[0], last_location[1], park_lat_lon[0], park_lat_lon[1], results);
+            double miles = results[0] * 0.000621371192;
+            DecimalFormat df = new DecimalFormat("###.##");
+            String dist = df.format(miles) + " miles";
+            distance_view.setText(dist);
         }
-
-
-        String rating = currentPark.getRating() + " out of 5 stars";
-        rating_view.setText(rating);
-
-        TextView distance_view = (TextView)findViewById(R.id.distance_TextView);
-        park_lat_lon = currentPark.getLoc();
-        last_location = intent_in.getDoubleArrayExtra("coords");
-        float[] results = new float[10];
-        Location.distanceBetween(last_location[0], last_location[1], park_lat_lon[0], park_lat_lon[1], results);
-        double miles = results[0] * 0.000621371192;
-        DecimalFormat df = new DecimalFormat("###.##");
-        String dist = df.format(miles) + " miles";
-        distance_view.setText(dist);
 
         ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, curr_reviews);
 
