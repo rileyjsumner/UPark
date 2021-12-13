@@ -81,6 +81,7 @@ public class HomeScreen extends AppCompatActivity {
     Marker m3;
     SupportMapFragment mapFragment;
 
+
     public void findParks(View view) {
         Intent intent = new Intent(HomeScreen.this, FindPark.class);
         intent.putExtra("current_user", current_user);
@@ -265,8 +266,13 @@ public class HomeScreen extends AppCompatActivity {
                     d.setVisibility(View.VISIBLE);
 
 
+                    Log.i("giraffe","HERE");
+
                     //Trying to read parks, this is where I am not sure what to do because I am not getting parks.
                     ArrayList<Park> parks = db.readParks();
+
+
+
                     /**
                     ArrayList<Park> parks = new ArrayList<Park>();
 
@@ -283,10 +289,17 @@ public class HomeScreen extends AppCompatActivity {
                     boolean foundPark = false;
                     for(int i=0; i < parks.size(); i++) {
 
+                        Log.i("parrot",parks.get(i).getParkName() + ":" + marker.getTitle());
+                        Log.i("parrot", "Above match? " + parks.get(i).getParkName().equals(marker.getTitle()));
+
+
                         if (parks.get(i).getParkName().equals(marker.getTitle())) {
+                            Log.i("parrot", "Inside loop");
                             foundPark = true;
                             selectedPark = parks.get(i).getParkName();
-                            pd.setText("Rating: " + parks.get(i).getRating() + "\n\nDescription: " + parks.get(i).getDescription());
+
+
+                            pd.setText("Rating: " + parks.get(i).getRating() + "\n\nAddress: " + parks.get(i).getDescription());
                             tv.setText(marker.getTitle());
                             if (parks.get(i).getRating() < 1.7) {
                                 cv.setCardBackgroundColor(getResources().getColor(R.color.red));
@@ -396,14 +409,16 @@ public class HomeScreen extends AppCompatActivity {
                 double p_lon = Double.parseDouble(curr_lon);
                 Log.i("Populate Lat long", "Lat: " + p_lat + " Lon: " + p_lon);
                 int condition = -1;
-                if(db.readParks() == null) {
+                if(db.readParks() == null || db.readParks() != null) {
                     Park newPark = new Park(jsonArray.getJSONObject(i).getString("place_id"),
                             this_name, -1,
                             jsonArray.getJSONObject(i).getString("formatted_address"));
                     newPark.setLoc(p_lat,p_lon);
                     db.addPark(newPark);
+                    Log.i("scraps", "Added park: " + this_name);
                 }
                 else {
+                    Log.i("scraps", "didnt add park: " + this_name);
                     ArrayList<Park> existingParks = db.readParks();
                     for (Park p : existingParks) {
                         String temp_placeid = p.getPlaceID();
@@ -424,8 +439,10 @@ public class HomeScreen extends AppCompatActivity {
                 if(count == 1) {
                     mParkLatLng1 = new LatLng(p_lat, p_lon);
                     p1 = this_name;
+                    Log.i("hamster","p1: " + p1);
                     count++;
                     m1.setPosition(mParkLatLng1);
+                    m1.setTitle(p1);
                     m1.hideInfoWindow();
                     m1.showInfoWindow();
                 }
@@ -434,6 +451,7 @@ public class HomeScreen extends AppCompatActivity {
                     p2 = this_name;
                     count++;
                     m2.setPosition(mParkLatLng2);
+                    m2.setTitle(p2);
                     m2.hideInfoWindow();
                     m2.showInfoWindow();
                 }
@@ -442,6 +460,7 @@ public class HomeScreen extends AppCompatActivity {
                     p3 = this_name;
                     count++;
                     m3.setPosition(mParkLatLng3);
+                    m3.setTitle(p3);
                     m3.hideInfoWindow();
                     m3.showInfoWindow();
                 }
