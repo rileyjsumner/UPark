@@ -95,7 +95,7 @@ public class CheckIn extends AppCompatActivity {
         } else if (charCount == 0) {
             review_field.setError("Review can't be blank.");
 
-        } else if (charCount < 100) {
+        } else if (charCount < 10) {
             String toastText = "Write some more before submitting.";
             Toast.makeText(CheckIn.this, toastText, Toast.LENGTH_LONG).show();
 
@@ -136,11 +136,14 @@ public class CheckIn extends AppCompatActivity {
     * Replace ' in strings so db accepts
     * */
     public String sanitize(String text) {
-        return text.replace("\'", "\\\'");
+        return text.replace("\'", "''");
     }
 
     public void goBackToPark() {
         Intent intent = new Intent(this, ParkPage.class); // TODO: edit
+        intent.putExtra("name",curr_park.getParkName());
+        intent.putExtra("current_user",curr_user.getUsername());
+        intent.putExtra("place_id",curr_park_id);
         startActivity(intent);
         // TODO: look at find parks to see how to do it
     }
