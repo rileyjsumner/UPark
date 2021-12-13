@@ -10,47 +10,70 @@
         android:id="@+id/EditProfileButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="31dp"
+        android:layout_marginBottom="34dp"
+        android:onClick="edit_account"
         android:text="Edit Profile"
-        tools:layout_editor_absoluteX="31dp"
-        tools:layout_editor_absoluteY="124dp"
-        android:onClick="edit_account"/>
+        app:layout_constraintBottom_toTopOf="@+id/my_favorite_parks"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/username_account_textview" />
 
     <TextView
         android:id="@+id/username_account_textview"
         android:layout_width="241dp"
-        android:layout_height="37dp"
-        tools:layout_editor_absoluteX="85dp"
-        tools:layout_editor_absoluteY="52dp" />
+        android:layout_height="0dp"
+        android:layout_marginStart="31dp"
+        android:layout_marginTop="52dp"
+        android:layout_marginBottom="35dp"
+        app:layout_constraintBottom_toTopOf="@+id/EditProfileButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/my_favorite_parks"
-        android:layout_width="231dp"
-        android:layout_height="33dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="28dp"
         android:text="My Favorite Parks"
         android:textSize="20dp"
-        tools:layout_editor_absoluteX="96dp"
-        tools:layout_editor_absoluteY="206dp" />
+        app:layout_constraintBottom_toTopOf="@+id/favorites_list_account"
+        app:layout_constraintEnd_toEndOf="@+id/my_reviews_account"
+        app:layout_constraintStart_toStartOf="@+id/EditProfileButton"
+        app:layout_constraintTop_toBottomOf="@+id/EditProfileButton" />
 
     <TextView
         android:id="@+id/my_reviews_account"
         android:layout_width="231dp"
-        android:layout_height="33dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="31dp"
+        android:layout_marginBottom="30dp"
         android:text="My Reviews"
         android:textSize="20dp"
-        tools:layout_editor_absoluteX="85dp"
-        tools:layout_editor_absoluteY="451dp" />
+        app:layout_constraintBottom_toTopOf="@+id/account_review_list"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/favorites_list_account" />
 
     <ListView
         android:id="@+id/favorites_list_account"
-        android:layout_width="379dp"
-        android:layout_height="142dp"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="267dp" />
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="42dp"
+        app:layout_constraintBottom_toTopOf="@+id/my_reviews_account"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/my_favorite_parks" />
 
     <ListView
         android:id="@+id/account_review_list"
-        android:layout_width="378dp"
-        android:layout_height="144dp"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="514dp" />
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="33dp"
+        android:layout_marginEnd="33dp"
+        android:layout_marginBottom="73dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/my_reviews_account" />
 </androidx.constraintlayout.widget.ConstraintLayout>

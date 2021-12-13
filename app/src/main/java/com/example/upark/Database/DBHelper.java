@@ -421,7 +421,7 @@ public class DBHelper {
 
     public User getUserByUsername(String user_lookup) {
         createUserTable();
-        Cursor c = sqLiteDatabase.rawQuery("SELECT user_id FROM Users WHERE username = ?", new String[]{ user_lookup + ""});
+        Cursor c = sqLiteDatabase.rawQuery("SELECT Users.rowid AS user_id FROM Users WHERE username = ?", new String[]{ user_lookup + ""});
 
         int userIDIndex = c.getColumnIndex("user_id");
 

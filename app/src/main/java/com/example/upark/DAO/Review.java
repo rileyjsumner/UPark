@@ -130,4 +130,9 @@ public class Review {
     public void setImages(Image[] images) {
         this.images = images;
     }
+
+    @Override
+    public String toString() {
+        return reviewer.getUsername() + ": " + (reviewText.length() > 45 ? reviewText.substring(0, 45) + "..." : reviewText);
+    }
 }

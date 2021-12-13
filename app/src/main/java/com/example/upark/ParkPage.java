@@ -54,7 +54,6 @@ public class ParkPage extends AppCompatActivity {
         Intent intent_in = getIntent();
         String park_name = intent_in.getStringExtra("name");
         String park_placeid= intent_in.getStringExtra("place_id");
-        Log.i("Park Name", park_name);
 
         TextView title_view = (TextView)findViewById(R.id.parkName_TextView);
         title_view.setText(park_name);
@@ -161,6 +160,12 @@ public class ParkPage extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         super.onOptionsItemSelected(item);
 
+        if(item.getItemId() == R.id.home_screen) {
+            Intent intent = new Intent(ParkPage.this, HomeScreen.class);
+            intent.putExtra("current_user", current_user);
+            startActivity(intent);
+            return true;
+        }
         if(item.getItemId() == R.id.my_account) {
             Intent intent = new Intent(ParkPage.this, Account.class);
             intent.putExtra("current_user", current_user);

@@ -22,7 +22,10 @@ public class ViewReview extends AppCompatActivity {
 
     public void go_back(View v) {
         Intent intent = new Intent(ViewReview.this, ParkPage.class);
+        Intent intent_in = getIntent();
         intent.putExtra("current_user", current_user);
+        intent.putExtra("name", intent_in.getStringExtra("name"));
+        intent.putExtra("place_id", intent_in.getStringExtra("place_id"));
         startActivity(intent);
     }
 
@@ -125,6 +128,12 @@ public class ViewReview extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         super.onOptionsItemSelected(item);
 
+        if(item.getItemId() == R.id.home_screen) {
+            Intent intent = new Intent(ViewReview.this, HomeScreen.class);
+            intent.putExtra("current_user", current_user);
+            startActivity(intent);
+            return true;
+        }
         if(item.getItemId() == R.id.my_account) {
             Intent intent = new Intent(ViewReview.this, Account.class);
             intent.putExtra("current_user", current_user);
