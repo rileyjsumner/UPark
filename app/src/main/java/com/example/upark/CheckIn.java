@@ -14,12 +14,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.upark.DAO.Park;
+import com.example.upark.DAO.Review;
 import com.example.upark.DAO.User;
 import com.example.upark.Database.DBHelper;
 
@@ -37,6 +39,12 @@ public class CheckIn extends AppCompatActivity {
     TextView chars_label;
     EditText review_field;
     Button submit_button;
+    CheckBox woods;
+    CheckBox disability;
+    CheckBox pet;
+    CheckBox car;
+    CheckBox bike;
+    CheckBox child;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +67,12 @@ public class CheckIn extends AppCompatActivity {
         chars_label = (TextView) findViewById(R.id.charLimit);
         review_field = (EditText) findViewById(R.id.reviewText);
         submit_button = (Button) findViewById(R.id.submitButton);
+        woods = (CheckBox) findViewById(R.id.treeCheck);
+        disability = (CheckBox) findViewById(R.id.abilityCheck);
+        pet = (CheckBox) findViewById(R.id.petCheck);
+        car = (CheckBox) findViewById(R.id.carCheck);
+        bike = (CheckBox) findViewById(R.id.bikeCheck);
+        child = (CheckBox) findViewById(R.id.childCheck);
 
         park_label.setText(curr_park.getParkName());
         chars_label.setTextColor(Color.parseColor("#cf4b23")); // set to red since chars 0
@@ -67,6 +81,12 @@ public class CheckIn extends AppCompatActivity {
     public void submitPressed(View view) {
         int charCount = review_field.getText().length();
         double rating = rating_bar.getRating();
+        boolean woodsy = woods.isChecked();
+        boolean disability_friend = disability.isChecked();
+        boolean pet_friend = pet.isChecked();
+        boolean car_access = car.isChecked();
+        boolean bike_friend = bike.isChecked();
+        boolean child_friend = child.isChecked();
 
         if (rating == 0) { // TODO: if ratingBar blank
             String toastText = "Please select a rating.";
@@ -75,18 +95,34 @@ public class CheckIn extends AppCompatActivity {
         } else if (charCount == 0) {
             review_field.setError("Review can't be blank.");
 
-        } else if (charCount < 1000) {
+        } else if (charCount < 100) {
             String toastText = "Write some more before submitting.";
             Toast.makeText(CheckIn.this, toastText, Toast.LENGTH_LONG).show();
 
-        } else if (charCount > 2000) {
+        } else if (charCount > 1500) {
             String toastText = "You went over the character limit. Edit your review before submitting.";
             Toast.makeText(CheckIn.this, toastText, Toast.LENGTH_LONG).show();
 
         } else { // success
-            // TODO: create review
+            // create review
+            // TODO: rating id? images?
+            String review_text = review_field.getText().toString();
+            Review user_review = new Review(0, curr_park_id, rating, review_text,
+                    bike_friend,
+                    child_friend,
+                    disability_friend,
+                    woodsy,
+                    car_access,
+                    pet_friend,
+                    curr_user,
+                    null
+                    );
 
-            // TODO: save review
+            // save review
+            db.addReview(user_review);
+
+            String toastText = "Review added successfully. Thank you!";
+            Toast.makeText(CheckIn.this, toastText, Toast.LENGTH_LONG).show();
 
             // go back to park page
             goBackToPark();
