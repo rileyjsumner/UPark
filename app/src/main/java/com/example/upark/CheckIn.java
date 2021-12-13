@@ -63,6 +63,13 @@ public class CheckIn extends AppCompatActivity {
         curr_user = db.getUserByUsername(current_user);
         curr_park = db.getParkById(curr_park_id);
 
+        if (curr_park_id == -1){
+            String toastText = "Error retrieving park.";
+            Toast.makeText(CheckIn.this, toastText, Toast.LENGTH_LONG).show();
+
+            return;
+        }
+
         // get/store elements
         park_label = (TextView) findViewById(R.id.parkName);
         rating_bar = (RatingBar) findViewById(R.id.ratingBar);
@@ -90,10 +97,10 @@ public class CheckIn extends AppCompatActivity {
                 int charCount = review_field.length();
                 String countStr = String.valueOf(charCount);
 
-                chars_label.setText(countStr + "/500");
+                chars_label.setText(countStr + "/1000");
 
-                if (charCount > 25 && charCount < 1001) {
-                    chars_label.setTextColor(Color.parseColor("#81c45c")); // set to red since num out of range
+                if (charCount > 24 && charCount < 1001) {
+                    chars_label.setTextColor(Color.parseColor("#87a330")); // set to red since num out of range
                 } else {
                     chars_label.setTextColor(Color.parseColor("#cf4b23")); // set to red since num out of range
                 }
@@ -186,6 +193,12 @@ public class CheckIn extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         super.onOptionsItemSelected(item);
 
+        if(item.getItemId() == R.id.home_screen) {
+            Intent intent = new Intent(CheckIn.this, HomeScreen.class);
+            intent.putExtra("current_user", current_user);
+            startActivity(intent);
+            return true;
+        }
         if(item.getItemId() == R.id.my_account) {
             Intent intent = new Intent(CheckIn.this, Account.class);
             intent.putExtra("current_user", current_user);

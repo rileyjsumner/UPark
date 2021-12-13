@@ -346,7 +346,6 @@ public class HomeScreen extends AppCompatActivity {
             List<Address> listAddresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
 
             if (listAddresses != null && listAddresses.size() > 0) {
-                Log.i("PlaceInfo", listAddresses.get(0).toString());
                 address = "Address: \n";
 
                 if (listAddresses.get(0).getSubThoroughfare() != null) {
@@ -379,7 +378,6 @@ public class HomeScreen extends AppCompatActivity {
                 m3.hideInfoWindow();
                 m3.showInfoWindow();
             }
-            Log.i("Location", "Lat: " + lat + " Lon: " + lon);
         }
 
         catch (IOException e) {
@@ -487,6 +485,12 @@ public class HomeScreen extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         super.onOptionsItemSelected(item);
 
+        if(item.getItemId() == R.id.home_screen) {
+            Intent intent = new Intent(HomeScreen.this, HomeScreen.class);
+            intent.putExtra("current_user", current_user);
+            startActivity(intent);
+            return true;
+        }
         if(item.getItemId() == R.id.my_account) {
             Intent intent = new Intent(HomeScreen.this, Account.class);
             intent.putExtra("current_user", current_user);

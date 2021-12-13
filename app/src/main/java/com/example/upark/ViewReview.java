@@ -3,6 +3,7 @@ package com.example.upark;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,15 +15,21 @@ import android.widget.TextView;
 import com.example.upark.DAO.Park;
 import com.example.upark.DAO.Review;
 import com.example.upark.DAO.User;
+import com.example.upark.Database.DBHelper;
 
 public class ViewReview extends AppCompatActivity {
 
     int reviewid;
     String current_user;
+    DBHelper db;
+    Context context;
 
     public void go_back(View v) {
         Intent intent = new Intent(ViewReview.this, ParkPage.class);
+        Intent intent_in = getIntent();
         intent.putExtra("current_user", current_user);
+        intent.putExtra("name", intent_in.getStringExtra("name"));
+        intent.putExtra("place_id", intent_in.getStringExtra("place_id"));
         startActivity(intent);
     }
 
@@ -33,7 +40,9 @@ public class ViewReview extends AppCompatActivity {
         Intent intent = getIntent();
         reviewid = intent.getIntExtra("reviewid", -1);
         current_user = intent.getStringExtra("current_user");
-        Review review = ParkPage.curr_reviews.get(reviewid);
+        context = getApplicationContext();
+        db = new DBHelper(context.openOrCreateDatabase("upark", Context.MODE_PRIVATE,null));
+        Review review = db.getReviewById(reviewid);
 
         TextView username = (TextView)findViewById(R.id.username_Review);
         User user = review.getReviewer();
@@ -125,6 +134,12 @@ public class ViewReview extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         super.onOptionsItemSelected(item);
 
+        if(item.getItemId() == R.id.home_screen) {
+            Intent intent = new Intent(ViewReview.this, HomeScreen.class);
+            intent.putExtra("current_user", current_user);
+            startActivity(intent);
+            return true;
+        }
         if(item.getItemId() == R.id.my_account) {
             Intent intent = new Intent(ViewReview.this, Account.class);
             intent.putExtra("current_user", current_user);
