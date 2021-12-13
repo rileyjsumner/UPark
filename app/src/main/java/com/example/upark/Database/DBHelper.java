@@ -381,6 +381,41 @@ public class DBHelper {
         return new User(userID, username, password, email, fName, lName);
     }
 
+    public Review getReviewById(long review_id) {
+
+        Cursor c = sqLiteDatabase.rawQuery("SELECT *, Reviews.rowid AS review_id FROM Reviews WHERE Reviews.rowid = ?", new String[]{ review_id + ""});
+
+        int reviewIDIndex = c.getColumnIndex("review_id");
+        int ratingIndex = c.getColumnIndex("rating");
+        int reviewTextIndex = c.getColumnIndex("review_text");
+        int isBikeFriendlyIndex = c.getColumnIndex("isBikeFriendly");
+        int isChildFriendlyIndex = c.getColumnIndex("isChildFriendly");
+        int isDisabilityFriendlyIndex = c.getColumnIndex("isDisabilityFriendly");
+        int isWoodedIndex = c.getColumnIndex("isWooded");
+        int isCarAccessibleIndex = c.getColumnIndex("isCarAccessible");
+        int isPetFriendlyIndex = c.getColumnIndex("isPetFriendly");
+        int parkIDIndex = c.getColumnIndex("park_id");
+        int userIDIndex = c.getColumnIndex("user_id");
+
+        c.moveToFirst();
+
+        long reviewID = c.getLong(reviewIDIndex);
+        double rating = c.getDouble(ratingIndex);
+        String reviewText = c.getString(reviewTextIndex);
+        boolean isBikeFriendly = c.getInt(isBikeFriendlyIndex) == 1;
+        boolean isChildFriendly = c.getInt(isChildFriendlyIndex) == 1;
+        boolean isDisabilityFriendly = c.getInt(isDisabilityFriendlyIndex) == 1;
+        boolean isWooded = c.getInt(isWoodedIndex) == 1;
+        boolean isCarAccessible = c.getInt(isCarAccessibleIndex) == 1;
+        boolean isPetFriendly = c.getInt(isPetFriendlyIndex) == 1;
+        long parkID = c.getLong(parkIDIndex);
+        long userID = c.getLong(userIDIndex);
+        User user = getUserByID(userID);
+
+        c.close();
+        return new Review(reviewID, parkID, rating, reviewText, isBikeFriendly, isChildFriendly, isDisabilityFriendly, isWooded, isCarAccessible, isPetFriendly, user, null);
+    }
+
     public SecurityQuestion getUsersSecurityQuestion(long userID) {
         createSecurityQuestionTable();
         Cursor c = sqLiteDatabase.rawQuery("SELECT *, SecurityQuestions.rowid AS question_id FROM SecurityQuestions WHERE user_id = ?", new String[]{ userID + "" });
@@ -426,6 +461,8 @@ public class DBHelper {
         int userIDIndex = c.getColumnIndex("user_id");
 
         c.moveToFirst();
+
+        Log.i("user_id", userIDIndex + "");
 
         long user_id = c.getLong(userIDIndex);
 

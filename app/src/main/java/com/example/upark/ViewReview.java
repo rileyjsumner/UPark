@@ -19,17 +19,13 @@ public class ViewReview extends AppCompatActivity {
 
     int reviewid;
     String current_user;
-    String username;
-    String placeID;
-    double[] coords;
 
     public void go_back(View v) {
         Intent intent = new Intent(ViewReview.this, ParkPage.class);
         Intent intent_in = getIntent();
         intent.putExtra("current_user", current_user);
         intent.putExtra("name", intent_in.getStringExtra("name"));
-        intent.putExtra("place_id", placeID);
-        intent.putExtra("coords", coords);
+        intent.putExtra("place_id", intent_in.getStringExtra("place_id"));
         startActivity(intent);
     }
 
@@ -40,9 +36,6 @@ public class ViewReview extends AppCompatActivity {
         Intent intent = getIntent();
         reviewid = intent.getIntExtra("reviewid", -1);
         current_user = intent.getStringExtra("current_user");
-        placeID = intent.getStringExtra("place_id");
-        coords = intent.getDoubleArrayExtra("coords");
-
         Review review = ParkPage.curr_reviews.get(reviewid);
 
         TextView username = (TextView)findViewById(R.id.username_Review);
