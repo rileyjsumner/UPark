@@ -10,11 +10,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.upark.DAO.Park;
+import com.example.upark.DAO.Review;
 import com.example.upark.DAO.User;
 import com.example.upark.Database.DBHelper;
 
@@ -67,6 +69,23 @@ public class Account extends AppCompatActivity {
         ListView listView = findViewById(R.id.favorites_list_account);
         listView.setAdapter(arrayAdapter);
         //set on click maybe
+
+        ArrayList<Review> review_list = db.getReviewsByUser(user_obj.getUserID());
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, review_list);
+
+        ListView account_review = (ListView)findViewById(R.id.account_review_list);
+
+        account_review.setAdapter(adapter);
+
+        account_review.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getApplicationContext(), ViewReview.class);
+                intent.putExtra("reviewid", position);
+                intent.putExtra("current_user", current_user);
+                startActivity(intent);
+            }
+        });
 
     }
 
